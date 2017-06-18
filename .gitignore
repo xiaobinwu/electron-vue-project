@@ -1,0 +1,6 @@
+node_modules
+*.log
+.DS_Store
+/app/index.html
+/app/assets
+npm-debug.log
