@@ -2,5 +2,6 @@ node_modules
 *.log
 .DS_Store
 /app/index.html
-/app/assets
+/app/dist
 npm-debug.log
+/package
