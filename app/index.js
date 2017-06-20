@@ -1,12 +1,12 @@
 'use strict'
 const electron = require('electron')
-// Module to control application life.
+// 控制生命周期模块
 const app = electron.app
-// Module to create native browser window.
+// 创建原生窗口模块
 const BrowserWindow = electron.BrowserWindow
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
+// 保持一个对于 window 对象的全局引用，如果你不这样做，
+// 当 JavaScript 对象被垃圾回收， window 会被自动地关闭
 let mainWindow
 
 const isDev = process.env.NODE_ENV === 'development'
@@ -19,36 +19,36 @@ if (isDev) {
   config = {}
 }
 
-function createWindow() {
-  // Create the browser window.
+function createWindow () {
+  // 创建浏览器窗口。
   mainWindow = new BrowserWindow({ width: 800, height: 600 })
 
-  // And load the index.html of the app.
+  // 加载应用的 index.html
   const url = isDev ? `http://localhost:${config.port}` : `file://${__dirname}/dist/index.html`
   mainWindow.loadURL(url)
 
-  // Open the DevTools.
+   // 打开开发者工具
   if (isDev) {
+    // 扩展 Vue_DevTools[electron-devtools-installer-第三方插件]
     mainWindow.webContents.openDevTools()
-
     const installExtension = require('electron-devtools-installer')
     installExtension.default(installExtension.VUEJS_DEVTOOLS)
       .then(name => console.log(`Added Extension:  ${name}`))
       .catch(err => console.log('An error occurred: ', err))
   }
 
-  // Emitted when the window is closed.
+  // 当 window 被关闭，这个事件会被触发
   mainWindow.on('closed', () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
+    // 取消引用 window 对象，如果你的应用支持多窗口的话，
+    // 通常会把多个 window 对象存放在一个数组里面，
+    // 与此同时，你应该删除相应的元素
     mainWindow = null
   })
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
+// Electron 会在初始化后并准备
+// 创建浏览器窗口时，调用这个函数。
+// 部分 API 在 ready 事件触发后才能使用
 app.on('ready', createWindow)
 
 // Quit when all windows are closed.

@@ -16,10 +16,11 @@
 * 执行cnpm install
 
 #### 安装问题
-> * cnpm install之后，提示ansi-html、ansi-regex、strip-ansi、setimmediate、html-entities（具体是啥，也不清楚）需要安装，于是cnpm install --save-dev '安装包'
+> * cnpm install之后，可能会由于网络不好而导致一些包安装不完整，提示ansi-html、ansi-regex、strip-ansi、setimmediate、html-entities（具体是啥，也不清楚）需要安装，于是cnpm install '安装包'
 > * 需要额外安装vue-style-loader、vue-template-compiler，不然vue-loader会报错
 > * electron配置项（config.js）为true时，运行npm run dev，浏览器访问会报错，`Uncaught ReferenceError: require is not defined
-`，原因可以去[这里](https://github.com/egoist/vuepack/issues/83)看
+`，原因可以去[这里](https://github.com/egoist/vuepack/issues/83)看，由于配置config.electron是开启状态，于是require被browserified化了，不是原先node原生require函数，所以在browser会出现此问题
+> * 应用打包的时候，需要注意package.json的main配置项main，必须指向electron的主线程文件，此处为app/index.js
 
 
 development:
