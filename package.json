@@ -9,7 +9,7 @@
     "dev": "node build/server.js",
     "app": "cross-env NODE_ENV=development electron app/",
     "lint": "xo **/client/**/*.{vue,js} **/app/**/*.js !node_modules/**",
-    "packageDarwin": "electron-packager . TEST --platform=darwin --arch=x64 --overwrite --icon=./hosts.icns --out=./package --asar --ignore=\"(build|client|static|.gitignore|LICENSE|README.md|.editorconfig|.eslintrc|node_modules)\"",
+    "packageDarwin": "rimraf package && electron-packager . TEST --platform=darwin --arch=x64 --overwrite --icon=./hosts.icns --out=./package --ignore=\"(build|client$|static|.gitignore|LICENSE|README.md|.editorconfig|.eslintrc|node_modules)\"",
     "packageWin": "rimraf package && electron-packager . TEST --platform=win32 --arch=x64 --overwrite --icon=./hosts.ico --out=./package --ignore=\"(build|client$|static|.gitignore|LICENSE|README.md|.editorconfig|.eslintrc|node_modules)\"",
     "packageLinux": "electron-packager . TEST --platform=linux --arch=x64 --overwrite --out=/package --asar --ignore=\"(build|client|static|.gitignore|LICENSE|README.md|.editorconfig|.eslintrc|node_modules)\"",
     "package": "npm run packageDarwin && npm run packageWin && npm run packageLinux"

@@ -51,10 +51,10 @@ function createWindow () {
 // 部分 API 在 ready 事件触发后才能使用
 app.on('ready', createWindow)
 
-// Quit when all windows are closed.
+// 当全部窗口关闭时退出。
 app.on('window-all-closed', () => {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
+  // 在 macOS 上，除非用户用 Cmd + Q 确定地退出，
+  // 否则绝大部分应用及其菜单栏会保持激活。
   if (process.platform !== 'darwin') {
     app.quit()
   }
