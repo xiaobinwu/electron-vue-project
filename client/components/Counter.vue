@@ -12,7 +12,7 @@
 <script>
 export default {
   computed: {
-    count() {
+    count () {
       return this.$store.state.count
     }
   }
