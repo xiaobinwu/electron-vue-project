@@ -27,6 +27,7 @@ module.exports = {
     alias: {
       root: path.join(__dirname, '../client'),
       components: path.join(__dirname, '../client/components'),
+      views: path.join(__dirname, '../client/views'),
       plugin: path.join(__dirname, '../client/plugin')
     },
     modules: [

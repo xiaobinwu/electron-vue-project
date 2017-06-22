@@ -16,44 +16,44 @@ export const createContextMenu = function (menuItems) {
 // 应用菜单
 export const createApplicationMenu = function () {
     const template = [
-        {
-            label: '编辑',
-            submenu: [
-                {
-                    label: '撤销',
-                    accelerator: 'CmdOrCtrl+Z',
-                    role: 'undo'
-                },
-                {
-                    label: '重做',
-                    accelerator: 'Shift+CmdOrCtrl+Z',
-                    role: 'redo'
-                },
-                {
-                    type: 'separator'
-                },
-                {
-                    label: '剪切',
-                    accelerator: 'CmdOrCtrl+X',
-                    role: 'cut'
-                },
-                {
-                    label: '复制',
-                    accelerator: 'CmdOrCtrl+C',
-                    role: 'copy'
-                },
-                {
-                    label: '黏贴',
-                    accelerator: 'CmdOrCtrl+V',
-                    role: 'paste'
-                },
-                {
-                    label: '全选',
-                    accelerator: 'CmdOrCtrl+A',
-                    role: 'selectall'
-                }
-            ]
-        },
+        // {
+        //     label: '编辑',
+        //     submenu: [
+        //         {
+        //             label: '撤销',
+        //             accelerator: 'CmdOrCtrl+Z',
+        //             role: 'undo'
+        //         },
+        //         {
+        //             label: '重做',
+        //             accelerator: 'Shift+CmdOrCtrl+Z',
+        //             role: 'redo'
+        //         },
+        //         {
+        //             type: 'separator'
+        //         },
+        //         {
+        //             label: '剪切',
+        //             accelerator: 'CmdOrCtrl+X',
+        //             role: 'cut'
+        //         },
+        //         {
+        //             label: '复制',
+        //             accelerator: 'CmdOrCtrl+C',
+        //             role: 'copy'
+        //         },
+        //         {
+        //             label: '黏贴',
+        //             accelerator: 'CmdOrCtrl+V',
+        //             role: 'paste'
+        //         },
+        //         {
+        //             label: '全选',
+        //             accelerator: 'CmdOrCtrl+A',
+        //             role: 'selectall'
+        //         }
+        //     ]
+        // },
         {
             label: '视图',
             submenu: [
@@ -100,11 +100,26 @@ export const createApplicationMenu = function () {
             ]
         },
         {
+            label: 'Toggle Developer Tools',
+            accelerator: (function () {
+                if (process.platform === 'darwin') {
+                    return 'Alt+Command+I'
+                } else {
+                    return 'F12'
+                }
+                })(),
+            click: function (item, focusedWindow) {
+                if (focusedWindow) {
+                    focusedWindow.toggleDevTools()
+                }
+            }
+        },
+        {
             label: '帮助',
             role: 'help',
             submenu: [
                 {
-                    label: '关于软件',
+                    label: '关于系统',
                     click: function () { shell.openExternal('http://electron.atom.io') }
                 },
                 {

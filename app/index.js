@@ -4,6 +4,9 @@ const path = require('path')
 const app = electron.app
 // 创建原生窗口模块
 const BrowserWindow = electron.BrowserWindow
+// 表示一个图标，处于正在运行的系统通知区，通常被添加到一个 context menu 上
+const Tray = electron.Tray
+const Menu = electron.Menu
 
 // 保持一个对于 window 对象的全局引用，如果你不这样做，
 // 当 JavaScript 对象被垃圾回收， window 会被自动地关闭
@@ -22,8 +25,9 @@ if (isDev) {
 console.log(path.join(__dirname, '/hots.png'))
 
 function createWindow () {
-    // 创建浏览器窗口。
+    // 创建主体窗口
     mainWindow = new BrowserWindow({
+        // frame: false,
         width: 1024,
         height: 635,
         resizable: false,
@@ -53,6 +57,21 @@ function createWindow () {
         // 与此同时，你应该删除相应的元素
         mainWindow = null
     })
+
+    // Tray（系统通知区）
+    let trayIcon = null
+    if (process.platform === 'darwin') {
+        trayIcon = new Tray(path.join(__dirname, 'tray-iconTemplate.png'))
+    } else {
+        trayIcon = new Tray(path.join(__dirname, 'tray-icon-alt.png'))
+    }
+    const contextMenu = Menu.buildFromTemplate([
+        { label: '意见反馈', click: () => { createFeedbackWindow() } },
+        { label: '关于系统', click: () => { createAboutWindow() } },
+        { label: '退出系统', click: () => { app.quit() } }
+    ])
+    trayIcon.setToolTip('五洲会-门店系统')
+    trayIcon.setContextMenu(contextMenu)
 }
 
 // Electron 会在初始化后并准备
@@ -76,3 +95,43 @@ app.on('activate', () => {
         createWindow()
     }
 })
+
+// 关于系统窗口
+let aboutWindow
+function createAboutWindow () {
+    if (aboutWindow) {
+        return
+    }
+    aboutWindow = new BrowserWindow({
+        frame: false,
+        height: 200,
+        resizable: false,
+        width: 200
+    })
+
+    aboutWindow.loadURL(`file://${__dirname}/subsidiary/about/index.html`)
+
+    aboutWindow.on('closed', function () {
+        aboutWindow = null
+    })
+}
+
+// 意见反馈窗口
+let feedbackWindow
+function createFeedbackWindow () {
+    if (feedbackWindow) {
+        return
+    }
+    feedbackWindow = new BrowserWindow({
+        frame: false,
+        height: 200,
+        resizable: false,
+        width: 200
+    })
+
+    feedbackWindow.loadURL(`file://${__dirname}/subsidiary/feedback/index.html`)
+
+    feedbackWindow.on('closed', function () {
+        feedbackWindow = null
+    })
+}

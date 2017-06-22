@@ -28,7 +28,8 @@ export default {
         createContextMenu([
             { label: 'MenuItem1', click: () => { console.log('item 1 clicked') } },
             { type: 'separator' },
-            { label: 'MenuItem2', type: 'checkbox', checked: true }
+            { label: 'MenuItem2', type: 'checkbox', checked: true },
+            { label: 'MenuItem3', type: 'radio', checked: true }
         ])
         // 通知
         createNotification({
