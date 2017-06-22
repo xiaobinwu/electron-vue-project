@@ -7,9 +7,9 @@ import store from './store'
 sync(store, router)
 
 const app = new Vue({
-  router,
-  store,
-  ...App
+    router,
+    store,
+    ...App
 })
 
 export { app, router, store }

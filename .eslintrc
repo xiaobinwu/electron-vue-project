@@ -2,6 +2,16 @@
   "extends": "vue",
   "rules": {
     "import/no-unresolved": 0,
-    "import/no-unassigned-import": 0
+    "import/no-unassigned-import": 0,
+    "import/prefer-default-export": 0,
+    "import/newline-after-import": 1,
+    "indent": [1, 4],
+    "linebreak-style": 0,
+    "no-unused-expressions": 0,
+    "eol-last": 0,
+    "prefer-const": 0,
+    "no-else-return": 0,
+    "object-shorthand": 0,
+    "arrow-parens": 1
   }
 }

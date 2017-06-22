@@ -10,26 +10,37 @@
 
 <script>
 import Counter from 'components/Counter'
-import * as electron from 'electron'
+import electron from 'electron'
+import { createNotification } from 'plugin/notification'
+import { createContextMenu, createApplicationMenu } from 'plugin/menu'
 export default {
-  data () {
-    return {
-      eventsCount: electron.ipcRenderer._eventsCount
+    data () {
+        return {
+            eventsCount: electron.ipcRenderer._eventsCount
+        }
+    },
+    mounted () {
+        // console.log(process.getCPUUsage())
+        //  HTML5 Notification API
+        // 应用菜单
+        createApplicationMenu()
+        // 右键菜单
+        createContextMenu([
+            { label: 'MenuItem1', click: () => { console.log('item 1 clicked') } },
+            { type: 'separator' },
+            { label: 'MenuItem2', type: 'checkbox', checked: true }
+        ])
+        // 通知
+        createNotification({
+            title: 'Title',
+            body: 'Lorem Ipsum Dolor Sit Amet',
+            callback: () => {
+                console.log('Notification clicked')
+            }
+        })
+    },
+    components: {
+        Counter
     }
-  },
-  mounted () {
-    // console.log(electron.remote)
-    // console.log(process.getCPUUsage())
-    //  HTML5 Notification API
-  	let myNotification = new Notification('Title', {
-      body: 'Lorem Ipsum Dolor Sit Amet'
-  	})
-  	myNotification.onclick = () => {
-      console.log('Notification clicked')
-  	}
-},
-  components: {
-    Counter
-  }
 }
 </script>
