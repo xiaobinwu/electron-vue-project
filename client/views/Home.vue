@@ -11,8 +11,8 @@
 <script>
 import Counter from 'components/Counter'
 import electron from 'electron'
-import { createNotification } from 'plugin/notification'
-import { createContextMenu, createApplicationMenu } from 'plugin/menu'
+import { createNotification } from 'common/plugin/notification'
+import { createContextMenu, createApplicationMenu } from 'common/plugin/menu'
 export default {
     data () {
         return {

@@ -4,6 +4,7 @@
         <span class="main-header-info">某某人</span>
         <span class="main-header-info time-clock"></span>
         <a href="/logout" class="logout">退出登录></a>
+        <i class="iconfont icon-close"></i>
     </header>
 </template>
 

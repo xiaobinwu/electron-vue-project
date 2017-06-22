@@ -25,10 +25,11 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.css', '.json'],
     alias: {
-      root: path.join(__dirname, '../client'),
-      components: path.join(__dirname, '../client/components'),
-      views: path.join(__dirname, '../client/views'),
-      plugin: path.join(__dirname, '../client/plugin')
+      'vue$': 'vue/dist/vue',
+      'root': path.join(__dirname, '../client'),
+      'components': path.join(__dirname, '../client/components'),
+      'views': path.join(__dirname, '../client/views'),
+      'common': path.join(__dirname, '../client/common')
     },
     modules: [
       _.cwd('node_modules'),

@@ -4,7 +4,9 @@
     <router-view></router-view>
   </div>
 </template>
-
+<script>
+  import 'common/font/iconfont'
+</script>
 <style>
 body {
   margin: 0;
