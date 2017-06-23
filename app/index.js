@@ -8,6 +8,9 @@ const BrowserWindow = electron.BrowserWindow
 const Tray = electron.Tray
 const Menu = electron.Menu
 
+// 主线程ipc
+const ipcMain = electron.ipcMain
+
 // 保持一个对于 window 对象的全局引用，如果你不这样做，
 // 当 JavaScript 对象被垃圾回收， window 会被自动地关闭
 let mainWindow
@@ -27,13 +30,11 @@ console.log(path.join(__dirname, '/hots.png'))
 function createWindow () {
     // 创建主体窗口
     mainWindow = new BrowserWindow({
-        // frame: false,
+        frame: false,
         width: 1024,
         height: 635,
         resizable: false,
-        icon: path.join(__dirname, 'hots.png'),
-        allowDisplayingInsecureContent: true,
-        allowRunningInsecureContent: true
+        icon: path.join(__dirname, 'hots.png')
     })
 
     // 加载应用的 index.html
@@ -94,6 +95,11 @@ app.on('activate', () => {
     if (mainWindow === null) {
         createWindow()
     }
+})
+
+// ipc通讯
+ipcMain.on('close-main-window', function () {
+    app.quit()
 })
 
 // 关于系统窗口

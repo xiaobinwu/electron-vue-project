@@ -23,7 +23,7 @@ module.exports = {
     hints: process.env.NODE_ENV === 'production' ? 'warning' : false
   },
   resolve: {
-    extensions: ['.js', '.vue', '.css', '.json'],
+    extensions: ['.js', '.vue', '.css', '.json', '.scss'],
     alias: {
       'vue$': 'vue/dist/vue',
       'root': path.join(__dirname, '../client'),
@@ -54,15 +54,18 @@ module.exports = {
         loaders: ['babel-loader']
       },
       {
-        test: /\.(ico|jpg|png|gif|eot|otf|webp|ttf|woff|woff2)(\?.*)?$/,
+        test: /\.(ico|jpg|png|gif)(\?.*)?$/,
         loader: 'file-loader',
         query: {
-          name: 'static/media/[name].[hash:8].[ext]'
+          name: 'media/img/[name].[hash:8].[ext]'
         }
       },
       {
-        test: /\.svg$/,
-        loader: 'raw-loader'
+        test: /\.(eot|otf|webp|ttf|woff|woff2|svg)(\?.*)?$/,
+        loader: 'file-loader',
+        query: {
+          name: 'media/font/[name].[hash:8].[ext]'
+        }
       }
     ]
   },

@@ -23,14 +23,14 @@ export default {
         // console.log(process.getCPUUsage())
         //  HTML5 Notification API
         // 应用菜单
-        createApplicationMenu()
+        // createApplicationMenu()
         // 右键菜单
-        createContextMenu([
-            { label: 'MenuItem1', click: () => { console.log('item 1 clicked') } },
-            { type: 'separator' },
-            { label: 'MenuItem2', type: 'checkbox', checked: true },
-            { label: 'MenuItem3', type: 'radio', checked: true }
-        ])
+        // createContextMenu([
+        //     { label: 'MenuItem1', click: () => { console.log('item 1 clicked') } },
+        //     { type: 'separator' },
+        //     { label: 'MenuItem2', type: 'checkbox', checked: true },
+        //     { label: 'MenuItem3', type: 'radio', checked: true }
+        // ])
         // 通知
         createNotification({
             title: 'Title',

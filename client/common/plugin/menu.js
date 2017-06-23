@@ -107,7 +107,7 @@ export const createApplicationMenu = function () {
                 } else {
                     return 'F12'
                 }
-                })(),
+            })(),
             click: function (item, focusedWindow) {
                 if (focusedWindow) {
                     focusedWindow.toggleDevTools()

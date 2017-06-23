@@ -1,0 +1,39 @@
+/*
+* main
+*/
+
+//font
+$font-family:		"Microsoft YaHei",Arial,sans-serif,"PingFang SC","Helvetica Neue",Helvetica,"Hiragino Sans GB","WenQuanYi Micro Hei"; 
+
+// color palette
+// ====================
+$main:              #429e6c;
+$green:             $main;
+$white:             #fff;
+$gray:              #666;
+$gray-lighter:      #ececec;
+$gary-lightest:     #f5f5f5;
+$black:             #000;
+$purple:            #af00ff;
+$red:				#ff4949;
+// size
+// ====================
+
+$line-height-base: 1.428571429 !default;
+$size-base: 14px;
+$size-h1:   24px;
+$size-h2:   18px;
+$size-h3:   16px;       // title text
+$size-h4:   $size-base; // normal text
+$size-h5:   12px;       // sub text
+
+
+// link color
+// ====================
+$link-color: $main;
+$link-hover-color: $main;
+$link-hover-decoration: 'none';
+
+// radius
+$circle-radius: 50%;
+
