@@ -1,3 +1,4 @@
+'use strict'
 const electron = require('electron')
 const path = require('path')
 // 控制生命周期模块
@@ -32,11 +33,11 @@ function createWindow () {
     mainWindow = new BrowserWindow({
         frame: false,
         width: 1024,
-        height: 635,
+        height: 768,
         resizable: false,
         icon: path.join(__dirname, 'hots.png')
     })
-
+    mainWindow.setFullScreen(true)
     // 加载应用的 index.html
     const url = isDev ? `http://localhost:${config.port}` : `file://${__dirname}/dist/index.html`
     mainWindow.loadURL(url)
