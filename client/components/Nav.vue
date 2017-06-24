@@ -1,32 +1,74 @@
 <template>
     <header class="nav-bar">
         <span class="main-header-info">门店管理系统</span>
-        <span class="main-header-info">某某人</span>
-        <span class="main-header-info time-clock"></span>
-        <div class="pull-right">
-            <a href="javascript:void(0);" class="logout">退出登录></a>
+        <span class="main-header-info user">
+            <i class="iconfont icon-user"></i>
+            某某人
+        </span>
+        <span class="main-header-info time-clock">
+            <i class="iconfont icon-time1"></i>
+            {{nowTime}}
+        </span>
+        <span class="main-header-info refresh-window" @click="refreshWindow">
+            <i class="iconfont icon-refresh"></i>
+            刷新
+        </span>
+        <div class="operate-area pull-right">
+            <a href="javascript:void(0);" class="logout" @click="logout">退出登录></a>
             <i class="iconfont icon-icon_shu shu"></i>
             <i class="iconfont icon-jianhao" @click="hideWindow"></i>
+            <i class="iconfont icon-window" @click="toggleWindowSize"></i>
             <i class="iconfont icon-guanbi1" @click="closeWindow"></i>
         </div>
     </header>
 </template>
 <script>
-    import { ipcRenderer, remote } from 'electron'
-    export default {
-        methods: {
-            hideWindow () {
-                const mainWindow = remote.getCurrentWindow()
-                if (mainWindow.isMinimized()) {
-                    return
-                }
-                mainWindow.minimize()
-            },
-            closeWindow () {
-                ipcRenderer.send('close-main-window')
+import { ipcRenderer, remote } from 'electron'
+import { getNowFormatDate } from 'common/plugin/time'
+export default {
+    data () {
+        return {
+            mainWindow: null,
+            nowTime: ''
+        }
+    },
+    created () {
+        this.nowTimeCount()
+        this.mainWindow = remote.getCurrentWindow()
+    },
+    methods: {
+        hideWindow () {
+            if (this.mainWindow.isMinimized()) {
+                return
             }
+            this.mainWindow.minimize()
+        },
+        toggleWindowSize () {
+            this.mainWindow.setFullScreen(!this.mainWindow.isFullScreen())
+        },
+        closeWindow () {
+            ipcRenderer.send('close-main-window')
+        },
+        logout () {
+            remote.dialog.showMessageBox({
+                type: 'info',
+                buttons: ['yes', 'no'],
+                title: '测试',
+                defaultId: 0,
+                message: '确定退出？'
+            })
+        },
+        refreshWindow () {
+            this.mainWindow.reload()
+        },
+        nowTimeCount () {
+            const _self = this
+            setInterval(() => {
+                _self.nowTime = getNowFormatDate()
+            }, 1000)
         }
     }
+}
 </script>
 <style lang="scss" scoped>
 @import "../common/css/_variables.scss";
@@ -34,6 +76,12 @@
     height: 30px;
     background-color: #601e39;
     padding: 0 20px;
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+    .operate-area,
+    .refresh-window{
+        -webkit-app-region: no-drag;
+    }
     .main-header-info,
     .logout{
         color: #e0dcde;
@@ -41,6 +89,11 @@
         margin-right: 10px;
         text-shadow: 0 1px 1px #000;
         font-size: $size-base;
+    }
+    .refresh-window{
+        cursor: pointer;
+        margin-left: 40px;
+        font-size: $size-h5;
     }
     .logout{
         vertical-align: top;
@@ -57,7 +110,20 @@
         color: $white;
         font-size: $size-base;
         cursor: pointer;
-        vertical-align: -webkit-baseline-middle;
+        vertical-align: top;
+    }
+    .operate-area{
+        .iconfont{
+            vertical-align: -webkit-baseline-middle;
+        }
+    }
+    .time-clock,
+    .user{
+        font-size: $size-h5;
+    }
+    .time-clock{
+        display: inline-block;
+        width: 165px;
     }
 }
 </style>

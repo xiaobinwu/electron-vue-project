@@ -1,14 +1,10 @@
 <template>
-  <div class="page">
-    <counter></counter>
-    <p>
-     {{eventsCount}} To get started, edit files in <code>./client</code> and save.
-    </p>
-  </div>
-  <!-- <div><webview src="https://www.github.com/" allowpopups></webview></div> -->
+
+
 </template>
 
 <script>
+import Vue from 'vue'
 import Counter from 'components/Counter'
 import electron from 'electron'
 import { createNotification } from 'common/plugin/notification'
