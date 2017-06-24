@@ -35,6 +35,7 @@ function createWindow () {
         width: 1024,
         height: 768,
         resizable: false,
+        backgroundColor: '#FFF',
         icon: path.join(__dirname, 'hots.png')
     })
     mainWindow.setFullScreen(true)

@@ -7,15 +7,14 @@ $font-family:		"Microsoft YaHei",Arial,sans-serif,"PingFang SC","Helvetica Neue"
 
 // color palette
 // ====================
-$main:              #429e6c;
-$green:             $main;
 $white:             #fff;
-$gray:              #666;
+$gray:              #333;
 $gray-lighter:      #ececec;
 $gary-lightest:     #f5f5f5;
 $black:             #000;
 $purple:            #af00ff;
-$red:				#ff4949;
+$red:				#fc4855;
+$blue:              #468edf;
 // size
 // ====================
 
@@ -30,8 +29,8 @@ $size-h5:   12px;       // sub text
 
 // link color
 // ====================
-$link-color: $main;
-$link-hover-color: $main;
+$link-color: $gray;
+$link-hover-color: $gray;
 $link-hover-decoration: 'none';
 
 // radius
