@@ -124,7 +124,7 @@ export const createApplicationMenu = function () {
                 },
                 {
                     label: '五洲会商城',
-                    click: function () { shell.openExternal('http://www.wzhouhui.com') }
+                    click: function () { shell.openExternal('http://www.baidu.com') }
                 }
             ]
         }
