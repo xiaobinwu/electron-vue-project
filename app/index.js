@@ -73,7 +73,7 @@ function createWindow () {
         { label: '关于系统', click: () => { createAboutWindow() } },
         { label: '退出系统', click: () => { app.quit() } }
     ])
-    trayIcon.setToolTip('五洲会-门店系统')
+    trayIcon.setToolTip('xxx-门店系统')
     trayIcon.setContextMenu(contextMenu)
 }
 
