@@ -1,7 +1,7 @@
 <template>
     <header class="nav-bar">
         <span class="main-header-info">门店管理系统</span>
-        <span class="main-header-info user">
+        <span class="main-header-info user" v-if="islogin">
             <i class="iconfont icon-user"></i>
             某某人
         </span>
@@ -14,8 +14,10 @@
             刷新
         </span>
         <div class="operate-area pull-right">
-            <a href="javascript:void(0);" class="logout" @click="logout">退出登录></a>
-            <i class="iconfont icon-icon_shu shu"></i>
+            <template v-if="islogin">
+                <a href="javascript:void(0);" class="logout" @click="logout">退出登录></a>
+                <i class="iconfont icon-icon_shu shu"></i>
+            </template>
             <i class="iconfont icon-jianhao" @click="hideWindow"></i>
             <i class="iconfont icon-window" @click="toggleWindowSize"></i>
             <i class="iconfont icon-guanbi1" @click="closeWindow"></i>
@@ -25,6 +27,7 @@
 <script>
 import { ipcRenderer, remote } from 'electron'
 import { getNowFormatDate } from 'common/plugin/time'
+import { loggedIn } from 'common/plugin/auth'
 export default {
     data () {
         return {
@@ -66,6 +69,11 @@ export default {
             setInterval(() => {
                 _self.nowTime = getNowFormatDate()
             }, 1000)
+        }
+    },
+    computed: {
+        islogin () {
+            return loggedIn()
         }
     }
 }
