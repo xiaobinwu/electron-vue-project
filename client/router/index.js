@@ -19,26 +19,31 @@ let router = new Router({
     routes: [
         {
             path: '/',
+            name: 'Home',
             components: getComponents(Home),
             meta: { requiresAuth: true }
         },
         {
             path: '/pre_expired',
             components: getComponents(PreExpired),
+            name: 'PreExpired',
             meta: { requiresAuth: true }
         },
         {
             path: '/pre_expired_list',
             components: getComponents(PreExpiredList),
+            name: 'PreExpiredList',
             meta: { requiresAuth: true }
         },
         {
             path: '/discount-bills',
             components: getComponents(DiscountBills),
+            name: 'DiscountBills',
             meta: { requiresAuth: true }
         },
         {
             path: '/login',
+            name: 'Login',
             components: getComponents(Login)
         }
     ]
