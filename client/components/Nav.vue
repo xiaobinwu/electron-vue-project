@@ -26,8 +26,11 @@
 </template>
 <script>
 import { ipcRenderer, remote } from 'electron'
+import { MessageBox, Message } from 'element-ui'
 import { getNowFormatDate } from 'common/plugin/time'
+import { removeStore } from 'common/plugin/storage'
 import { loggedIn } from 'common/plugin/auth'
+
 export default {
     data () {
         return {
@@ -53,12 +56,23 @@ export default {
             ipcRenderer.send('close-main-window')
         },
         logout () {
-            remote.dialog.showMessageBox({
-                type: 'info',
-                buttons: ['yes', 'no'],
-                title: '测试',
-                defaultId: 0,
-                message: '确定退出？'
+            const _self = this
+            MessageBox.confirm('您将退出登录, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                removeStore('userInfo')
+                Message({
+                    type: 'success',
+                    message: '退出登录成功!',
+                    duration: 1000,
+                    onClose: function () {
+                        _self.$router.push({ path: '/login', query: { redirect: _self.$route.fullPath }})
+                    }
+                })
+            }).catch(() => {
+
             })
         },
         refreshWindow () {

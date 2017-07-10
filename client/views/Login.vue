@@ -8,11 +8,8 @@
                 <el-form-item label="密码" prop="password">
                     <el-input v-model="ruleForm.password" type="password"></el-input>
                 </el-form-item>
-                <el-form-item label="" prop="checked">
-                    <el-checkbox v-model="ruleForm.checked">记住我</el-checkbox>
-                </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="clickSubmit('ruleForm')">立即创建</el-button>
+                    <el-button class="submit-btn" type="primary" @click="clickSubmit('ruleForm')">立即创建</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -21,18 +18,17 @@
 
 <script>
 import { setStore } from 'common/plugin/storage'
+import shortcut from 'common/plugin/shortcut'
 import Vue from 'vue'
-import { Form, FormItem, Button, Input, Checkbox, Message } from 'element-ui'
+import { Form, FormItem, Button, Input, Message } from 'element-ui'
 Vue.use(Button)
 Vue.use(Input)
-Vue.use(Checkbox)
 Vue.use(Form)
 Vue.use(FormItem)
 export default {
     data () {
         return {
             ruleForm: {
-                checked: false,
                 username: '',
                 password: ''
             },
@@ -51,11 +47,6 @@ export default {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     this.doSubmit()
-                } else {
-                    Message({
-                        message: '请先填写账号和密码',
-                        type: 'error'
-                    })
                 }
             })
         },
@@ -64,20 +55,25 @@ export default {
             // ...
             // 存储localStorage
             if (this.ruleForm.username === 'xiaobin' && this.ruleForm.password === '123456') {
-                // debugger
                 setStore('userInfo', { username: this.ruleForm.username, password: this.ruleForm.password })
-                console.log(this.$route.query.redirect)
-                this.$router.replace({ path: String(this.$route.query.redirect) })
+                window.location.replace(this.$route.query.redirect)
             } else {
                 Message({
                     message: '账户或密码错误',
-                    type: 'error'
+                    type: 'error',
+                    duration: 1000
                 })
             }
         }
     },
     mounted () {
-        console.log(this.$route.query)
+        shortcut.init({
+            keyCodeArr: [
+                { key: 'Enter', keyCode: 13, keyDec: '回车提交', callback: () => {
+                    this.clickSubmit('ruleForm')
+                } }
+            ]
+        })
     },
     components: {
     }
@@ -105,6 +101,9 @@ export default {
     }
     .el-button {
         width: 100%;
+    }
+    .submit-btn{
+        margin-top: 22px;
     }
 }
 </style>
