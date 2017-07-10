@@ -3,12 +3,16 @@
         <h1>
             {{title}}
             <small>{{subTitle}}</small>
-            <a href="javascript:void(0);" class="add_shortcut" v-show="!isAddShortcut" @click="changeShortcut">添加至常用菜单</a>
-            <a href="javascript:void(0);" class="del_shortcut" v-show="isAddShortcut" @click="changeShortcut">已添加至常用菜单</a>
+            <a href="javascript:void(0);" class="add_shortcut" v-show="!hasShortcut" @click="changeShortcut">添加至常用菜单</a>
+            <a href="javascript:void(0);" class="del_shortcut" v-show="hasShortcut" @click="changeShortcut">已添加至常用菜单</a>
+            <el-button class="header-btn" type="primary" @click="$router.go(-1)">返回</el-button>
         </h1>
     </section>
 </template>
 <script>
+import Vue from 'vue'
+import { Button } from 'element-ui'
+Vue.use(Button)
 export default {
     props: {
         title: {
@@ -23,21 +27,28 @@ export default {
             default: false
         }
     },
+    data () {
+        return {
+            hasShortcut: this.isAddShortcut
+        }
+    },
     methods: {
         changeShortcut () {
-            this.isAddShortcut = !this.isAddShortcut
+            this.hasShortcut = !this.hasShortcut
         }
     }
 }
 </script>
 <style lang="scss" scoped>
 @import "../common/css/_variables.scss";
+@import "../common/css/_mixins.scss";
 .content-header{
     position: relative;
     height: 33px;
     background-color: #fff5fa;
     padding: 0 23px;
     h1{
+        @include clearfix();
         margin: 0;
         font-size: $size-h3;
         line-height: 33px;
@@ -46,6 +57,14 @@ export default {
             display: inline-block;
             padding-left: 4px;
             font-weight: 300;
+        }
+        .header-btn{
+            float: right;
+            width: 148px;
+            height: 30px;
+            line-height: 15px;
+            padding: 0;
+            margin-top: 1px;
         }
     }
     .add_shortcut{

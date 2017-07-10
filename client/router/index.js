@@ -5,46 +5,39 @@ import PreExpired from 'views/PreExpired'
 import PreExpiredList from 'views/PreExpiredList'
 import DiscountBills from 'views/DiscountBills'
 import Login from 'views/Login'
-import Nav from 'components/Nav'
 import { loggedIn } from 'common/plugin/auth'
 Vue.use(Router)
-const getComponents = function (component) {
-    return {
-        default: component,
-        nav: Nav
-    }
-}
 let router = new Router({
     mode: 'hash',
     routes: [
         {
             path: '/',
             name: 'Home',
-            components: getComponents(Home),
+            component: Home,
             meta: { requiresAuth: true }
         },
         {
             path: '/pre_expired',
-            components: getComponents(PreExpired),
+            component: PreExpired,
             name: 'PreExpired',
             meta: { requiresAuth: true }
         },
         {
             path: '/pre_expired_list',
-            components: getComponents(PreExpiredList),
+            component: PreExpiredList,
             name: 'PreExpiredList',
             meta: { requiresAuth: true }
         },
         {
             path: '/discount-bills',
-            components: getComponents(DiscountBills),
+            component: DiscountBills,
             name: 'DiscountBills',
             meta: { requiresAuth: true }
         },
         {
             path: '/login',
             name: 'Login',
-            components: getComponents(Login)
+            component: Login
         }
     ]
 })

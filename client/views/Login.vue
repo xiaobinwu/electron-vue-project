@@ -56,7 +56,11 @@ export default {
             // 存储localStorage
             if (this.ruleForm.username === 'xiaobin' && this.ruleForm.password === '123456') {
                 setStore('userInfo', { username: this.ruleForm.username, password: this.ruleForm.password })
-                window.location.replace(this.$route.query.redirect)
+                this.$store.commit('UPDATEUSERINFO', {
+                    username: this.ruleForm.username,
+                    password: this.ruleForm.password
+                })
+                this.$router.replace({ path: this.$route.query.redirect })
             } else {
                 Message({
                     message: '账户或密码错误',
@@ -67,10 +71,11 @@ export default {
         }
     },
     mounted () {
+        const _self = this
         shortcut.init({
             keyCodeArr: [
                 { key: 'Enter', keyCode: 13, keyDec: '回车提交', callback: () => {
-                    this.clickSubmit('ruleForm')
+                    _self.clickSubmit('ruleForm')
                 } }
             ]
         })

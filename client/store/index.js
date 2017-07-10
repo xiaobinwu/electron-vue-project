@@ -4,24 +4,20 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const state = {
-    count: 0
+    userInfo: {
+        username: null,
+        password: null
+    }
 }
 
 const mutations = {
-    INCREMENT (state) {
-        state.count++
-    },
-    DECREMENT (state) {
-        state.count--
+    UPDATEUSERINFO (state, payload) {
+        state.userInfo = Object.assign(state.userInfo, payload)
     }
 }
 
 const actions = {
-    incrementAsync ({ commit }) {
-        setTimeout(() => {
-            commit('INCREMENT')
-        }, 200)
-    }
+
 }
 
 const store = new Vuex.Store({

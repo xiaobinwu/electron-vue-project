@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import Counter from 'components/Counter'
 import electron from 'electron'
 import { createNotification } from 'common/plugin/notification'
 import { createContextMenu, createApplicationMenu } from 'common/plugin/menu'
@@ -74,7 +73,6 @@ export default {
         })
     },
     components: {
-        Counter
     }
 }
 </script>
