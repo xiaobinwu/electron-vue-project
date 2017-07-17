@@ -39,7 +39,7 @@ export default {
     }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 @import "../common/css/_variables.scss";
 @import "../common/css/_mixins.scss";
 .content-header{

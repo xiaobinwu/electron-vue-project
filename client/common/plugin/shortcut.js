@@ -9,7 +9,7 @@ export default {
             fragment.appendChild(li)
         })
         ul.appendChild(fragment)
-        document.querySelector(el).appendChild(ul)
+        el.appendChild(ul)
     },
     // 初始化
     init: function (options) {
