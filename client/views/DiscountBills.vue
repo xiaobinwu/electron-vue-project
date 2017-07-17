@@ -79,7 +79,65 @@
                 </el-col>
             </el-row>
             <el-row :gutter="15">
-
+                <el-col :span="20">
+                     <el-table
+                        ref="multipleTable"
+                        :data="tableData"
+                        border
+                        tooltip-effect="dark"
+                        style="width: 100%; margin-top: 20px;"
+                        @selection-change="handleSelectionChange">
+                        <el-table-column
+                            type="selection"
+                            width="40">
+                        </el-table-column>
+                        <el-table-column
+                            label="申请单编号"
+                            prop="apply_no"
+                            width="90">
+                        </el-table-column>
+                        <el-table-column
+                            label="门店"
+                            prop="hd_shop_code"
+                            width="60">
+                        </el-table-column>
+                        <el-table-column
+                            label="数量"
+                            prop="apply_num"
+                            width="50">
+                        </el-table-column>
+                        <el-table-column
+                            label="金额"
+                            prop="amount">
+                        </el-table-column>
+                        <el-table-column
+                            label="开始日期">
+                            <template scope="scope">{{ scope.row.begin_date }}</template>
+                        </el-table-column>
+                        <el-table-column
+                            label="结束日期">
+                            <template scope="scope">{{ scope.row.end_date }}</template>
+                        </el-table-column>
+                        <el-table-column
+                            label="申请日期">
+                            <template scope="scope">{{ scope.row.created_at }}</template>
+                        </el-table-column>
+                        <el-table-column
+                            label="修改人"
+                            prop="realname"
+                            width="90">
+                        </el-table-column>
+                        <el-table-column
+                            label="修改时间">
+                            <template scope="scope">{{ scope.row.updated_at }}</template>
+                        </el-table-column>
+                        <el-table-column
+                            label="单据状态"
+                            prop="audit_status"
+                            width="80">
+                        </el-table-column>
+                      </el-table>
+                </el-col>
             </el-row>
         </section>
     </section>
@@ -87,7 +145,7 @@
 
 <script>
 import Vue from 'vue'
-import { Button, Row, Col, DatePicker, Select, Option, Input } from 'element-ui'
+import { Button, Row, Col, DatePicker, Select, Option, Input, Table, TableColumn } from 'element-ui'
 Vue.use(Button)
 Vue.use(Row)
 Vue.use(Col)
@@ -95,6 +153,8 @@ Vue.use(DatePicker)
 Vue.use(Select)
 Vue.use(Option)
 Vue.use(Input)
+Vue.use(Table)
+Vue.use(TableColumn)
 import ContentHeader from 'components/ContentHeader'
 export default {
     data () {
@@ -158,7 +218,42 @@ export default {
                         picker.$emit('pick', [start, end])
                     }
                 }]
-            }
+            },
+            // 待获取数据（ajax）
+            tableData: [{
+                apply_no: 'LT170616888801',
+                hd_shop_code: 'L8888',
+                apply_num: 12,
+                amount: '1207.80',
+                begin_date: '2017-06-17',
+                end_date: '2017-06-28',
+                created_at: '2017-06-16 16:14:32',
+                realname: 'xiaobin',
+                updated_at: '2017-06-16 17:13:11',
+                audit_status: '审核通过'
+            }, {
+                apply_no: 'LT170616888801',
+                hd_shop_code: '8888',
+                apply_num: 12,
+                amount: '1207.80',
+                begin_date: '2017-06-17',
+                end_date: '2017-06-28',
+                created_at: '2017-06-16 16:14:32',
+                realname: 'xiaobin',
+                updated_at: '2017-06-16 17:13:11',
+                audit_status: '审核通过'
+            }, {
+                apply_no: 'LT170616888801',
+                hd_shop_code: '8888',
+                apply_num: 12,
+                amount: '1207.80',
+                begin_date: '2017-06-17',
+                end_date: '2017-06-28',
+                created_at: '2017-06-16 16:14:32',
+                realname: 'xiaobin',
+                updated_at: '2017-06-16 17:13:11',
+                audit_status: '审核通过'
+            }]
         }
     },
     methods: {

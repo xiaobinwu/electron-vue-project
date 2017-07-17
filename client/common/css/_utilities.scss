@@ -117,3 +117,10 @@
 .el-input__inner {
     height: 30px!important;
 }
+
+// table
+.el-table .cell,
+.el-table th > div{
+    padding: 8px!important;
+    line-height: 1.42857143!important;
+}
