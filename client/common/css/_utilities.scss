@@ -130,5 +130,6 @@
 
 // wrapper
 .wrapper{
-    padding-top: 30px;
+    height: calc(100vh - 70px);
+    overflow-y: auto;
 }

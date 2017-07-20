@@ -121,11 +121,11 @@ export default {
     padding: 0 20px;
     -webkit-user-select: none;
     -webkit-app-region: drag;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1030;
+    // position: fixed;
+    // top: 0;
+    // left: 0;
+    // right: 0;
+    // z-index: 1030;
     .operate-area,
     .refresh-window{
         -webkit-app-region: no-drag;
