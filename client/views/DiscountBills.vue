@@ -1,5 +1,5 @@
 <template>
-    <section class="wrapper">
+    <section class="wrapper" @scroll="wrapperScroll($event)">
         <content-header title="临期品处理" sub-title="临保商品特价单申请列表" :is-add-shortcut="true"></content-header>
         <section class="discount-bill">
             <el-row :gutter="15" class="search-el-row">
@@ -145,8 +145,8 @@
                         </el-table-column>
                       </el-table>
                 </el-col>
-                <el-col :span="4" class="btn-container">
-                    <el-row :gutter="4">
+                <el-col :span="4" class="btn-container right-btn-aside">
+                    <el-row :gutter="4" class="right-menu-side" :style="{top: scrollTop}">
                         <el-col :span="12">
                             <el-button class="list-btn" type="primary">查看</el-button>
                         </el-col>
@@ -183,6 +183,7 @@ import ContentFooter from 'components/ContentFooter'
 export default {
     data () {
         return {
+            scrollTop: 0,
             producedDate: '',
             overdueDate: '',
             curNum: '',
@@ -381,6 +382,9 @@ export default {
         })
     },
     methods: {
+        wrapperScroll (e) {
+            this.scrollTop = `${e.target.scrollTop}px`
+        },
         goBack () {
             this.$router.replace({ path: '/' })
         },

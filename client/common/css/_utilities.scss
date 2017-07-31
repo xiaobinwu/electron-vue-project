@@ -133,3 +133,35 @@
     height: calc(100vh - 70px);
     overflow-y: auto;
 }
+
+// 右侧菜单
+.right-btn-aside{
+    position: relative;
+    .right-menu-side{
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+}
+
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+    width: 10px;
+}
+/* 滚动槽 */
+::-webkit-scrollbar-track {
+    box-shadow: inset006pxrgba(0,0,0,.3);
+    border-radius: 10px;
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0,0,0,.1);
+    box-shadow: inset006pxrgba(0,0,0,.5);
+}
+::-webkit-scrollbar-thumb:hover{
+    background: rgba(0,0,0,.2);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(61,31,40,.4);
+}
