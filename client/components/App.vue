@@ -30,9 +30,9 @@
 <script>
 import { ipcRenderer, remote } from 'electron'
 import { MessageBox, Message } from 'element-ui'
-import { getNowFormatDate } from 'common/plugin/time'
-import { removeStore, getStore } from 'common/plugin/storage'
-import { loggedIn } from 'common/plugin/auth'
+import { getNowFormatDate } from 'common/js/time'
+import { removeStore, getStore } from 'common/js/storage'
+import { loggedIn } from 'common/js/auth'
 export default {
     data () {
         return {

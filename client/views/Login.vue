@@ -17,8 +17,9 @@
 </template>
 
 <script>
-import { setStore } from 'common/plugin/storage'
-import shortcut from 'common/plugin/shortcut'
+import { setStore } from 'common/js/storage'
+import shortcut from 'common/js/shortcut'
+import ajaxUrl, { commonAjax } from 'common/js/api'
 import Vue from 'vue'
 import { Form, FormItem, Button, Input, Message } from 'element-ui'
 Vue.use(Button)
@@ -51,23 +52,31 @@ export default {
             })
         },
         doSubmit () {
-            // ajax登录
-            // ...
-            // 存储localStorage
-            if (this.ruleForm.username === 'xiaobin' && this.ruleForm.password === '123456') {
-                setStore('userInfo', { username: this.ruleForm.username, password: this.ruleForm.password })
-                this.$store.commit('UPDATEUSERINFO', {
+            commonAjax({
+                method: 'post',
+                url: ajaxUrl.doLogin,
+                data: {
                     username: this.ruleForm.username,
                     password: this.ruleForm.password
-                })
-                this.$router.replace({ path: this.$route.query.redirect })
-            } else {
-                Message({
-                    message: '账户或密码错误',
-                    type: 'error',
-                    duration: 1000
-                })
-            }
+                },
+                responseType: 'json'
+            })
+            .then((res) => {
+                if (res.status === 0) {
+                    setStore('userInfo', { username: this.ruleForm.username, password: this.ruleForm.password })
+                    this.$store.commit('UPDATEUSERINFO', {
+                        username: this.ruleForm.username,
+                        password: this.ruleForm.password
+                    })
+                    this.$router.replace({ path: this.$route.query.redirect })
+                } else {
+                    Message({
+                        message: '账户或密码错误',
+                        type: 'error',
+                        duration: 1000
+                    })
+                }
+            })
         }
     },
     mounted () {

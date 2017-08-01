@@ -5,7 +5,7 @@ import PreExpired from 'views/PreExpired'
 import PreExpiredList from 'views/PreExpiredList'
 import DiscountBills from 'views/DiscountBills'
 import Login from 'views/Login'
-import { loggedIn } from 'common/plugin/auth'
+import { loggedIn } from 'common/js/auth'
 Vue.use(Router)
 let router = new Router({
     mode: 'hash',

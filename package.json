@@ -32,12 +32,17 @@
         }
       ]
     ],
-    "plugins": [["component", [
-        {
-          "libraryName": "element-ui",
-          "styleLibraryName": "~theme"
-        }
-    ]]]
+    "plugins": [
+      [
+        "component",
+        [
+          {
+            "libraryName": "element-ui",
+            "styleLibraryName": "~theme"
+          }
+        ]
+      ]
+    ]
   },
   "postcss": {
     "plugins": {
@@ -60,6 +65,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",
+    "axios": "^0.16.2",
     "babel-core": "^6.16.0",
     "babel-loader": "^6.2.4",
     "babel-plugin-component": "^0.9.1",

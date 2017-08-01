@@ -43,8 +43,8 @@
 
 <script>
 import electron from 'electron'
-import { createNotification } from 'common/plugin/notification'
-import { createContextMenu, createApplicationMenu } from 'common/plugin/menu'
+import { createNotification } from 'common/js/notification'
+import { createContextMenu, createApplicationMenu } from 'common/js/menu'
 export default {
     data () {
         return {

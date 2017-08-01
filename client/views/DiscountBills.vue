@@ -177,7 +177,8 @@ Vue.use(Input)
 Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Radio)
-import shortcut from 'common/plugin/shortcut'
+import shortcut from 'common/js/shortcut'
+import ajaxUrl, { commonAjax } from 'common/js/api'
 import ContentHeader from 'components/ContentHeader'
 import ContentFooter from 'components/ContentFooter'
 export default {
@@ -244,127 +245,12 @@ export default {
                     }
                 }]
             },
-            // 待获取数据（ajax）
-            tableData: [{
-                id: 32,
-                apply_no: 'LT170616888801',
-                hd_shop_code: 'L8888',
-                apply_num: 12,
-                amount: '1207.80',
-                begin_date: '2017-06-17',
-                end_date: '2017-06-28',
-                created_at: '2017-06-16 16:14:32',
-                realname: 'xiaobin',
-                updated_at: '2017-06-16 17:13:11',
-                audit_status: '审核通过',
-                isChecked: false
-            }, {
-                id: 33,
-                apply_no: 'LT170616888801',
-                hd_shop_code: '8888',
-                apply_num: 12,
-                amount: '1207.80',
-                begin_date: '2017-06-17',
-                end_date: '2017-06-28',
-                created_at: '2017-06-16 16:14:32',
-                realname: 'xiaobin',
-                updated_at: '2017-06-16 17:13:11',
-                audit_status: '审核通过',
-                isChecked: false
-            }, {
-                id: 34,
-                apply_no: 'LT170616888801',
-                hd_shop_code: '8888',
-                apply_num: 12,
-                amount: '1207.80',
-                begin_date: '2017-06-17',
-                end_date: '2017-06-28',
-                created_at: '2017-06-16 16:14:32',
-                realname: 'xiaobin',
-                updated_at: '2017-06-16 17:13:11',
-                audit_status: '审核通过',
-                isChecked: false
-            },{
-                id: 32,
-                apply_no: 'LT170616888801',
-                hd_shop_code: 'L8888',
-                apply_num: 12,
-                amount: '1207.80',
-                begin_date: '2017-06-17',
-                end_date: '2017-06-28',
-                created_at: '2017-06-16 16:14:32',
-                realname: 'xiaobin',
-                updated_at: '2017-06-16 17:13:11',
-                audit_status: '审核通过',
-                isChecked: false
-            }, {
-                id: 33,
-                apply_no: 'LT170616888801',
-                hd_shop_code: '8888',
-                apply_num: 12,
-                amount: '1207.80',
-                begin_date: '2017-06-17',
-                end_date: '2017-06-28',
-                created_at: '2017-06-16 16:14:32',
-                realname: 'xiaobin',
-                updated_at: '2017-06-16 17:13:11',
-                audit_status: '审核通过',
-                isChecked: false
-            }, {
-                id: 34,
-                apply_no: 'LT170616888801',
-                hd_shop_code: '8888',
-                apply_num: 12,
-                amount: '1207.80',
-                begin_date: '2017-06-17',
-                end_date: '2017-06-28',
-                created_at: '2017-06-16 16:14:32',
-                realname: 'xiaobin',
-                updated_at: '2017-06-16 17:13:11',
-                audit_status: '审核通过',
-                isChecked: false
-            },{
-                id: 32,
-                apply_no: 'LT170616888801',
-                hd_shop_code: 'L8888',
-                apply_num: 12,
-                amount: '1207.80',
-                begin_date: '2017-06-17',
-                end_date: '2017-06-28',
-                created_at: '2017-06-16 16:14:32',
-                realname: 'xiaobin',
-                updated_at: '2017-06-16 17:13:11',
-                audit_status: '审核通过',
-                isChecked: false
-            }, {
-                id: 33,
-                apply_no: 'LT170616888801',
-                hd_shop_code: '8888',
-                apply_num: 12,
-                amount: '1207.80',
-                begin_date: '2017-06-17',
-                end_date: '2017-06-28',
-                created_at: '2017-06-16 16:14:32',
-                realname: 'xiaobin',
-                updated_at: '2017-06-16 17:13:11',
-                audit_status: '审核通过',
-                isChecked: false
-            }, {
-                id: 34,
-                apply_no: 'LT170616888801',
-                hd_shop_code: '8888',
-                apply_num: 12,
-                amount: '1207.80',
-                begin_date: '2017-06-17',
-                end_date: '2017-06-28',
-                created_at: '2017-06-16 16:14:32',
-                realname: 'xiaobin',
-                updated_at: '2017-06-16 17:13:11',
-                audit_status: '审核通过',
-                isChecked: false
-            }],
+            tableData: [],
             currentRow: null // 当前选中行
         }
+    },
+    created () {
+        this.getdiscountBillsData()
     },
     mounted () {
         // console.log(this.$refs.contentFooter.$el)
@@ -382,6 +268,18 @@ export default {
         })
     },
     methods: {
+        getdiscountBillsData () {
+            commonAjax({
+                method: 'get',
+                url: ajaxUrl.getDiscountBillsData,
+                responseType: 'json'
+            })
+            .then((res) => {
+                if (res.status === 0) {
+                    this.tableData = res.data
+                }
+            })
+        },
         wrapperScroll (e) {
             this.scrollTop = `${e.target.scrollTop}px`
         },
