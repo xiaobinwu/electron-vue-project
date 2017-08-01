@@ -3,66 +3,79 @@
         <content-header title="临期品处理" sub-title="临保商品特价单申请列表" :is-add-shortcut="true"></content-header>
         <section class="discount-bill">
             <el-row :gutter="15" class="search-el-row">
+
                 <el-col :span="20">
-                    <el-row class="search-container">
-                        <el-col :span="24">
-                            <div class="search-item">
-                                <label class="control-label">生产日期：</label>
-                                <el-date-picker
-                                  v-model="producedDate"
-                                  type="datetimerange"
-                                  :picker-options="pickerOptions"
-                                  placeholder="选择生产日期"
-                                  align="right" class="m-date-picker" format="yyyy-MM-dd">
-                                </el-date-picker>
-                            </div>
-                            <div class="search-item">
-                                <label class="control-label">过期日期：</label>
-                                <el-date-picker
-                                  v-model="overdueDate"
-                                  type="datetimerange"
-                                  :picker-options="pickerOptions"
-                                  placeholder="选择过期日期"
-                                  align="right" class="m-date-picker" format="yyyy-MM-dd">
-                                </el-date-picker>
-                            </div>
-                            <div class="search-item">
-                                <label class="control-label">当前数量：</label>
-                                <el-select v-model="numCompare" class="num-compare">
-                                    <el-option
-                                        v-for="item in numOptions"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
-                                    </el-option>
-                                </el-select>
-                                <el-input v-model="curNum" type="number" class="cur-num"></el-input>
-                            </div>
-                        </el-col>
-                        <el-col :span="24">
-                            <div class="search-item">
-                                <label class="control-label">剩余保质期天数：</label>
-                                <el-select v-model="shelfLife" class="num-compare">
-                                    <el-option
-                                        v-for="item in numOptions"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
-                                    </el-option>
-                                </el-select>
-                                <el-input v-model="lastShelfLife" type="number" class="last-shelf-life"></el-input>
-                                <label class="control-label">天</label>
-                            </div>
-                            <div class="search-item">
-                                <label class="control-label">商业条码：</label>
-                                <el-input v-model="barcode" class="barcode"></el-input>
-                            </div>
-                            <div class="search-item">
-                                <label class="control-label">商业代码：</label>
-                                <el-input v-model="sku" class="sku"></el-input>
-                            </div>
-                        </el-col>
-                    </el-row>
+                    <el-form :inline="true" :model="formData" ref="form">
+                        <el-row class="search-container">
+                            <el-col :span="24">
+                                <div class="search-item">
+                                    <el-form-item label="生产日期：" prop="producedDate">
+                                        <el-date-picker
+                                          v-model="formData.producedDate"
+                                          type="datetimerange"
+                                          :picker-options="pickerOptions"
+                                          placeholder="选择生产日期"
+                                          align="right" class="m-date-picker" format="yyyy-MM-dd">
+                                        </el-date-picker>
+                                    </el-form-item>
+                                </div>
+                                <div class="search-item">
+                                    <el-form-item label="过期日期：" prop="overdueDate">
+                                        <el-date-picker
+                                          v-model="formData.overdueDate"
+                                          type="datetimerange"
+                                          :picker-options="pickerOptions"
+                                          placeholder="选择过期日期"
+                                          align="right" class="m-date-picker" format="yyyy-MM-dd">
+                                        </el-date-picker>
+                                    </el-form-item>
+                                </div>
+                                <div class="search-item">
+                                    <el-form-item label="当前数量：" prop="numCompare">
+                                        <el-select v-model="formData.numCompare" class="num-compare">
+                                            <el-option
+                                                v-for="item in numOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                            </el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                    <el-form-item prop="curNum">
+                                            <el-input v-model="formData.curNum" type="number" class="cur-num"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="24">
+                                <div class="search-item">
+                                    <el-form-item label="剩余保质期天数：" prop="shelfLife">
+                                        <el-select v-model="formData.shelfLife" class="num-compare">
+                                            <el-option
+                                                v-for="item in numOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                            </el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                    <el-form-item prop="lastShelfLife">
+                                        <el-input v-model="formData.lastShelfLife" type="number" class="last-shelf-life"></el-input>
+                                        <label class="control-label">天</label>
+                                    </el-form-item>
+                                </div>
+                                <div class="search-item">
+                                    <el-form-item label="商业条码：" prop="barcode">
+                                        <el-input v-model="formData.barcode" class="barcode"></el-input>
+                                    </el-form-item>
+                                </div>
+                                <div class="search-item">
+                                    <el-form-item label="商业代码：" prop="sku">
+                                        <el-input v-model="formData.sku" class="sku"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+                    </el-form>
                 </el-col>
                 <el-col :span="4" class="btn-container">
                     <el-row :gutter="4">
@@ -70,7 +83,7 @@
                             <el-button class="list-btn" type="primary">查询</el-button>
                         </el-col>
                         <el-col :span="12">
-                            <el-button class="list-btn" type="primary">重置</el-button>
+                            <el-button class="list-btn" type="primary" @click="reset()">重置</el-button>
                         </el-col>
                         <el-col :span="12">
                             <el-button class="list-btn" type="primary">导出</el-button>
@@ -151,12 +164,25 @@
                             <el-button class="list-btn" type="primary">查看</el-button>
                         </el-col>
                         <el-col :span="12">
-                            <el-button class="list-btn" type="primary">上一页</el-button>
+                            <el-button class="list-btn" type="primary" @click="goPrePage()">上一页</el-button>
                         </el-col>
                         <el-col :span="12">
-                            <el-button class="list-btn" type="primary">下一页</el-button>
+                            <el-button class="list-btn" type="primary" @click="goNextPage()">下一页</el-button>
                         </el-col>
                     </el-row>
+                </el-col>
+            </el-row>
+            <el-row :gutter="15">
+                <el-col :span="20">
+                    <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentPageChange"
+                        :current-page="currentPage"
+                        :page-sizes="pageSizes"
+                        :page-size="pageSize"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="totalCount">
+                    </el-pagination>
                 </el-col>
             </el-row>
         </section>
@@ -166,7 +192,7 @@
 
 <script>
 import Vue from 'vue'
-import { Button, Row, Col, DatePicker, Select, Option, Input, Table, TableColumn, Radio } from 'element-ui'
+import { Button, Row, Col, DatePicker, Select, Option, Input, Table, TableColumn, Radio, Pagination, Message, Form, FormItem } from 'element-ui'
 Vue.use(Button)
 Vue.use(Row)
 Vue.use(Col)
@@ -177,6 +203,9 @@ Vue.use(Input)
 Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Radio)
+Vue.use(Pagination)
+Vue.use(Form)
+Vue.use(FormItem)
 import shortcut from 'common/js/shortcut'
 import ajaxUrl, { commonAjax } from 'common/js/api'
 import ContentHeader from 'components/ContentHeader'
@@ -185,14 +214,20 @@ export default {
     data () {
         return {
             scrollTop: 0,
-            producedDate: '',
-            overdueDate: '',
-            curNum: '',
-            numCompare: 1,
-            shelfLife: 1,
-            lastShelfLife: '',
-            barcode: '',
-            sku: '',
+            currentPage: 1,
+            pageSize: 50,
+            totalCount: 0,
+            totalPage: 0,
+            formData: {
+                producedDate: '',
+                overdueDate: '',
+                curNum: '',
+                numCompare: 1,
+                shelfLife: 1,
+                lastShelfLife: '',
+                barcode: '',
+                sku: ''
+            },
             numOptions: [{
                 value: 1,
                 label: '>'
@@ -258,25 +293,73 @@ export default {
         shortcut.init({
             keyCodeArr: [
                 { key: 'ESC', keyCode: 27, keyDec: '主菜单', callback: () => { _self.goBack() } },
-                { key: 'F1', keyCode: 112, keyDec: '查询', callback: () => {  alert('查询')  } },
-                { key: 'F2', keyCode: 113, keyDec: '重置', callback: () => { alert('重置')  } },
+                { key: 'F1', keyCode: 112, keyDec: '查询', callback: () => {
+                    _self.currentPage = 1
+                    _self.pageSize = 50
+                    _self.getdiscountBillsData()
+                } },
+                { key: 'F2', keyCode: 113, keyDec: '重置', callback: () => { _self.reset() } },
                 { key: 'F4', keyCode: 115, keyDec: '查看', callback: () => { alert('查看')  } },
-                { key: 'F11', keyCode: 122, keyDec: '上一页', callback: () => { alert('上一页')  } },
-                { key: 'F12', keyCode: 123, keyDec: '下一页', callback: () => { alert('下一页')  } }
+                { key: 'F11', keyCode: 122, keyDec: '上一页', callback: () => { _self.goPrePage() } },
+                { key: 'F12', keyCode: 123, keyDec: '下一页', callback: () => { _self.goNextPage() } }
             ],
             wrapEle: _self.$refs.contentFooter.$el
         })
     },
     methods: {
+        goPrePage () {
+            if (this.currentPage !== 1) {
+                this.currentPage--
+                this.getdiscountBillsData()
+            } else {
+                Message({
+                    message: '当前页为第一页',
+                    type: 'error',
+                    duration: 1000
+                })
+            }
+        },
+        goNextPage () {
+            if (this.currentPage !== this.totalPage) {
+                this.currentPage++
+                this.getdiscountBillsData()
+            } else {
+                Message({
+                    message: '当前页为最后一页',
+                    type: 'error',
+                    duration: 1000
+                })
+            }
+        },
+        reset () {
+            this.$refs.form.resetFields()
+        },
+        handleSizeChange (val) {
+            this.currentPage = 1
+            this.pageSize = val
+            this.getdiscountBillsData()
+        },
+        handleCurrentPageChange (val) {
+            this.currentPage = val
+            this.getdiscountBillsData()
+        },
         getdiscountBillsData () {
             commonAjax({
-                method: 'get',
+                method: 'post',
                 url: ajaxUrl.getDiscountBillsData,
+                data: Object.assign({}, {
+                    page: this.currentPage,
+                    size: this.pageSize
+                }, this.formData),
                 responseType: 'json'
             })
             .then((res) => {
                 if (res.status === 0) {
                     this.tableData = res.data
+                    this.currentPage = res.current_page
+                    this.pageSize = res.page_size
+                    this.totalCount = res.total_count
+                    this.totalPage = res.total_page
                 }
             })
         },
@@ -294,6 +377,11 @@ export default {
             // radio选中特效
             currentRow.isChecked = true
             oldCurrentRow && (oldCurrentRow.isChecked = false)
+        }
+    },
+    computed: {
+        pageSizes () {
+            return [this.pageSize, this.pageSize * 2, this.pageSize * 3, this.pageSize * 4]
         }
     },
     components: {
@@ -346,6 +434,9 @@ export default {
     }
     .list-table{
         margin-top: 20px;
+    }
+    .el-form-item{
+        margin-bottom: 0;
     }
 }
 </style>

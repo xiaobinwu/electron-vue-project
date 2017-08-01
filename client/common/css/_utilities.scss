@@ -145,6 +145,25 @@
     }
 }
 
+// 分页
+.el-pagination{
+    padding: 20px 0 !important;
+    .el-pagination__total{
+        margin: 0;
+        margin-right: 10px;
+    }
+    .el-pagination__sizes{
+        margin-right: 30px;
+    }
+    .el-pagination__jump{
+        float: right;
+    }
+    .el-pagination__editor{
+        width: 50px;
+    }
+}
+
+
 /* 设置滚动条的样式 */
 ::-webkit-scrollbar {
     width: 10px;
