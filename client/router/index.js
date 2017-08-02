@@ -4,6 +4,7 @@ import Home from 'views/Home'
 import PreExpired from 'views/PreExpired'
 import PreExpiredList from 'views/PreExpiredList'
 import DiscountBills from 'views/DiscountBills'
+import BillDetails from 'views/BillDetails'
 import Login from 'views/Login'
 import { loggedIn } from 'common/js/auth'
 Vue.use(Router)
@@ -32,6 +33,12 @@ let router = new Router({
             path: '/discount-bills',
             component: DiscountBills,
             name: 'DiscountBills',
+            meta: { requiresAuth: true }
+        },
+        {
+            path: '/bill-details',
+            component: BillDetails,
+            name: 'BillDetails',
             meta: { requiresAuth: true }
         },
         {

@@ -165,8 +165,9 @@
 
 
 /* 设置滚动条的样式 */
-::-webkit-scrollbar {
+::-webkit-scrollbar{
     width: 10px;
+    height: 10px;
 }
 /* 滚动槽 */
 ::-webkit-scrollbar-track {

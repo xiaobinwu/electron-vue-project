@@ -3,9 +3,11 @@
         <h1>
             {{title}}
             <small>{{subTitle}}</small>
-            <a href="javascript:void(0);" class="add_shortcut" v-show="!hasShortcut" @click="changeShortcut">添加至常用菜单</a>
-            <a href="javascript:void(0);" class="del_shortcut" v-show="hasShortcut" @click="changeShortcut">已添加至常用菜单</a>
-            <el-button class="header-btn" type="primary" @click="$router.go(-1)">返回</el-button>
+            <template v-if="!isOrdinaryHeader">
+                <a href="javascript:void(0);" class="add_shortcut" v-show="!hasShortcut" @click="changeShortcut">添加至常用菜单</a>
+                <a href="javascript:void(0);" class="del_shortcut" v-show="hasShortcut" @click="changeShortcut">已添加至常用菜单</a>
+                <el-button class="header-btn" type="primary" @click="$router.go(-1)">返回</el-button>
+            </template>
         </h1>
     </section>
 </template>
@@ -23,6 +25,10 @@ export default {
             type: String
         },
         isAddShortcut: {
+            type: Boolean,
+            default: false
+        },
+        isOrdinaryHeader: {
             type: Boolean,
             default: false
         }

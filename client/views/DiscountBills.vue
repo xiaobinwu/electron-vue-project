@@ -80,7 +80,7 @@
                 <el-col :span="4" class="btn-container">
                     <el-row :gutter="4">
                         <el-col :span="12">
-                            <el-button class="list-btn" type="primary">查询</el-button>
+                            <el-button class="list-btn" type="primary" @click="inquire()">查询</el-button>
                         </el-col>
                         <el-col :span="12">
                             <el-button class="list-btn" type="primary" @click="reset()">重置</el-button>
@@ -161,7 +161,10 @@
                 <el-col :span="4" class="btn-container right-btn-aside">
                     <el-row :gutter="4" class="right-menu-side" :style="{top: scrollTop}">
                         <el-col :span="12">
-                            <el-button class="list-btn" type="primary">查看</el-button>
+                            <el-button class="list-btn" type="primary" @click="toView()">查看</el-button>
+                        </el-col>
+                        <el-col :span="24">
+                            <div class="line"></div>
                         </el-col>
                         <el-col :span="12">
                             <el-button class="list-btn" type="primary" @click="goPrePage()">上一页</el-button>
@@ -293,13 +296,9 @@ export default {
         shortcut.init({
             keyCodeArr: [
                 { key: 'ESC', keyCode: 27, keyDec: '主菜单', callback: () => { _self.goBack() } },
-                { key: 'F1', keyCode: 112, keyDec: '查询', callback: () => {
-                    _self.currentPage = 1
-                    _self.pageSize = 50
-                    _self.getdiscountBillsData()
-                } },
+                { key: 'F1', keyCode: 112, keyDec: '查询', callback: () => { _self.inquire() } },
                 { key: 'F2', keyCode: 113, keyDec: '重置', callback: () => { _self.reset() } },
-                { key: 'F4', keyCode: 115, keyDec: '查看', callback: () => { alert('查看')  } },
+                { key: 'F4', keyCode: 115, keyDec: '查看', callback: () => { _self.toView() } },
                 { key: 'F11', keyCode: 122, keyDec: '上一页', callback: () => { _self.goPrePage() } },
                 { key: 'F12', keyCode: 123, keyDec: '下一页', callback: () => { _self.goNextPage() } }
             ],
@@ -307,6 +306,22 @@ export default {
         })
     },
     methods: {
+        inquire () {
+            this.currentPage = 1
+            this.pageSize = 50
+            this.getdiscountBillsData()
+        },
+        toView () {
+            if (this.currentRow) {
+                this.$router.push({ path: '/bill-details', query: { id: this.currentRow.id }})
+            } else {
+                Message({
+                    message: '请先选中查看的一行',
+                    type: 'error',
+                    duration: 1000
+                })
+            }
+        },
         goPrePage () {
             if (this.currentPage !== 1) {
                 this.currentPage--
@@ -437,6 +452,12 @@ export default {
     }
     .el-form-item{
         margin-bottom: 0;
+    }
+    .line{
+        margin-top: 10px;
+        margin-bottom: 20px;
+        border: 0;
+        border-top: 1px solid #eee;
     }
 }
 </style>
