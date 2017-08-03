@@ -1,6 +1,6 @@
 <template>
     <section class="wrapper" @scroll="wrapperScroll($event)">
-        <content-header title="临期品处理" sub-title="临保商品特价单申请列表" :is-add-shortcut="true"></content-header>
+        <content-header title="临期品处理" sub-title="临保商品特价单申请列表" :is-add-shortcut="isAddShortcut" @shortcutchange="shortCutChange"></content-header>
         <section class="discount-bill">
             <el-row :gutter="15" class="search-el-row">
 
@@ -216,6 +216,7 @@ import ContentFooter from 'components/ContentFooter'
 export default {
     data () {
         return {
+            isAddShortcut: false,
             scrollTop: 0,
             currentPage: 1,
             pageSize: 50,
@@ -289,6 +290,7 @@ export default {
     },
     created () {
         this.getdiscountBillsData()
+        this.getShortCut()
     },
     mounted () {
         // console.log(this.$refs.contentFooter.$el)
@@ -306,6 +308,12 @@ export default {
         })
     },
     methods: {
+        getShortCut () {
+            console.log(this.$route.fullPath)
+        },
+        shortCutChange (hasShortcut) {
+            console.log(hasShortcut)
+        },
         inquire () {
             this.currentPage = 1
             this.pageSize = 50

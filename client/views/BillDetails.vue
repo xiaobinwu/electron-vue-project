@@ -140,7 +140,6 @@ export default {
         }
     },
     created () {
-        console.log(this.$route.query.id)
         this.getBillDetails()
     },
     mounted () {

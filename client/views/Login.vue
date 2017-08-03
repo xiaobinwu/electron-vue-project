@@ -65,8 +65,7 @@ export default {
                 if (res.status === 0) {
                     setStore('userInfo', { username: this.ruleForm.username, password: this.ruleForm.password })
                     this.$store.commit('UPDATEUSERINFO', {
-                        username: this.ruleForm.username,
-                        password: this.ruleForm.password
+                        username: this.ruleForm.username
                     })
                     this.$router.replace({ path: this.$route.query.redirect })
                 } else {

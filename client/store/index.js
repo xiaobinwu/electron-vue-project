@@ -5,8 +5,7 @@ Vue.use(Vuex)
 
 const state = {
     userInfo: {
-        username: null,
-        password: null
+        username: null
     }
 }
 

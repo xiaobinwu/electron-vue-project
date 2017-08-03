@@ -50,13 +50,11 @@ export default {
             if (loggedIn()) {
                 const storage = JSON.parse(getStore('userInfo'))
                 this.$store.commit('UPDATEUSERINFO', {
-                    username: storage.username,
-                    password: storage.password
+                    username: storage.username
                 })
             } else {
                 this.$store.commit('UPDATEUSERINFO', {
-                    username: null,
-                    password: null
+                    username: null
                 })
             }
         },
@@ -86,8 +84,7 @@ export default {
                     duration: 1000,
                     onClose: function () {
                         _self.$store.commit('UPDATEUSERINFO', {
-                            username: null,
-                            password: null
+                            username: null
                         })
                         _self.$router.push({ path: '/login', query: { redirect: _self.$route.fullPath }})
                     }

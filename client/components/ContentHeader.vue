@@ -41,6 +41,7 @@ export default {
     methods: {
         changeShortcut () {
             this.hasShortcut = !this.hasShortcut
+            this.$emit('shortcutchange', this.hasShortcut)
         }
     }
 }
