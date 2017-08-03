@@ -3,15 +3,9 @@
         <div class="front-index">
             <h2>我的快捷菜单</h2>
             <div class="fast-menu clearfix">
-                <div class="fast-menu-item">快捷菜单</div>
-                <div class="fast-menu-item">快捷菜单</div>
-                <div class="fast-menu-item">快捷菜单</div>
-                <div class="fast-menu-item">快捷菜单</div>
-                <div class="fast-menu-item">快捷菜单</div>
-                <div class="fast-menu-item">快捷菜单</div>
-                <div class="fast-menu-item">快捷菜单</div>
-                <div class="fast-menu-item">快捷菜单</div>
-                <div class="fast-menu-item">快捷菜单</div>
+                <div class="fast-menu-item" v-for="item in fastMenus">
+                    <router-link :to="item.href" :title="item.name">{{item.name}}</router-link>
+                </div>
             </div>
         </div>
         <div class="front-gray"></div>
@@ -42,14 +36,19 @@
 </template>
 
 <script>
+import { getStore } from 'common/js/storage'
 import electron from 'electron'
 import { createNotification } from 'common/js/notification'
 import { createContextMenu, createApplicationMenu } from 'common/js/menu'
 export default {
     data () {
         return {
+            fastMenus: [],
             eventsCount: electron.ipcRenderer._eventsCount
         }
+    },
+    created () {
+        this.getFastMenu()
     },
     mounted () {
         // console.log(process.getCPUUsage())
@@ -65,12 +64,25 @@ export default {
         // ])
         // 通知
         createNotification({
-            title: 'Title',
-            body: 'Lorem Ipsum Dolor Sit Amet',
+            title: '提示',
+            body: '个人electron项目练习',
             callback: () => {
                 console.log('Notification clicked')
             }
         })
+    },
+    methods: {
+        getFastMenu () {
+            let fastMenus = JSON.parse(getStore('fastMenus'))
+            let fastMenusArr = []
+            for (let i in fastMenus) {
+                fastMenusArr.push({
+                    name: fastMenus[i],
+                    href: i
+                })
+            }
+            this.fastMenus = fastMenusArr
+        }
     },
     components: {
     }
@@ -78,6 +90,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../common/css/_variables.scss";
+@import "../common/css/_placeholders.scss";
 .content{
     margin-right: auto;
     margin-left: auto;
@@ -106,6 +119,12 @@ export default {
                 margin-right: 20px;
                 float: left;
                 margin-bottom: 12px;
+                a{
+                    padding: 0 10px;
+                    display: inline-block;
+                    width: 100%;
+                    @extend %ellipsis;
+                }
             }
         }
     }

@@ -1,6 +1,6 @@
 <template>
     <section class="wrapper" @scroll="wrapperScroll($event)">
-        <content-header title="临期品处理" sub-title="临保商品特价单申请列表" :is-add-shortcut="isAddShortcut" @shortcutchange="shortCutChange"></content-header>
+        <content-header title="临期品处理" sub-title="临保商品特价单申请列表" :is-add-shortcut="isAddShortcut" @fastmenuchange="fastMenuChange"></content-header>
         <section class="discount-bill">
             <el-row :gutter="15" class="search-el-row">
 
@@ -209,6 +209,7 @@ Vue.use(Radio)
 Vue.use(Pagination)
 Vue.use(Form)
 Vue.use(FormItem)
+import { getStore, setFastMenuStore } from 'common/js/storage'
 import shortcut from 'common/js/shortcut'
 import ajaxUrl, { commonAjax } from 'common/js/api'
 import ContentHeader from 'components/ContentHeader'
@@ -290,7 +291,7 @@ export default {
     },
     created () {
         this.getdiscountBillsData()
-        this.getShortCut()
+        this.getFastMenuStatus()
     },
     mounted () {
         // console.log(this.$refs.contentFooter.$el)
@@ -308,11 +309,12 @@ export default {
         })
     },
     methods: {
-        getShortCut () {
-            console.log(this.$route.fullPath)
+        getFastMenuStatus () {
+            let fastMenus = JSON.parse(getStore('fastMenus')) || {}
+            this.isAddShortcut = !!fastMenus[this.$route.fullPath]
         },
-        shortCutChange (hasShortcut) {
-            console.log(hasShortcut)
+        fastMenuChange (hasShortcut) {
+            setFastMenuStore(hasShortcut, '临保商品特价单申请列表', this)
         },
         inquire () {
             this.currentPage = 1
