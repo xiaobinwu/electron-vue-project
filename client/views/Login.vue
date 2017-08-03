@@ -63,7 +63,7 @@ export default {
             })
             .then((res) => {
                 if (res.status === 0) {
-                    setStore('userInfo', { username: this.ruleForm.username, password: this.ruleForm.password })
+                    setStore('userInfo', { username: this.ruleForm.username })
                     this.$store.commit('UPDATEUSERINFO', {
                         username: this.ruleForm.username
                     })
