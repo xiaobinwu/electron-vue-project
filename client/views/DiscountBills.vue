@@ -1,6 +1,6 @@
 <template>
     <section class="wrapper" @scroll="wrapperScroll($event)">
-        <content-header title="临期品处理" sub-title="临保商品特价单申请列表" :is-add-shortcut="isAddShortcut" @fastmenuchange="fastMenuChange"></content-header>
+        <content-header :title="$t('discountBills.title')" :sub-title="$t('discountBills.subTitle')" :is-add-shortcut="isAddShortcut" @fastmenuchange="fastMenuChange"></content-header>
         <section class="discount-bill">
             <el-row :gutter="15" class="search-el-row">
 
@@ -9,29 +9,29 @@
                         <el-row class="search-container">
                             <el-col :span="24">
                                 <div class="search-item">
-                                    <el-form-item label="生产日期：" prop="producedDate">
+                                    <el-form-item :label="$t('discountBills.producedDateLabel')" prop="producedDate">
                                         <el-date-picker
                                           v-model="formData.producedDate"
                                           type="datetimerange"
                                           :picker-options="pickerOptions"
-                                          placeholder="选择生产日期"
+                                          :placeholder="$t('discountBills.producedDatePlaceholder')"
                                           align="right" class="m-date-picker" format="yyyy-MM-dd">
                                         </el-date-picker>
                                     </el-form-item>
                                 </div>
                                 <div class="search-item">
-                                    <el-form-item label="过期日期：" prop="overdueDate">
+                                    <el-form-item :label="$t('discountBills.overdueDateLabel')" prop="overdueDate">
                                         <el-date-picker
                                           v-model="formData.overdueDate"
                                           type="datetimerange"
                                           :picker-options="pickerOptions"
-                                          placeholder="选择过期日期"
+                                          :placeholder="$t('discountBills.overdueDatePlaceholder')"
                                           align="right" class="m-date-picker" format="yyyy-MM-dd">
                                         </el-date-picker>
                                     </el-form-item>
                                 </div>
                                 <div class="search-item">
-                                    <el-form-item label="当前数量：" prop="numCompare">
+                                    <el-form-item :label="$t('discountBills.curNum')" prop="numCompare">
                                         <el-select v-model="formData.numCompare" class="num-compare">
                                             <el-option
                                                 v-for="item in numOptions"
@@ -48,7 +48,7 @@
                             </el-col>
                             <el-col :span="24">
                                 <div class="search-item">
-                                    <el-form-item label="剩余保质期天数：" prop="shelfLife">
+                                    <el-form-item :label="$t('discountBills.shelfLifeLabel')" prop="shelfLife">
                                         <el-select v-model="formData.shelfLife" class="num-compare">
                                             <el-option
                                                 v-for="item in numOptions"
@@ -60,16 +60,16 @@
                                     </el-form-item>
                                     <el-form-item prop="lastShelfLife">
                                         <el-input v-model="formData.lastShelfLife" type="number" class="last-shelf-life"></el-input>
-                                        <label class="control-label">天</label>
+                                        <label class="control-label">{{$t('customTime.day')}}</label>
                                     </el-form-item>
                                 </div>
                                 <div class="search-item">
-                                    <el-form-item label="商业条码：" prop="barcode">
+                                    <el-form-item :label="$t('discountBills.barcodeLabel')" prop="barcode">
                                         <el-input v-model="formData.barcode" class="barcode"></el-input>
                                     </el-form-item>
                                 </div>
                                 <div class="search-item">
-                                    <el-form-item label="商业代码：" prop="sku">
+                                    <el-form-item :label="$t('discountBills.skuLabel')" prop="sku">
                                         <el-input v-model="formData.sku" class="sku"></el-input>
                                     </el-form-item>
                                 </div>
@@ -80,13 +80,13 @@
                 <el-col :span="4" class="btn-container">
                     <el-row :gutter="4">
                         <el-col :span="12">
-                            <el-button class="list-btn" type="primary" @click="inquire()">查询</el-button>
+                            <el-button class="list-btn" type="primary" @click="inquire()">{{$t('btn.inquire')}}</el-button>
                         </el-col>
                         <el-col :span="12">
-                            <el-button class="list-btn" type="primary" @click="reset()">重置</el-button>
+                            <el-button class="list-btn" type="primary" @click="reset()">{{$t('btn.reset')}}</el-button>
                         </el-col>
                         <el-col :span="12">
-                            <el-button class="list-btn" type="primary">导出</el-button>
+                            <el-button class="list-btn" type="primary">{{$t('btn.export')}}</el-button>
                         </el-col>
                     </el-row>
                 </el-col>
@@ -102,75 +102,69 @@
                         highlight-current-row
                         @current-change = "handleCurrentChange"
                         @row-click = "rowClick"
-                        empty-text = "暂无数据"
+                        :empty-text = "$t('table.noData')"
                         row-class-name="table-row">
                         <el-table-column
-                            label="id"
-                            width="40">
+                            label="id">
                             <template scope="scope">
                                 <el-radio class="radio" v-model="scope.row.isChecked" :label="true">&nbsp;</el-radio>
                             </template>
                         </el-table-column>
                         <el-table-column
-                            label="申请单编号"
-                            prop="apply_no"
-                            width="90">
+                            :label="$t('table.applyNo')"
+                            prop="apply_no">
                         </el-table-column>
                         <el-table-column
-                            label="门店"
-                            prop="hd_shop_code"
-                            width="60">
+                            :label="$t('table.hdShopCode')"
+                            prop="hd_shop_code">
                         </el-table-column>
                         <el-table-column
-                            label="数量"
-                            prop="apply_num"
-                            width="50">
+                            :label="$t('table.applyNum')"
+                            prop="apply_num">
                         </el-table-column>
                         <el-table-column
-                            label="金额"
+                            :label="$t('table.amount')"
                             prop="amount">
                         </el-table-column>
                         <el-table-column
-                            label="开始日期">
+                            :label="$t('el.datepicker.startDate')">
                             <template scope="scope">{{ scope.row.begin_date }}</template>
                         </el-table-column>
                         <el-table-column
-                            label="结束日期">
+                            :label="$t('el.datepicker.endDate')">
                             <template scope="scope">{{ scope.row.end_date }}</template>
                         </el-table-column>
                         <el-table-column
-                            label="申请日期">
+                            :label="$t('table.createdDate')">
                             <template scope="scope">{{ scope.row.created_at }}</template>
                         </el-table-column>
                         <el-table-column
-                            label="修改人"
-                            prop="realname"
-                            width="90">
+                            :label="$t('table.realname')"
+                            prop="realname">
                         </el-table-column>
                         <el-table-column
-                            label="修改时间">
+                            :label="$t('table.updateDate')">
                             <template scope="scope">{{ scope.row.updated_at }}</template>
                         </el-table-column>
                         <el-table-column
-                            label="单据状态"
-                            prop="audit_status"
-                            width="80">
+                            :label="$t('table.auditStatus')"
+                            prop="audit_status">
                         </el-table-column>
                       </el-table>
                 </el-col>
                 <el-col :span="4" class="btn-container right-btn-aside">
                     <el-row :gutter="4" class="right-menu-side" :style="{top: scrollTop}">
                         <el-col :span="12">
-                            <el-button class="list-btn" type="primary" @click="toView()">查看</el-button>
+                            <el-button class="list-btn" type="primary" @click="toView()">{{$t('btn.toView')}}</el-button>
                         </el-col>
                         <el-col :span="24">
                             <div class="line"></div>
                         </el-col>
                         <el-col :span="12">
-                            <el-button class="list-btn" type="primary" @click="goPrePage()">上一页</el-button>
+                            <el-button class="list-btn" type="primary" @click="goPrePage()">{{$t('btn.prePage')}}</el-button>
                         </el-col>
                         <el-col :span="12">
-                            <el-button class="list-btn" type="primary" @click="goNextPage()">下一页</el-button>
+                            <el-button class="list-btn" type="primary" @click="goNextPage()">{{$t('btn.nextPage')}}</el-button>
                         </el-col>
                     </el-row>
                 </el-col>
@@ -245,14 +239,14 @@ export default {
             }],
             pickerOptions: {
                 shortcuts: [{
-                    text: '今天',
+                    text: this.$t('customTime.nowadays'),
                     onClick (picker) {
                         const end = new Date()
                         const start = new Date()
                         picker.$emit('pick', [start, end])
                     }
                 }, {
-                    text: '昨天',
+                    text: this.$t('customTime.yesterday'),
                     onClick (picker) {
                         const end = new Date()
                         const start = new Date()
@@ -260,7 +254,7 @@ export default {
                         picker.$emit('pick', [start, end])
                     }
                 }, {
-                    text: '最近一周',
+                    text: this.$t('customTime.lastWeek'),
                     onClick (picker) {
                         const end = new Date()
                         const start = new Date()
@@ -268,7 +262,7 @@ export default {
                         picker.$emit('pick', [start, end])
                     }
                 }, {
-                    text: '最近一个月',
+                    text: this.$t('customTime.lastMonth'),
                     onClick (picker) {
                         const end = new Date()
                         const start = new Date()
@@ -276,7 +270,7 @@ export default {
                         picker.$emit('pick', [start, end])
                     }
                 }, {
-                    text: '最近三个月',
+                    text: this.$t('customTime.lastTreeMonth'),
                     onClick (picker) {
                         const end = new Date()
                         const start = new Date()
@@ -294,16 +288,16 @@ export default {
         this.getFastMenuStatus()
     },
     mounted () {
-        // console.log(this.$refs.contentFooter.$el)
+        console.log(this.$t)
         const _self = this
         shortcut.init({
             keyCodeArr: [
-                { key: 'ESC', keyCode: 27, keyDec: '主菜单', callback: () => { _self.goBack() } },
-                { key: 'F1', keyCode: 112, keyDec: '查询', callback: () => { _self.inquire() } },
-                { key: 'F2', keyCode: 113, keyDec: '重置', callback: () => { _self.reset() } },
-                { key: 'F4', keyCode: 115, keyDec: '查看', callback: () => { _self.toView() } },
-                { key: 'F11', keyCode: 122, keyDec: '上一页', callback: () => { _self.goPrePage() } },
-                { key: 'F12', keyCode: 123, keyDec: '下一页', callback: () => { _self.goNextPage() } }
+                { key: 'ESC', keyCode: 27, keyDec: this.$t('btn.mainMenu'), callback: () => { _self.goBack() } },
+                { key: 'F1', keyCode: 112, keyDec: this.$t('btn.inquire'), callback: () => { _self.inquire() } },
+                { key: 'F2', keyCode: 113, keyDec: this.$t('btn.reset'), callback: () => { _self.reset() } },
+                { key: 'F4', keyCode: 115, keyDec: this.$t('btn.toView'), callback: () => { _self.toView() } },
+                { key: 'F11', keyCode: 122, keyDec: this.$t('btn.prePage'), callback: () => { _self.goPrePage() } },
+                { key: 'F12', keyCode: 123, keyDec: this.$t('btn.nextPage'), callback: () => { _self.goNextPage() } }
             ],
             wrapEle: _self.$refs.contentFooter.$el
         })
@@ -314,7 +308,7 @@ export default {
             this.isAddShortcut = !!fastMenus[this.$route.fullPath]
         },
         fastMenuChange (hasShortcut) {
-            setFastMenuStore(hasShortcut, '临保商品特价单申请列表', this)
+            setFastMenuStore(hasShortcut, this.$t('discountBills.subTitle'), this)
         },
         inquire () {
             this.currentPage = 1
@@ -326,7 +320,7 @@ export default {
                 this.$router.push({ path: '/bill-details', query: { id: this.currentRow.id }})
             } else {
                 Message({
-                    message: '请先选中查看的一行',
+                    message: this.$t('message.msg1'),
                     type: 'error',
                     duration: 1000
                 })
@@ -338,7 +332,7 @@ export default {
                 this.getdiscountBillsData()
             } else {
                 Message({
-                    message: '当前页为第一页',
+                    message: this.$t('message.msg2'),
                     type: 'error',
                     duration: 1000
                 })
@@ -350,7 +344,7 @@ export default {
                 this.getdiscountBillsData()
             } else {
                 Message({
-                    message: '当前页为最后一页',
+                    message: this.$t('message.msg3'),
                     type: 'error',
                     duration: 1000
                 })

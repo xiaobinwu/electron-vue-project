@@ -4,9 +4,9 @@
             {{title}}
             <small>{{subTitle}}</small>
             <template v-if="!isOrdinaryHeader">
-                <a href="javascript:void(0);" class="add_shortcut" v-show="!hasShortcut" @click="changeFastMenu">添加至常用菜单</a>
-                <a href="javascript:void(0);" class="del_shortcut" v-show="hasShortcut" @click="changeFastMenu">已添加至常用菜单</a>
-                <el-button class="header-btn" type="primary" @click="$router.go(-1)">返回</el-button>
+                <a href="javascript:void(0);" class="add_shortcut" v-show="!hasShortcut" @click="changeFastMenu">{{$t('btn.addToFastMenu')}}</a>
+                <a href="javascript:void(0);" class="del_shortcut" v-show="hasShortcut" @click="changeFastMenu">{{$t('btn.addedToFastMenu')}}</a>
+                <el-button class="header-btn" type="primary" @click="$router.go(-1)">{{$t('btn.back')}}</el-button>
             </template>
         </h1>
     </section>

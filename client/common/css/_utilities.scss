@@ -186,3 +186,9 @@
 ::-webkit-scrollbar-thumb:window-inactive {
     background: rgba(61,31,40,.4);
 }
+
+//表格
+.el-table__header,
+.el-table__body{
+    width: 100%!important;
+}

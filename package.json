@@ -94,6 +94,7 @@
     "sass-loader": "^6.0.6",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.9",
+    "vue-i18n": "^7.1.1",
     "vue-loader": "^11.0.0",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.3.4",

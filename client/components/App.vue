@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <header class="nav-bar">
-        <span class="main-header-info">门店管理系统</span>
+        <span class="main-header-info">{{$t('applicationName')}}</span>
         <span class="main-header-info user" v-if="username">
             <i class="iconfont icon-user"></i>
             {{username}}
@@ -12,11 +12,15 @@
         </span>
         <span class="main-header-info refresh-window" @click="refreshWindow">
             <i class="iconfont icon-refresh"></i>
-            刷新
+            {{$t('refresh')}}
+        </span>
+        <span class="main-header-info refresh-window" @click="switchLang">
+            <i class="iconfont icon-zhongyingwenqiehuan-xianshizhongyingwen language"></i>
+            {{$t('switchText')}}
         </span>
         <div class="operate-area pull-right">
             <template v-if="username">
-                <a href="javascript:void(0);" class="logout" @click="logout">退出登录></a>
+                <a href="javascript:void(0);" class="logout" @click="logout">{{$t('signOut')}}></a>
                 <i class="iconfont icon-icon_shu shu"></i>
             </template>
             <i class="iconfont icon-jianhao" @click="hideWindow"></i>
@@ -31,7 +35,7 @@
 import { ipcRenderer, remote } from 'electron'
 import { MessageBox, Message } from 'element-ui'
 import { getNowFormatDate } from 'common/js/time'
-import { removeStore, getStore } from 'common/js/storage'
+import { removeStore, getStore, setStore } from 'common/js/storage'
 import { loggedIn } from 'common/js/auth'
 export default {
     data () {
@@ -95,6 +99,15 @@ export default {
         },
         refreshWindow () {
             this.mainWindow.reload()
+        },
+        switchLang () {
+            if (this.$i18n.locale === 'en') {
+                this.$i18n.locale = 'zh'
+                setStore('language', 'zh')
+            } else {
+                this.$i18n.locale = 'en'
+                setStore('language', 'en')
+            }
         },
         nowTimeCount () {
             const _self = this
@@ -165,6 +178,9 @@ export default {
     .time-clock,
     .user{
         font-size: $size-h5;
+    }
+    .language{
+        font-size: $size-h2;
     }
     .time-clock{
         display: inline-block;
