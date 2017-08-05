@@ -62,11 +62,16 @@ export default {
         addToFastMenu: '添加至常用菜单',
         addedToFastMenu: '已添加至常用菜单',
         back: '返回',
-        create: '立即创建'
+        create: '立即创建',
+        tplDownload: '模板下载',
+        import: '导入',
+        add: '新增',
+        edit: '编辑',
+        delete: '删除'
     },
-    discountBills: {
+    form: {
         title: '临期品处理',
-        subTitle: '临保商品特价单申请列表',
+        subTitle: '临保商品特价单申请列表 | 门店临期品记录列表',
         producedDateLabel: '生产日期：',
         producedDatePlaceholder: '选择生产日期',
         overdueDateLabel: '过期日期：',

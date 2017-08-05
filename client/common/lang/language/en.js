@@ -62,11 +62,16 @@ export default {
         addToFastMenu: 'Add to the usual menu',
         addedToFastMenu: 'Has been added to the usual menu',
         back: 'Back',
-        create: 'Now Create'
+        create: 'Now Create',
+        tplDownload: 'Download',
+        import: 'Import',
+        add: 'Add',
+        edit: 'Edit',
+        delete: 'Delete'
     },
-    discountBills: {
+    form: {
         title: 'Temporary treatment',
-        subTitle: 'Temporary treatment list',
+        subTitle: 'Temporary treatment list | List of temporary items for stores',
         producedDateLabel: 'Production date:',
         producedDatePlaceholder: 'Please select production date',
         overdueDateLabel: 'Overdue date',

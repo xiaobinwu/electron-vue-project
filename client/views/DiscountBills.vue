@@ -1,6 +1,6 @@
 <template>
     <section class="wrapper" @scroll="wrapperScroll($event)">
-        <content-header :title="$t('discountBills.title')" :sub-title="$t('discountBills.subTitle')" :is-add-shortcut="isAddShortcut" @fastmenuchange="fastMenuChange"></content-header>
+        <content-header :title="$t('form.title')" :sub-title="$tc('form.subTitle', 1)" :is-add-shortcut="isAddShortcut" @fastmenuchange="fastMenuChange"></content-header>
         <section class="discount-bill">
             <el-row :gutter="15" class="search-el-row">
 
@@ -9,29 +9,29 @@
                         <el-row class="search-container">
                             <el-col :span="24">
                                 <div class="search-item">
-                                    <el-form-item :label="$t('discountBills.producedDateLabel')" prop="producedDate">
+                                    <el-form-item :label="$t('form.producedDateLabel')" prop="producedDate">
                                         <el-date-picker
                                           v-model="formData.producedDate"
                                           type="datetimerange"
                                           :picker-options="pickerOptions"
-                                          :placeholder="$t('discountBills.producedDatePlaceholder')"
+                                          :placeholder="$t('form.producedDatePlaceholder')"
                                           align="right" class="m-date-picker" format="yyyy-MM-dd">
                                         </el-date-picker>
                                     </el-form-item>
                                 </div>
                                 <div class="search-item">
-                                    <el-form-item :label="$t('discountBills.overdueDateLabel')" prop="overdueDate">
+                                    <el-form-item :label="$t('form.overdueDateLabel')" prop="overdueDate">
                                         <el-date-picker
                                           v-model="formData.overdueDate"
                                           type="datetimerange"
                                           :picker-options="pickerOptions"
-                                          :placeholder="$t('discountBills.overdueDatePlaceholder')"
+                                          :placeholder="$t('form.overdueDatePlaceholder')"
                                           align="right" class="m-date-picker" format="yyyy-MM-dd">
                                         </el-date-picker>
                                     </el-form-item>
                                 </div>
                                 <div class="search-item">
-                                    <el-form-item :label="$t('discountBills.curNum')" prop="numCompare">
+                                    <el-form-item :label="$t('form.curNum')" prop="numCompare">
                                         <el-select v-model="formData.numCompare" class="num-compare">
                                             <el-option
                                                 v-for="item in numOptions"
@@ -48,7 +48,7 @@
                             </el-col>
                             <el-col :span="24">
                                 <div class="search-item">
-                                    <el-form-item :label="$t('discountBills.shelfLifeLabel')" prop="shelfLife">
+                                    <el-form-item :label="$t('form.shelfLifeLabel')" prop="shelfLife">
                                         <el-select v-model="formData.shelfLife" class="num-compare">
                                             <el-option
                                                 v-for="item in numOptions"
@@ -64,12 +64,12 @@
                                     </el-form-item>
                                 </div>
                                 <div class="search-item">
-                                    <el-form-item :label="$t('discountBills.barcodeLabel')" prop="barcode">
+                                    <el-form-item :label="$t('form.barcodeLabel')" prop="barcode">
                                         <el-input v-model="formData.barcode" class="barcode"></el-input>
                                     </el-form-item>
                                 </div>
                                 <div class="search-item">
-                                    <el-form-item :label="$t('discountBills.skuLabel')" prop="sku">
+                                    <el-form-item :label="$t('form.skuLabel')" prop="sku">
                                         <el-input v-model="formData.sku" class="sku"></el-input>
                                     </el-form-item>
                                 </div>
@@ -318,7 +318,7 @@ export default {
         },
         fastMenuChange (hasShortcut) {
             // 第二个参数，保存的是对应语言包字符串标志
-            setFastMenuStore(hasShortcut, 'discountBills.subTitle', this)
+            setFastMenuStore(hasShortcut, 'form.subTitle', this)
         },
         inquire () {
             this.currentPage = 1
