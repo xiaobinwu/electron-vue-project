@@ -2,14 +2,14 @@
     <section class="content login-content-box">
         <div class="login-form-box">
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
-                <el-form-item label="账号" prop="username">
+                <el-form-item :label="$t('account')" prop="username">
                     <el-input v-model="ruleForm.username"></el-input>
                 </el-form-item>
-                <el-form-item label="密码" prop="password">
+                <el-form-item :label="$t('password')" prop="password">
                     <el-input v-model="ruleForm.password" type="password"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button class="submit-btn" type="primary" @click="clickSubmit('ruleForm')">立即创建</el-button>
+                    <el-button class="submit-btn" type="primary" @click="clickSubmit('ruleForm')">{{$t('btn.create')}}</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -26,6 +26,18 @@ Vue.use(Button)
 Vue.use(Input)
 Vue.use(Form)
 Vue.use(FormItem)
+
+const rules = (_this) => {
+    return {
+        username: [
+            { required: true,  message: _this.$t('loginField1Tip') }
+        ],
+        password: [
+            { required: true,  message: _this.$t('loginField2Tip') }
+        ]
+    }
+}
+
 export default {
     data () {
         return {
@@ -33,14 +45,7 @@ export default {
                 username: '',
                 password: ''
             },
-            rules: {
-                username: [
-                    { required: true,  message: '账号不能为空' }
-                ],
-                password: [
-                    { required: true,  message: '密码不为空' }
-                ]
-            }
+            rules: rules(this)
         }
     },
     methods: {
@@ -70,7 +75,7 @@ export default {
                     this.$router.replace({ path: this.$route.query.redirect })
                 } else {
                     Message({
-                        message: '账户或密码错误',
+                        message: this.$t('loginWrong'),
                         type: 'error',
                         duration: 1000
                     })
@@ -86,6 +91,13 @@ export default {
                     _self.clickSubmit('ruleForm')
                 } }
             ]
+        })
+        this.$watch('$i18n.locale', (newVal, oldVal) => {
+            // element表单验证规则使用il18n
+            this.rules = rules(this)
+            this.$nextTick(() => {
+                this.$refs.ruleForm.resetFields()
+            })
         })
     },
     components: {

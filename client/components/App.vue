@@ -76,15 +76,15 @@ export default {
         },
         logout () {
             const _self = this
-            MessageBox.confirm('您将退出登录, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
+            MessageBox.confirm(this.$t('logOutTip'), this.$t('prompt'), {
+                confirmButtonText: this.$t('sure'),
+                cancelButtonText: this.$t('cancel'),
                 type: 'warning'
             }).then(() => {
                 removeStore('userInfo')
                 Message({
                     type: 'success',
-                    message: '退出登录成功!',
+                    message: _self.$t('logOutSucess'),
                     duration: 1000,
                     onClose: function () {
                         _self.$store.commit('UPDATEUSERINFO', {
@@ -104,9 +104,11 @@ export default {
             if (this.$i18n.locale === 'en') {
                 this.$i18n.locale = 'zh'
                 setStore('language', 'zh')
+                this.$store.commit('UPDATELANGUAGE', 'zh')
             } else {
                 this.$i18n.locale = 'en'
                 setStore('language', 'en')
+                this.$store.commit('UPDATELANGUAGE', 'en')
             }
         },
         nowTimeCount () {

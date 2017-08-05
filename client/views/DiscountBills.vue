@@ -208,6 +208,52 @@ import shortcut from 'common/js/shortcut'
 import ajaxUrl, { commonAjax } from 'common/js/api'
 import ContentHeader from 'components/ContentHeader'
 import ContentFooter from 'components/ContentFooter'
+
+const getPickerOptions = (_this) =>{
+    return {
+        shortcuts: [{
+            text: _this.$t('customTime.nowadays'),
+            onClick (picker) {
+                const end = new Date()
+                const start = new Date()
+                picker.$emit('pick', [start, end])
+            }
+        }, {
+            text: _this.$t('customTime.yesterday'),
+            onClick (picker) {
+                const end = new Date()
+                const start = new Date()
+                start.setTime(start.getTime() - 3600 * 1000 * 24)
+                picker.$emit('pick', [start, end])
+            }
+        }, {
+            text: _this.$t('customTime.lastWeek'),
+            onClick (picker) {
+                const end = new Date()
+                const start = new Date()
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+                picker.$emit('pick', [start, end])
+            }
+        }, {
+            text: _this.$t('customTime.lastMonth'),
+            onClick (picker) {
+                const end = new Date()
+                const start = new Date()
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+                picker.$emit('pick', [start, end])
+            }
+        }, {
+            text: _this.$t('customTime.lastTreeMonth'),
+            onClick (picker) {
+                const end = new Date()
+                const start = new Date()
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+                picker.$emit('pick', [start, end])
+            }
+        }]
+    }
+}
+
 export default {
     data () {
         return {
@@ -238,48 +284,7 @@ export default {
                 label: '='
             }],
             codeArr: [],
-            pickerOptions: {
-                shortcuts: [{
-                    text: this.$t('customTime.nowadays'),
-                    onClick (picker) {
-                        const end = new Date()
-                        const start = new Date()
-                        picker.$emit('pick', [start, end])
-                    }
-                }, {
-                    text: this.$t('customTime.yesterday'),
-                    onClick (picker) {
-                        const end = new Date()
-                        const start = new Date()
-                        start.setTime(start.getTime() - 3600 * 1000 * 24)
-                        picker.$emit('pick', [start, end])
-                    }
-                }, {
-                    text: this.$t('customTime.lastWeek'),
-                    onClick (picker) {
-                        const end = new Date()
-                        const start = new Date()
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-                        picker.$emit('pick', [start, end])
-                    }
-                }, {
-                    text: this.$t('customTime.lastMonth'),
-                    onClick (picker) {
-                        const end = new Date()
-                        const start = new Date()
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-                        picker.$emit('pick', [start, end])
-                    }
-                }, {
-                    text: this.$t('customTime.lastTreeMonth'),
-                    onClick (picker) {
-                        const end = new Date()
-                        const start = new Date()
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-                        picker.$emit('pick', [start, end])
-                    }
-                }]
-            },
+            pickerOptions: getPickerOptions(this),
             tableData: [],
             currentRow: null // 当前选中行
         }
@@ -301,6 +306,10 @@ export default {
             ]
         })
         this.codeArr = shortcut.getBindCodes()
+        this.$watch('$i18n.locale', (newVal, oldVal) => {
+            // element 自定义datePicker时使用il18n
+            this.pickerOptions = getPickerOptions(this)
+        })
     },
     methods: {
         getFastMenuStatus () {

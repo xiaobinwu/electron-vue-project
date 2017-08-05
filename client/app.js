@@ -8,7 +8,6 @@ import store from './store'
 import lang from 'common/lang'
 import { getStore } from 'common/js/storage'
 
-
 Vue.use(VueI18n)
 
 sync(store, router)

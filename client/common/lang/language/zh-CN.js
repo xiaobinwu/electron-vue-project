@@ -6,6 +6,16 @@ export default {
     switchText: '中英文切换',
     signOut: '退出登录',
     total: '合计',
+    prompt: '提示',
+    sure: '确定',
+    cancel: '取消',
+    logOutTip: '您将退出登录, 是否继续?',
+    logOutSucess: '退出登录成功!',
+    account: '账号',
+    password: '密码',
+    loginWrong: '账户或密码错误',
+    loginField1Tip: '账号不能为空',
+    loginField2Tip: '密码不为空',
     entrance: {
         temporaryGoods: '临期商品',
         storeDelivery: '门店叫货',
@@ -51,7 +61,8 @@ export default {
         nextPage: '下一页',
         addToFastMenu: '添加至常用菜单',
         addedToFastMenu: '已添加至常用菜单',
-        back: '返回'
+        back: '返回',
+        create: '立即创建'
     },
     discountBills: {
         title: '临期品处理',

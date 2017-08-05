@@ -5,6 +5,17 @@ export default {
     refresh: 'Refresh',
     switchText: 'Language',
     signOut: 'Sign out',
+    total: 'Total',
+    prompt: 'Prompt',
+    sure: 'Sure',
+    cancel: 'Cancel',
+    logOutTip: 'Will you log out, do you continue?',
+    logOutSucess: 'Log out successful!',
+    account: 'Account',
+    password: 'Password',
+    loginWrong: 'Account or password is wrong',
+    loginField1Tip: 'Account can not be empty',
+    loginField2Tip: 'The password is not empty',
     entrance: {
         temporaryGoods: 'Temporary Goods',
         storeDelivery: 'Store Delivery',
@@ -50,7 +61,8 @@ export default {
         nextPage: 'Next',
         addToFastMenu: 'Add to the usual menu',
         addedToFastMenu: 'Has been added to the usual menu',
-        back: 'Back'
+        back: 'Back',
+        create: 'Now Create'
     },
     discountBills: {
         title: 'Temporary treatment',
