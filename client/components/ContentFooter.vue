@@ -1,8 +1,22 @@
 <template>
-    <footer class="main-footer"></footer>
+    <footer class="main-footer">
+        <ul>
+            <li v-for="item in codes">
+                {{$t(item.keyDec)}}【{{item.key }}】
+            </li>
+        </ul>
+    </footer>
 </template>
 <script>
 export default {
+    props: {
+        codes: {
+            type: Array,
+            default: () => {
+                return []
+            }
+        }
+    },
     data () {
         return {
         }

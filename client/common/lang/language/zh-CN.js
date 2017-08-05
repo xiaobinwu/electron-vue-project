@@ -5,6 +5,16 @@ export default {
     refresh: '刷新',
     switchText: '中英文切换',
     signOut: '退出登录',
+    total: '合计',
+    entrance: {
+        temporaryGoods: '临期商品',
+        storeDelivery: '门店叫货',
+        checkInspection: '卫检关单查询'
+    },
+    list: {
+        'temporaryList': '临期品记录列表',
+        'specialList': '特价单申请列表'
+    },
     table: {
         noData: '暂无数据',
         applyNo: '申请单编号',
@@ -31,6 +41,8 @@ export default {
     },
     btn: {
         mainMenu: '主菜单',
+        myQuickMenu: '我的快捷菜单',
+        goToMainMenu: '返回主菜单',
         inquire: '查询',
         reset: '重置',
         export: '导出',
@@ -52,6 +64,25 @@ export default {
         shelfLifeLabel: '剩余保质期天数：',
         barcodeLabel: '商业条码：',
         skuLabel: '商业代码：'
+    },
+    billDetails: {
+        temporaryTreatment: '临期品处理',
+        commodityDetails: '临保商品特价单申请单商品详情',
+        sku: '商业代码',
+        goodName: '商品名称',
+        warrantyTime: '质保时间',
+        durabilityDays: '保质天数',
+        shelfLifeDays: '剩余保质天数',
+        applyStock: '申请时库存',
+        applyNum: '申请数量',
+        storePrice: '门店库存价',
+        salePrice: '门店现售价',
+        provisionalPrice: '建议临期价',
+        auditsNum: '审核数量',
+        auditPrice: '审核价格',
+        applyStockAmount: '申请库存金额',
+        applyPriceAmount: '申请售价金额',
+        provisionalPriceAmount: '建议临期价金额'
     },
     ...zhLocale
 }

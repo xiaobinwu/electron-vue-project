@@ -35,5 +35,9 @@ export default {
             }
         }, false)
         window.onhelp = function () { return false }
+    },
+    // 获取按键数组
+    getBindCodes: function () {
+        return this.keyCodeArr
     }
 }

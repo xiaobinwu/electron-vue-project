@@ -5,6 +5,15 @@ export default {
     refresh: 'Refresh',
     switchText: 'Language',
     signOut: 'Sign out',
+    entrance: {
+        temporaryGoods: 'Temporary Goods',
+        storeDelivery: 'Store Delivery',
+        checkInspection: 'Check Inspection'
+    },
+    list: {
+        'temporaryList': 'List of temporary items',
+        'specialList': 'Special application list'
+    },
     table: {
         noData: 'No data',
         applyNo: 'Requisition number',
@@ -31,6 +40,8 @@ export default {
     },
     btn: {
         mainMenu: 'Main menu',
+        myQuickMenu: 'My quick menu',
+        goToMainMenu: 'Go to mainmenu',
         inquire: 'Inquire',
         reset: 'Reset',
         export: 'Export',
@@ -52,6 +63,25 @@ export default {
         shelfLifeLabel: 'ShelfLife date:',
         barcodeLabel: 'Barcode:',
         skuLabel: 'Sku:'
+    },
+    billDetails: {
+        temporaryTreatment: 'Temporary treatment',
+        commodityDetails: 'Commodity specials application form commodity details',
+        sku: 'Sku',
+        goodName: 'Product name',
+        warrantyTime: 'Warranty time',
+        durabilityDays: 'Durability days',
+        shelfLifeDays: 'Remaining shelf life days',
+        applyStock: 'When applying for stock',
+        applyNum: 'Number of applications',
+        storePrice: 'Store price',
+        salePrice: 'Now store price',
+        provisionalPrice: 'Proposed provisional price',
+        auditsNum: 'Number of audits',
+        auditPrice: 'Audit price',
+        applyStockAmount: 'Apply for stock amount',
+        applyPriceAmount: 'Application price',
+        provisionalPriceAmount: 'Proposed provisional price'
     },
     ...enLocale
 }

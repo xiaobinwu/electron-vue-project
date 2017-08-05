@@ -1,33 +1,33 @@
 <template>
     <section class="content">
         <div class="front-index">
-            <h2>我的快捷菜单</h2>
+            <h2>{{$t('btn.myQuickMenu')}}</h2>
             <div class="fast-menu clearfix">
                 <div class="fast-menu-item" v-for="item in fastMenus">
-                    <router-link :to="item.href" :title="item.name">{{item.name}}</router-link>
+                    <router-link :to="item.href" :title="item.name">{{$t(item.name)}}</router-link>
                 </div>
             </div>
         </div>
         <div class="front-gray"></div>
         <div class="front-index">
-            <h2>主菜单</h2>
+            <h2>{{$t('btn.mainMenu')}}</h2>
             <div class="front-content">
                 <div class="content-item">
                     <router-link to="/pre_expired">
                         <img src="../common/img/menu1.png">
-                        <p>临期商品</p>
+                        <p>{{$t('entrance.temporaryGoods')}}</p>
                     </router-link>
                 </div>
                 <div class="content-item">
                     <router-link to="/pre_expired">
                         <img src="../common/img/menu2.png">
-                        <p>门店叫货</p>
+                        <p>{{$t('entrance.storeDelivery')}}</p>
                     </router-link>
                 </div>
                 <div class="content-item">
                     <router-link to="/pre_expired">
                         <img src="../common/img/menu3.png">
-                        <p>卫检关单查询</p>
+                        <p>{{$t('entrance.checkInspection')}}</p>
                     </router-link>
                 </div>
             </div>

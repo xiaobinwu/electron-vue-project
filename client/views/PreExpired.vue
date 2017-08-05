@@ -1,17 +1,17 @@
 <template>
     <section class="pre-expired">
-        <el-button type="primary" class="pull-right" @click="goBack">返回主菜单</el-button>
+        <el-button type="primary" class="pull-right" @click="goBack">{{$t('btn.goToMainMenu')}}</el-button>
         <div class="menu-container">
             <div class="menu-item menu-item-l">
                 <router-link to="/pre_expired_list">
                     <img src="../common/img/pre-goods-1.png">
-                    <p>临期品记录列表<img src="../common/img/arrow.png"></p>
+                    <p>{{$t('list.temporaryList')}}<img src="../common/img/arrow.png"></p>
                 </router-link>
             </div>
             <div class="menu-item">
                 <router-link to="/discount-bills">
                     <img src="../common/img/pre-goods-2.png">
-                    <p>特价单申请列表<img src="../common/img/arrow.png"></p>
+                    <p>{{$t('list.specialList')}}<img src="../common/img/arrow.png"></p>
                 </router-link>
             </div>
         </div>

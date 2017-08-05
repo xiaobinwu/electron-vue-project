@@ -183,7 +183,7 @@
                 </el-col>
             </el-row>
         </section>
-        <content-footer ref="contentFooter"></content-footer>
+        <content-footer ref="contentFooter" :codes="codeArr"></content-footer>
     </section>
 </template>
 
@@ -237,6 +237,7 @@ export default {
                 value: 3,
                 label: '='
             }],
+            codeArr: [],
             pickerOptions: {
                 shortcuts: [{
                     text: this.$t('customTime.nowadays'),
@@ -288,19 +289,18 @@ export default {
         this.getFastMenuStatus()
     },
     mounted () {
-        console.log(this.$t)
         const _self = this
         shortcut.init({
             keyCodeArr: [
-                { key: 'ESC', keyCode: 27, keyDec: this.$t('btn.mainMenu'), callback: () => { _self.goBack() } },
-                { key: 'F1', keyCode: 112, keyDec: this.$t('btn.inquire'), callback: () => { _self.inquire() } },
-                { key: 'F2', keyCode: 113, keyDec: this.$t('btn.reset'), callback: () => { _self.reset() } },
-                { key: 'F4', keyCode: 115, keyDec: this.$t('btn.toView'), callback: () => { _self.toView() } },
-                { key: 'F11', keyCode: 122, keyDec: this.$t('btn.prePage'), callback: () => { _self.goPrePage() } },
-                { key: 'F12', keyCode: 123, keyDec: this.$t('btn.nextPage'), callback: () => { _self.goNextPage() } }
-            ],
-            wrapEle: _self.$refs.contentFooter.$el
+                { key: 'ESC', keyCode: 27, keyDec: 'btn.mainMenu', callback: () => { _self.goBack() } },
+                { key: 'F1', keyCode: 112, keyDec: 'btn.inquire', callback: () => { _self.inquire() } },
+                { key: 'F2', keyCode: 113, keyDec: 'btn.reset', callback: () => { _self.reset() } },
+                { key: 'F4', keyCode: 115, keyDec: 'btn.toView', callback: () => { _self.toView() } },
+                { key: 'F11', keyCode: 122, keyDec: 'btn.prePage', callback: () => { _self.goPrePage() } },
+                { key: 'F12', keyCode: 123, keyDec: 'btn.nextPage', callback: () => { _self.goNextPage() } }
+            ]
         })
+        this.codeArr = shortcut.getBindCodes()
     },
     methods: {
         getFastMenuStatus () {
@@ -308,7 +308,8 @@ export default {
             this.isAddShortcut = !!fastMenus[this.$route.fullPath]
         },
         fastMenuChange (hasShortcut) {
-            setFastMenuStore(hasShortcut, this.$t('discountBills.subTitle'), this)
+            // 第二个参数，保存的是对应语言包字符串标志
+            setFastMenuStore(hasShortcut, 'discountBills.subTitle', this)
         },
         inquire () {
             this.currentPage = 1
