@@ -34,7 +34,13 @@ export default {
         createdDate: '申请日期',
         realname: '修改人',
         updateDate: '修改时间',
-        auditStatus: '单据状态'
+        auditStatus: '单据状态',
+        barcode: '条码',
+        goodsName: '商品名称',
+        validPeriod: '有效期',
+        shelfLife: '保质天数',
+        remainingShelfLife: '剩余保质天数',
+        currentNumber: '当前数量'
     },
     customTime: {
         nowadays: '今天',

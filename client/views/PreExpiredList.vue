@@ -94,61 +94,60 @@
             <el-row :gutter="15" class="list-table">
                 <el-col :span="20">
                      <el-table
-                        ref="singleTable"
+                        ref="multipleTable"
                         :data="tableData"
                         border
                         tooltip-effect="dark"
+                        @selection-change="handleSelectionChange"
                         style="width: 100%;"
                         highlight-current-row
-                        @current-change = "handleCurrentChange"
-                        @row-click = "rowClick"
                         :empty-text = "$t('table.noData')"
                         row-class-name="table-row">
+
+                        <el-table-column
+                          type="selection">
+                        </el-table-column>
+
                         <el-table-column
                             label="id">
                             <template scope="scope">
-                                <el-radio class="radio" v-model="scope.row.isChecked" :label="true">&nbsp;</el-radio>
+                                {{scope.row.id}}
                             </template>
                         </el-table-column>
+
                         <el-table-column
-                            :label="$t('table.applyNo')"
-                            prop="apply_no">
+                            :label="$t('table.barcode')"
+                            prop="barcode">
+                        </el-table-column>
+                        <el-table-column
+                            :label="$t('table.goodsName')"
+                            prop="goods_name">
                         </el-table-column>
                         <el-table-column
                             :label="$t('table.hdShopCode')"
                             prop="hd_shop_code">
                         </el-table-column>
                         <el-table-column
-                            :label="$t('table.applyNum')"
-                            prop="apply_num">
+                            :label="$t('table.validPeriod')">
+                            <template scope="scope">
+                                {{scope.row.produce_date}} -- {{scope.row.expiry_date}}
+                            </template>
                         </el-table-column>
                         <el-table-column
-                            :label="$t('table.amount')"
-                            prop="amount">
+                            :label="$t('table.shelfLife')"
+                            prop="shelf_life">
                         </el-table-column>
                         <el-table-column
-                            :label="$t('el.datepicker.startDate')">
-                            <template scope="scope">{{ scope.row.begin_date }}</template>
+                            :label="$t('table.remainingShelfLife')"
+                            prop="last_shelf_life">
                         </el-table-column>
                         <el-table-column
-                            :label="$t('el.datepicker.endDate')">
-                            <template scope="scope">{{ scope.row.end_date }}</template>
-                        </el-table-column>
-                        <el-table-column
-                            :label="$t('table.createdDate')">
-                            <template scope="scope">{{ scope.row.created_at }}</template>
-                        </el-table-column>
-                        <el-table-column
-                            :label="$t('table.realname')"
-                            prop="realname">
+                            :label="$t('table.currentNumber')"
+                            prop="stock">
                         </el-table-column>
                         <el-table-column
                             :label="$t('table.updateDate')">
                             <template scope="scope">{{ scope.row.updated_at }}</template>
-                        </el-table-column>
-                        <el-table-column
-                            :label="$t('table.auditStatus')"
-                            prop="audit_status">
                         </el-table-column>
                       </el-table>
                 </el-col>
@@ -200,8 +199,9 @@
 </template>
 
 <script>
+import { remote, ipcRenderer } from 'electron'
 import Vue from 'vue'
-import { Button, Row, Col, DatePicker, Select, Option, Input, Table, TableColumn, Radio, Pagination, Message, Form, FormItem } from 'element-ui'
+import { Button, Row, Col, DatePicker, Select, Option, Input, Table, TableColumn, Pagination, Message, Form, FormItem } from 'element-ui'
 Vue.use(Button)
 Vue.use(Row)
 Vue.use(Col)
@@ -211,7 +211,6 @@ Vue.use(Option)
 Vue.use(Input)
 Vue.use(Table)
 Vue.use(TableColumn)
-Vue.use(Radio)
 Vue.use(Pagination)
 Vue.use(Form)
 Vue.use(FormItem)
@@ -221,7 +220,7 @@ import ajaxUrl, { commonAjax } from 'common/js/api'
 import ContentHeader from 'components/ContentHeader'
 import ContentFooter from 'components/ContentFooter'
 
-const getPickerOptions = (_this) =>{
+const getPickerOptions = (_this) => {
     return {
         shortcuts: [{
             text: _this.$t('customTime.nowadays'),
@@ -298,11 +297,11 @@ export default {
             codeArr: [],
             pickerOptions: getPickerOptions(this),
             tableData: [],
-            currentRow: null // 当前选中行
+            multipleSelection: []
         }
     },
     created () {
-        this.getdiscountBillsData()
+        this.getPreExpiredList()
         this.getFastMenuStatus()
     },
     mounted () {
@@ -329,6 +328,23 @@ export default {
             // element 自定义datePicker时使用il18n
             this.pickerOptions = getPickerOptions(this)
         })
+        // 监听electron应用下载文件状态信息
+        ipcRenderer.on('downloads-msg', (event, status, msg) => {
+            if (status === 1) {
+                Message({
+                    message: msg,
+                    type: 'success',
+                    duration: 1000
+                })
+            } else {
+                Message({
+                    message: msg,
+                    type: 'error',
+                    duration: 1000
+                })
+            }
+            console.log(status)
+        })
     },
     methods: {
         getFastMenuStatus () {
@@ -342,12 +358,12 @@ export default {
         inquire () {
             this.currentPage = 1
             this.pageSize = 50
-            this.getdiscountBillsData()
+            this.getPreExpiredList()
         },
         goPrePage () {
             if (this.currentPage !== 1) {
                 this.currentPage--
-                this.getdiscountBillsData()
+                this.getPreExpiredList()
             } else {
                 Message({
                     message: this.$t('message.msg2'),
@@ -359,7 +375,7 @@ export default {
         goNextPage () {
             if (this.currentPage !== this.totalPage) {
                 this.currentPage++
-                this.getdiscountBillsData()
+                this.getPreExpiredList()
             } else {
                 Message({
                     message: this.$t('message.msg3'),
@@ -372,36 +388,36 @@ export default {
             this.$refs.form.resetFields()
         },
         tplDownload () {
-
+            remote.getCurrentWebContents().downloadURL('http://a.wzhchina.egocdn.com/template/preexipry_goods_export_template.xls')
         },
         dataImport () {
-
+            alert('数据导入')
         },
         add () {
-
+            alert('添加')
         },
         deleteData () {
-
+            alert('删除')
         },
         edit () {
-
+            alert('编辑')
         },
         dataExport () {
-
+            alert('数据导出')
         },
         handleSizeChange (val) {
             this.currentPage = 1
             this.pageSize = val
-            this.getdiscountBillsData()
+            this.getPreExpiredList()
         },
         handleCurrentPageChange (val) {
             this.currentPage = val
-            this.getdiscountBillsData()
+            this.getPreExpiredList()
         },
-        getdiscountBillsData () {
+        getPreExpiredList () {
             commonAjax({
                 method: 'post',
-                url: ajaxUrl.getDiscountBillsData,
+                url: ajaxUrl.getPreExpiredList,
                 data: Object.assign({}, {
                     page: this.currentPage,
                     size: this.pageSize
@@ -424,14 +440,8 @@ export default {
         goBack () {
             this.$router.replace({ path: '/' })
         },
-        rowClick (row, event, column) {
-            this.$refs.singleTable.setCurrentRow(row)
-        },
-        handleCurrentChange (currentRow, oldCurrentRow) {
-            this.currentRow = currentRow
-            // radio选中特效
-            currentRow.isChecked = true
-            oldCurrentRow && (oldCurrentRow.isChecked = false)
+        handleSelectionChange (val) {
+            this.multipleSelection = val
         }
     },
     computed: {

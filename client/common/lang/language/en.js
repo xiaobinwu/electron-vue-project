@@ -34,7 +34,13 @@ export default {
         createdDate: 'Created date',
         realname: 'Realname',
         updateDate: 'Update date',
-        auditStatus: 'Audit status'
+        auditStatus: 'Audit status',
+        barcode: 'Barcode',
+        goodsName: 'Goods Name',
+        validPeriod: 'Valid Period',
+        shelfLife: 'Shelf Life',
+        remainingShelfLife: 'Remaining Shelf Life',
+        currentNumber: 'Current Number'
     },
     customTime: {
         nowadays: 'Today',
