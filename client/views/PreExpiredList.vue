@@ -343,7 +343,6 @@ export default {
                     duration: 1000
                 })
             }
-            console.log(status)
         })
     },
     methods: {
@@ -388,7 +387,7 @@ export default {
             this.$refs.form.resetFields()
         },
         tplDownload () {
-            remote.getCurrentWebContents().downloadURL('http://a.wzhchina.egocdn.com/template/preexipry_goods_export_template.xls')
+            remote.getCurrentWebContents().downloadURL(ajaxUrl.preExpiredListTpl)
         },
         dataImport () {
             alert('数据导入')
