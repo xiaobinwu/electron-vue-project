@@ -9,6 +9,10 @@ export default {
     prompt: 'Prompt',
     sure: 'Sure',
     cancel: 'Cancel',
+    upload: 'Upload',
+    temporaryImport: 'Store temporary goods import',
+    selectFileText: 'Choose to upload the file',
+    selectFileTip: 'Upload xlsx / xlsb / xlsm / xls / csv file, only one file at a time',
     logOutTip: 'Will you log out, do you continue?',
     logOutSucess: 'Log out successful!',
     account: 'Account',
@@ -16,6 +20,7 @@ export default {
     loginWrong: 'Account or password is wrong',
     loginField1Tip: 'Account can not be empty',
     loginField2Tip: 'The password is not empty',
+    uploadFailed: 'Upload Failed',
     entrance: {
         temporaryGoods: 'Temporary Goods',
         storeDelivery: 'Store Delivery',

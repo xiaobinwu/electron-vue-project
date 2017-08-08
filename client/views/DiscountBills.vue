@@ -96,7 +96,7 @@
                         border
                         tooltip-effect="dark"
                         v-loading="loading"
-                        element-loading-text="拼命加载中"
+                        element-loading-text="loading..."
                         style="width: 100%;"
                         highlight-current-row
                         @current-change = "handleCurrentChange"
@@ -324,6 +324,7 @@ export default {
         inquire () {
             this.currentPage = 1
             this.pageSize = 50
+            this.loading = true
             this.getdiscountBillsData()
         },
         toView () {
@@ -340,6 +341,7 @@ export default {
         goPrePage () {
             if (this.currentPage !== 1) {
                 this.currentPage--
+                this.loading = true
                 this.getdiscountBillsData()
             } else {
                 Message({
@@ -352,6 +354,7 @@ export default {
         goNextPage () {
             if (this.currentPage !== this.totalPage) {
                 this.currentPage++
+                this.loading = true
                 this.getdiscountBillsData()
             } else {
                 Message({
@@ -367,10 +370,12 @@ export default {
         handleSizeChange (val) {
             this.currentPage = 1
             this.pageSize = val
+            this.loading = true
             this.getdiscountBillsData()
         },
         handleCurrentPageChange (val) {
             this.currentPage = val
+            this.loading = true
             this.getdiscountBillsData()
         },
         getdiscountBillsData () {

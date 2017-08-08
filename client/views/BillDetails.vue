@@ -7,6 +7,8 @@
                     <el-table
                         ref="singleTable"
                         :data="tableData"
+                        v-loading="loading"
+                        element-loading-text="loading..."
                         border
                         tooltip-effect="dark"
                         style="width: 100%;"

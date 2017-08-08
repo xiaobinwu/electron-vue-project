@@ -9,6 +9,10 @@ export default {
     prompt: '提示',
     sure: '确定',
     cancel: '取消',
+    upload: '上传',
+    temporaryImport: '门店临期品导入',
+    selectFileText: '选择上传文件',
+    selectFileTip: '上传xlsx/xlsb/xlsm/xls/csv文件，一次只能上传一个文件',
     logOutTip: '您将退出登录, 是否继续?',
     logOutSucess: '退出登录成功!',
     account: '账号',
@@ -16,6 +20,7 @@ export default {
     loginWrong: '账户或密码错误',
     loginField1Tip: '账号不能为空',
     loginField2Tip: '密码不为空',
+    uploadFailed: '上传失败',
     entrance: {
         temporaryGoods: '临期商品',
         storeDelivery: '门店叫货',

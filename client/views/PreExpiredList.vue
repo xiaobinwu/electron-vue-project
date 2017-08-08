@@ -96,7 +96,7 @@
                         ref="multipleTable"
                         :data="tableData"
                         v-loading="loading"
-                        element-loading-text="拼命加载中"
+                        element-loading-text="loading..."
                         border
                         tooltip-effect="dark"
                         @selection-change="handleSelectionChange"
@@ -197,7 +197,7 @@
         </section>
         <content-footer ref="contentFooter" :codes="codeArr"></content-footer>
 
-        <el-dialog title="门店临期品导入" :visible.sync="dialogImportVisible" :show-close="false" :close-on-click-modal="false" :close-on-press-escape="false">
+        <el-dialog :title="$t('temporaryImport')" :visible.sync="dialogImportVisible" :show-close="false" :close-on-click-modal="false" :close-on-press-escape="false">
 
             <el-upload
               class="import-data-uploader"
@@ -211,13 +211,13 @@
               :on-change="uploadChange"
               :on-remove="uploadRemove"
               :on-error="uploadError">
-                <el-button size="small" type="primary"> 选择上传文件</el-button>
-                <div slot="tip" class="el-upload__tip">上传xlsx/xlsb/xlsm/xls/csv文件，一次只能上传一个文件</div>
+                <el-button size="small" type="primary">{{$t('selectFileText')}}</el-button>
+                <div slot="tip" class="el-upload__tip">{{$t('selectFileTip')}}</div>
             </el-upload>
 
             <div slot="footer" class="dialog-footer">
-                <el-button @click="uploadCancel">取 消</el-button>
-                <el-button type="primary" @click="submitUpload">上 传</el-button>
+                <el-button @click="uploadCancel">{{$t('cancel')}}</el-button>
+                <el-button type="primary" @click="submitUpload">{{$t('upload')}}</el-button>
             </div>
         </el-dialog>
 
@@ -413,7 +413,7 @@ export default {
             // console.log(file)
             // console.log(fileList)
             Message({
-                message: `${file.name}上传失败`,
+                message: file.name + this.$t('uploadFailed'),
                 type: 'error',
                 duration: 1000
             })
@@ -436,11 +436,13 @@ export default {
         inquire () {
             this.currentPage = 1
             this.pageSize = 50
+            this.loading = true
             this.getPreExpiredList()
         },
         goPrePage () {
             if (this.currentPage !== 1) {
                 this.currentPage--
+                this.loading = true
                 this.getPreExpiredList()
             } else {
                 Message({
@@ -453,6 +455,7 @@ export default {
         goNextPage () {
             if (this.currentPage !== this.totalPage) {
                 this.currentPage++
+                this.loading = true
                 this.getPreExpiredList()
             } else {
                 Message({
@@ -486,10 +489,12 @@ export default {
         handleSizeChange (val) {
             this.currentPage = 1
             this.pageSize = val
+            this.loading = true
             this.getPreExpiredList()
         },
         handleCurrentPageChange (val) {
             this.currentPage = val
+            this.loading = true
             this.getPreExpiredList()
         },
         getPreExpiredList () {
