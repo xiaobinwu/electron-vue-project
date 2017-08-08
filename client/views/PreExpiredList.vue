@@ -3,7 +3,6 @@
         <content-header :title="$t('form.title')" :sub-title="$tc('form.subTitle', 0)" :is-add-shortcut="isAddShortcut" @fastmenuchange="fastMenuChange"></content-header>
         <section class="pre-expired-list">
             <el-row :gutter="15" class="search-el-row">
-
                 <el-col :span="20">
                     <el-form :inline="true" :model="formData" ref="form">
                         <el-row class="search-container">
@@ -214,8 +213,11 @@ Vue.use(TableColumn)
 Vue.use(Pagination)
 Vue.use(Form)
 Vue.use(FormItem)
+import XLSX from 'xlsx'
+import FileSaver from 'file-saver'
 import { getStore, setFastMenuStore } from 'common/js/storage'
 import shortcut from 'common/js/shortcut'
+import { getNowFormatDate } from 'common/js/time'
 import ajaxUrl, { commonAjax } from 'common/js/api'
 import ContentHeader from 'components/ContentHeader'
 import ContentFooter from 'components/ContentFooter'
@@ -352,7 +354,7 @@ export default {
         },
         fastMenuChange (hasShortcut) {
             // 第二个参数，保存的是对应语言包字符串标志
-            setFastMenuStore(hasShortcut, 'form.subTitle', this)
+            setFastMenuStore(hasShortcut, 'form.subTitle|0', this)
         },
         inquire () {
             this.currentPage = 1
@@ -402,7 +404,9 @@ export default {
             alert('编辑')
         },
         dataExport () {
-            alert('数据导出')
+            let wb = XLSX.utils.table_to_book(this.$refs.multipleTable.$el)
+            let wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' })
+            FileSaver.saveAs(new Blob([this.s2ab(wbout)], { type: 'application/octet-stream' }), this.$t('form.title') + getNowFormatDate(false) + '.xlsx')
         },
         handleSizeChange (val) {
             this.currentPage = 1
@@ -412,6 +416,22 @@ export default {
         handleCurrentPageChange (val) {
             this.currentPage = val
             this.getPreExpiredList()
+        },
+        s2ab (s) {
+            if (typeof ArrayBuffer !== 'undefined') {
+                let buf = new ArrayBuffer(s.length)
+                var view = new Uint8Array(buf)
+                for (let i = 0; i !== s.length; ++i) {
+                    view[i] = s.charCodeAt(i) & 0xFF
+                }
+                return buf
+            } else {
+                let buf = new Array(s.length)
+                for (let i = 0; i !== s.length; ++i) {
+                     buf[i] = s.charCodeAt(i) & 0xFF
+                }
+                return buf
+            }
         },
         getPreExpiredList () {
             commonAjax({

@@ -4,7 +4,7 @@
             <h2>{{$t('btn.myQuickMenu')}}</h2>
             <div class="fast-menu clearfix">
                 <div class="fast-menu-item" v-for="item in fastMenus">
-                    <router-link :to="item.href" :title="item.name">{{$t(item.name)}}</router-link>
+                    <router-link :to="item.href" :title="item.isTc ? $t(item.name) : $tc(item.name, item.tcValue)">{{item.isTc ? $t(item.name) : $tc(item.name, item.tcValue)}}</router-link>
                 </div>
             </div>
         </div>
@@ -28,6 +28,12 @@
                     <router-link to="/pre_expired">
                         <img src="../common/img/menu3.png">
                         <p>{{$t('entrance.checkInspection')}}</p>
+                    </router-link>
+                </div>
+                <div class="content-item">
+                    <router-link to="/pre_expired">
+                        <img src="../common/img/menu4.png">
+                        <p>{{$t('entrance.suggestions')}}</p>
                     </router-link>
                 </div>
             </div>
@@ -76,8 +82,11 @@ export default {
             let fastMenus = JSON.parse(getStore('fastMenus'))
             let fastMenusArr = []
             for (let i in fastMenus) {
+                const fastMenusTempArr = fastMenus[i].split('|')
                 fastMenusArr.push({
-                    name: fastMenus[i],
+                    name: fastMenusTempArr[0],
+                    isTc: typeof fastMenusTempArr[1] === 'undefined',
+                    tcValue: parseInt(fastMenusTempArr[1]),
                     href: i
                 })
             }

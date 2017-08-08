@@ -85,9 +85,6 @@
                         <el-col :span="12">
                             <el-button class="list-btn" type="primary" @click="reset()">{{$t('btn.reset')}}</el-button>
                         </el-col>
-                        <el-col :span="12">
-                            <el-button class="list-btn" type="primary">{{$t('btn.export')}}</el-button>
-                        </el-col>
                     </el-row>
                 </el-col>
             </el-row>
@@ -318,7 +315,7 @@ export default {
         },
         fastMenuChange (hasShortcut) {
             // 第二个参数，保存的是对应语言包字符串标志
-            setFastMenuStore(hasShortcut, 'form.subTitle', this)
+            setFastMenuStore(hasShortcut, 'form.subTitle|1', this)
         },
         inquire () {
             this.currentPage = 1

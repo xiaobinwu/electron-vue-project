@@ -19,7 +19,8 @@ export default {
     entrance: {
         temporaryGoods: 'Temporary Goods',
         storeDelivery: 'Store Delivery',
-        checkInspection: 'Check Inspection'
+        checkInspection: 'Check Inspection',
+        suggestions: 'Suggestions'
     },
     list: {
         'temporaryList': 'List of temporary items',
