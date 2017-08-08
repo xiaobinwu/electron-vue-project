@@ -95,6 +95,8 @@
                      <el-table
                         ref="multipleTable"
                         :data="tableData"
+                        v-loading="loading"
+                        element-loading-text="拼命加载中"
                         border
                         tooltip-effect="dark"
                         @selection-change="handleSelectionChange"
@@ -194,13 +196,38 @@
             </el-row>
         </section>
         <content-footer ref="contentFooter" :codes="codeArr"></content-footer>
+
+        <el-dialog title="门店临期品导入" :visible.sync="dialogImportVisible" :show-close="false" :close-on-click-modal="false" :close-on-press-escape="false">
+
+            <el-upload
+              class="import-data-uploader"
+              ref="importUploader"
+              :action="uploadAction"
+              :multiple="false"
+              :auto-upload="false"
+              :disabled="uploadDisabled"
+              :accept="accept"
+              :on-success="uploadSuccess"
+              :on-change="uploadChange"
+              :on-remove="uploadRemove"
+              :on-error="uploadError">
+                <el-button size="small" type="primary"> 选择上传文件</el-button>
+                <div slot="tip" class="el-upload__tip">上传xlsx/xlsb/xlsm/xls/csv文件，一次只能上传一个文件</div>
+            </el-upload>
+
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="uploadCancel">取 消</el-button>
+                <el-button type="primary" @click="submitUpload">上 传</el-button>
+            </div>
+        </el-dialog>
+
     </section>
 </template>
 
 <script>
 import { remote, ipcRenderer } from 'electron'
 import Vue from 'vue'
-import { Button, Row, Col, DatePicker, Select, Option, Input, Table, TableColumn, Pagination, Message, Form, FormItem } from 'element-ui'
+import { Button, Row, Col, DatePicker, Select, Option, Input, Table, TableColumn, Pagination, Message, Form, FormItem, Dialog, Upload, Loading } from 'element-ui'
 Vue.use(Button)
 Vue.use(Row)
 Vue.use(Col)
@@ -213,14 +240,21 @@ Vue.use(TableColumn)
 Vue.use(Pagination)
 Vue.use(Form)
 Vue.use(FormItem)
-import XLSX from 'xlsx'
-import FileSaver from 'file-saver'
+Vue.use(Dialog)
+Vue.use(Upload)
+Vue.use(Loading)
 import { getStore, setFastMenuStore } from 'common/js/storage'
 import shortcut from 'common/js/shortcut'
 import { getNowFormatDate } from 'common/js/time'
+import { exportTableToExcel } from 'common/js/excel'
 import ajaxUrl, { commonAjax } from 'common/js/api'
 import ContentHeader from 'components/ContentHeader'
 import ContentFooter from 'components/ContentFooter'
+
+// accept类型
+const SheetJSFT = [
+    'xlsx', 'xlsb', 'xlsm', 'xls', 'xml', 'csv', 'txt', 'ods', 'fods', 'uos', 'sylk', 'dif', 'dbf', 'prn', 'qpw', '123', 'wb*', 'wq*'
+].map((x) => { return '.' + x }).join(',')
 
 const getPickerOptions = (_this) => {
     return {
@@ -270,6 +304,7 @@ const getPickerOptions = (_this) => {
 export default {
     data () {
         return {
+            loading: true,
             isAddShortcut: false,
             scrollTop: 0,
             currentPage: 1,
@@ -299,7 +334,11 @@ export default {
             codeArr: [],
             pickerOptions: getPickerOptions(this),
             tableData: [],
-            multipleSelection: []
+            multipleSelection: [],
+            accept: SheetJSFT,
+            dialogImportVisible: false,
+            uploadDisabled: false,
+            uploadAction: ajaxUrl.preExpiredImportUrl
         }
     },
     created () {
@@ -348,6 +387,44 @@ export default {
         })
     },
     methods: {
+        submitUpload () {
+            this.$refs.importUploader.submit()
+        },
+        uploadChange (file, fileList) {
+            if (fileList.length === 1) {
+                this.uploadDisabled = true
+            }
+        },
+        uploadRemove (file, fileList) {
+            if (fileList.length < 1) {
+                this.uploadDisabled = false
+            }
+        },
+        uploadSuccess (response, file, fileList) {
+            // console.log(response)
+            // console.log(file)
+            // console.log(fileList)
+            this.loading = true
+            this.getPreExpiredList()
+            this.uploadCancel()
+        },
+        uploadError (err, file, fileList) {
+            // console.log(err)
+            // console.log(file)
+            // console.log(fileList)
+            Message({
+                message: `${file.name}上传失败`,
+                type: 'error',
+                duration: 1000
+            })
+            this.uploadDisabled = false
+            this.$refs.importUploader.clearFiles()
+        },
+        uploadCancel () {
+            this.dialogImportVisible = false
+            this.uploadDisabled = false
+            this.$refs.importUploader.clearFiles()
+        },
         getFastMenuStatus () {
             let fastMenus = JSON.parse(getStore('fastMenus')) || {}
             this.isAddShortcut = !!fastMenus[this.$route.fullPath]
@@ -392,7 +469,7 @@ export default {
             remote.getCurrentWebContents().downloadURL(ajaxUrl.preExpiredListTpl)
         },
         dataImport () {
-            alert('数据导入')
+            this.dialogImportVisible = this.dialogImportVisible ? false : true
         },
         add () {
             alert('添加')
@@ -404,9 +481,7 @@ export default {
             alert('编辑')
         },
         dataExport () {
-            let wb = XLSX.utils.table_to_book(this.$refs.multipleTable.$el)
-            let wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' })
-            FileSaver.saveAs(new Blob([this.s2ab(wbout)], { type: 'application/octet-stream' }), this.$t('form.title') + getNowFormatDate(false) + '.xlsx')
+            exportTableToExcel(this.$refs.multipleTable.$el, this.$t('form.title') + getNowFormatDate(false))
         },
         handleSizeChange (val) {
             this.currentPage = 1
@@ -416,22 +491,6 @@ export default {
         handleCurrentPageChange (val) {
             this.currentPage = val
             this.getPreExpiredList()
-        },
-        s2ab (s) {
-            if (typeof ArrayBuffer !== 'undefined') {
-                let buf = new ArrayBuffer(s.length)
-                var view = new Uint8Array(buf)
-                for (let i = 0; i !== s.length; ++i) {
-                    view[i] = s.charCodeAt(i) & 0xFF
-                }
-                return buf
-            } else {
-                let buf = new Array(s.length)
-                for (let i = 0; i !== s.length; ++i) {
-                     buf[i] = s.charCodeAt(i) & 0xFF
-                }
-                return buf
-            }
         },
         getPreExpiredList () {
             commonAjax({
@@ -445,6 +504,7 @@ export default {
             })
             .then((res) => {
                 if (res.status === 0) {
+                    this.loading = false
                     this.tableData = res.data
                     this.currentPage = res.current_page
                     this.pageSize = res.page_size

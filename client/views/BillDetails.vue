@@ -113,13 +113,14 @@
 
 <script>
 import Vue from 'vue'
-import { Button, Row, Col, Table, TableColumn, Pagination } from 'element-ui'
+import { Button, Row, Col, Table, TableColumn, Pagination, Loading } from 'element-ui'
 Vue.use(Button)
 Vue.use(Row)
 Vue.use(Col)
 Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Pagination)
+Vue.use(Loading)
 import shortcut from 'common/js/shortcut'
 import ajaxUrl, { commonAjax } from 'common/js/api'
 import ContentHeader from 'components/ContentHeader'
@@ -127,6 +128,7 @@ import ContentFooter from 'components/ContentFooter'
 export default {
     data () {
         return {
+            loading: true,
             scrollTop: 0,
             currentPage: 1,
             pageSize: 50,
@@ -174,6 +176,7 @@ export default {
             })
             .then((res) => {
                 if (res.status === 0) {
+                    this.loading = false
                     this.tableData = res.data.detail
                     this.currentPage = res.data.current_page
                     this.pageSize = res.data.page_size

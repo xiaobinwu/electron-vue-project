@@ -95,6 +95,8 @@
                         :data="tableData"
                         border
                         tooltip-effect="dark"
+                        v-loading="loading"
+                        element-loading-text="拼命加载中"
                         style="width: 100%;"
                         highlight-current-row
                         @current-change = "handleCurrentChange"
@@ -186,7 +188,7 @@
 
 <script>
 import Vue from 'vue'
-import { Button, Row, Col, DatePicker, Select, Option, Input, Table, TableColumn, Radio, Pagination, Message, Form, FormItem } from 'element-ui'
+import { Button, Row, Col, DatePicker, Select, Option, Input, Table, TableColumn, Radio, Pagination, Message, Form, FormItem, Loading } from 'element-ui'
 Vue.use(Button)
 Vue.use(Row)
 Vue.use(Col)
@@ -200,6 +202,7 @@ Vue.use(Radio)
 Vue.use(Pagination)
 Vue.use(Form)
 Vue.use(FormItem)
+Vue.use(Loading)
 import { getStore, setFastMenuStore } from 'common/js/storage'
 import shortcut from 'common/js/shortcut'
 import ajaxUrl, { commonAjax } from 'common/js/api'
@@ -254,6 +257,7 @@ const getPickerOptions = (_this) =>{
 export default {
     data () {
         return {
+            loading: true,
             isAddShortcut: false,
             scrollTop: 0,
             currentPage: 1,
@@ -381,6 +385,7 @@ export default {
             })
             .then((res) => {
                 if (res.status === 0) {
+                    this.loading = false
                     this.tableData = res.data
                     this.currentPage = res.current_page
                     this.pageSize = res.page_size
