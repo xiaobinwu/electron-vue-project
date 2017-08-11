@@ -220,7 +220,6 @@
                 <el-button type="primary" @click="submitUpload">{{$t('upload')}}</el-button>
             </div>
         </el-dialog>
-
     </section>
 </template>
 
@@ -311,6 +310,7 @@ export default {
             pageSize: 50,
             totalCount: 0,
             totalPage: 0,
+            addVisible: false,
             formData: {
                 producedDate: '',
                 overdueDate: '',
@@ -475,7 +475,10 @@ export default {
             this.dialogImportVisible = this.dialogImportVisible ? false : true
         },
         add () {
-            alert('添加')
+            this.addVisible = true
+        },
+        addRecord () {
+
         },
         deleteData () {
             alert('删除')

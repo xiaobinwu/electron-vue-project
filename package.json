@@ -1,7 +1,6 @@
 {
+  "version": "1.0.0",
   "name": "my-electron",
-  "version": "0.1.0",
-  "description": "My Superb Vue Project",
   "main": "app/index.js",
   "scripts": {
     "test": "",
@@ -9,12 +8,15 @@
     "dev": "node build/server.js",
     "app": "cross-env NODE_ENV=development electron app/",
     "lint": "xo **/client/**/*.{vue,js} **/app/**/*.js !node_modules/**",
-    "package:mac": "rimraf package && electron-packager . TEST --platform=darwin --arch=x64 --overwrite --icon=hosts.icns --out=./package --ignore=\"(build|client$|static|theme|.gitignore|LICENSE|README.md|.editorconfig|.eslintrc|node_modules)\"",
-    "package:win": "rimraf package && electron-packager . TEST --platform=win32 --arch=x64 --overwrite --icon=hosts.ico --out=./package --ignore=\"(build|client$|static|theme|.gitignore|LICENSE|README.md|.editorconfig|.eslintrc|node_modules)\"",
-    "package:linux": "electron-packager . TEST --platform=linux --arch=x64 --overwrite --out=/package --asar --ignore=\"(build|client|static|theme|.gitignore|LICENSE|README.md|.editorconfig|.eslintrc|node_modules)\"",
-    "package": "npm run packageDarwin && npm run packageWin && npm run packageLinux"
+    "package:mac": "rimraf package && electron-packager . TEST --platform=darwin --arch=x64 --overwrite --icon=hosts.icns --out=./package --electron-version=1.6.11 --ignore=\"(build|client$|static|theme|.gitignore|LICENSE|README.md|.editorconfig|.eslintrc|node_modules)\"",
+    "package:win": "rimraf package && electron-packager . TEST --platform=win32 --arch=x64 --overwrite --icon=hosts.ico --out=./package --electron-version=1.6.11 --ignore=\"(build|client$|static|theme|.gitignore|LICENSE|README.md|.editorconfig|.eslintrc|node_modules)\"",
+    "package:linux": "electron-packager . TEST --platform=linux --arch=x64 --overwrite --out=/package --electron-version=1.6.11 --asar --ignore=\"(build|client|static|theme|.gitignore|LICENSE|README.md|.editorconfig|.eslintrc|node_modules)\"",
+    "package": "npm run packageDarwin && npm run packageWin && npm run packageLinux",
+    "setup": "rimraf package_dir && grunt"
   },
   "license": "MIT",
+  "productName": "my-electron",
+  "description": "My Superb Vue Project For Electron",
   "author": "xiaobinwu <xiaobin_wu@yahoo.com>",
   "xo": {
     "extends": "./.eslintrc",
@@ -77,6 +79,7 @@
     "electron": "^1.4.2",
     "electron-devtools-installer": "^2.0.1",
     "electron-packager": "^8.7.1",
+    "electron-squirrel-startup": "^1.0.0",
     "eslint": "^3.19.0",
     "eslint-config-vue": "latest",
     "eslint-plugin-vue": "latest",
@@ -85,6 +88,8 @@
     "file-loader": "^0.9.0",
     "file-saver": "^1.3.3",
     "friendly-errors-webpack-plugin": "^1.1.2",
+    "grunt": "^1.0.1",
+    "grunt-electron-installer": "^2.1.0",
     "html-webpack-plugin": "^2.22.0",
     "node-sass": "^4.5.3",
     "offline-plugin": "^4.5.3",
