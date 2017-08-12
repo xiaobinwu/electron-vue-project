@@ -31,5 +31,4 @@ _.cssProcessors.forEach(processor => {
     }
   )
 })
-console.log(base.module.loaders)
 module.exports = base
