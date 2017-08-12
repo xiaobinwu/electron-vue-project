@@ -220,6 +220,9 @@
                 <el-button type="primary" @click="submitUpload">{{$t('upload')}}</el-button>
             </div>
         </el-dialog>
+
+        <record-operating title="新增临期品纪录" :visible.sync="addVisible"></record-operating>
+
     </section>
 </template>
 
@@ -249,7 +252,7 @@ import { exportTableToExcel } from 'common/js/excel'
 import ajaxUrl, { commonAjax } from 'common/js/api'
 import ContentHeader from 'components/ContentHeader'
 import ContentFooter from 'components/ContentFooter'
-
+import RecordOperating from './recordOperating'
 // accept类型
 const SheetJSFT = [
     'xlsx', 'xlsb', 'xlsm', 'xls', 'xml', 'csv', 'txt', 'ods', 'fods', 'uos', 'sylk', 'dif', 'dbf', 'prn', 'qpw', '123', 'wb*', 'wq*'
@@ -475,6 +478,7 @@ export default {
             this.dialogImportVisible = this.dialogImportVisible ? false : true
         },
         add () {
+            alert(111)
             this.addVisible = true
         },
         addRecord () {
@@ -538,7 +542,8 @@ export default {
     },
     components: {
         contentHeader: ContentHeader,
-        contentFooter: ContentFooter
+        contentFooter: ContentFooter,
+        recordOperating: RecordOperating
     }
 }
 </script>
