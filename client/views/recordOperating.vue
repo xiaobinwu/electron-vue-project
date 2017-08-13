@@ -12,6 +12,7 @@
                         <div class="form-th">保质天数</div>
                         <div class="form-th">剩余保质天数</div>
                         <div class="form-th">当前数量</div>
+                        <div class="form-th">操作</div>
                     </div>
                     <div class="form-tr" v-for="(item, index) in form.data">
                         <div class="form-td">
@@ -106,6 +107,11 @@
                                 <el-input v-model="item.currentNumber"></el-input>
                             </el-form-item>
                         </div>
+
+                        <div class="form-td">
+                            <el-button type="text" @click="deleteRow(index)">删除</el-button>
+                        </div>
+
                     </div>
                 </div>
             </el-form>
@@ -165,6 +171,9 @@ export default {
         },
         cancel () {
             this.$emit('update:visible', false)
+        },
+        deleteRow (index) {
+            console.log(index)
         }
     },
     computed: {
@@ -177,24 +186,24 @@ export default {
 <style lang="scss">
 @import "../common/css/_variables.scss";
 @import "../common/css/_mixins.scss";
-$color: 'rgb(236, 223, 227)';
+$color: rgb(236, 223, 227);
 .form-table{
     display: table;
     .form-tr{
-        border: 1px $color solid;
-        &:not(:last-child){
-            border-bottom: 0;
-        } 
         display: table-row;
         .form-th, .form-td{
+            border: 1px $color solid;
             &:not(:last-child){
-                border-right: 1px $color solid;
+                border-bottom: 0;
             }
             display: table-cell;
             padding: 10px;
             text-align: center;
             vertical-align: middle;
         }
+    }
+    .el-date-editor.el-input {
+        width: 100%;
     }
 }
 </style>
