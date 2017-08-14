@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "express": "^4.15.4",
+    "socket.io": "^2.0.3"
+  }
+}
