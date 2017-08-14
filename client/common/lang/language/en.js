@@ -8,6 +8,7 @@ export default {
     total: 'Total',
     prompt: 'Prompt',
     sure: 'Sure',
+    save: 'Save',
     cancel: 'Cancel',
     upload: 'Upload',
     temporaryImport: 'Store temporary goods import',
@@ -21,6 +22,9 @@ export default {
     loginField1Tip: 'Account can not be empty',
     loginField2Tip: 'The password is not empty',
     uploadFailed: 'Upload Failed',
+    operating: 'Operating',
+    enterGroup: 'Please Enter {0}',
+    selectGroup: 'Please Select {0}',
     entrance: {
         temporaryGoods: 'Temporary Goods',
         storeDelivery: 'Store Delivery',
@@ -46,7 +50,11 @@ export default {
         validPeriod: 'Valid Period',
         shelfLife: 'Shelf Life',
         remainingShelfLife: 'Remaining Shelf Life',
-        currentNumber: 'Current Number'
+        currentNumber: 'Current Number',
+        sku: 'Sku',
+        producedDate: 'Produced Date',
+        overdueDate: 'Overdue Date',
+        num: 'Number'
     },
     customTime: {
         nowadays: 'Today',
@@ -59,7 +67,12 @@ export default {
     message: {
         msg1: 'Please check the line first',
         msg2: 'The current page is the first page',
-        msg3: 'The current page is the last page'
+        msg3: 'The current page is the last page',
+        msg4: 'Select at least one item',
+        msg5: 'Delete Success',
+        msg6: 'Delete Fail',
+        saveSuccess: 'Save Success',
+        saveError: 'Save Error'
     },
     btn: {
         mainMenu: 'Main menu',

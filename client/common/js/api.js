@@ -13,6 +13,9 @@ const ajaxUrl = {
     getDiscountBillsData: domain + 'getDiscountBillsData', // 临保商品特价单申请列表
     getBillDetails: domain + 'getBillDetails', // 获取临保商品特价单申请单商品详情
     getPreExpiredList: domain + 'getPreExpiredList', // 门店临期品记录列表
+    addPreExpired: domain + 'addPreExpired', // 添加门店临期品
+    editPreExpired: domain + 'editPreExpired', // 编辑门店临期品
+    deletePreExpired: domain + 'deletePreExpired', // 删除门店临期品
     preExpiredListTpl: 'http://a.wzhchina.egocdn.com/template/preexipry_goods_export_template.xls', // 门店临期品记录列表模板
     preExpiredImportUrl: 'https://jsonplaceholder.typicode.com/posts/' // 门店临期品记录导入
 }

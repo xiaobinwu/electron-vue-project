@@ -8,6 +8,7 @@ export default {
     total: '合计',
     prompt: '提示',
     sure: '确定',
+    save: '保存',
     cancel: '取消',
     upload: '上传',
     temporaryImport: '门店临期品导入',
@@ -21,6 +22,9 @@ export default {
     loginField1Tip: '账号不能为空',
     loginField2Tip: '密码不为空',
     uploadFailed: '上传失败',
+    operating: '操作',
+    enterGroup: '请输入{0}',
+    selectGroup: '请选择{0}',
     entrance: {
         temporaryGoods: '临期商品',
         storeDelivery: '门店叫货',
@@ -46,7 +50,11 @@ export default {
         validPeriod: '有效期',
         shelfLife: '保质天数',
         remainingShelfLife: '剩余保质天数',
-        currentNumber: '当前数量'
+        currentNumber: '当前数量',
+        sku: '商业代码',
+        producedDate: '生产日期',
+        overdueDate: '过期日期',
+        num: '数字'
     },
     customTime: {
         nowadays: '今天',
@@ -59,7 +67,12 @@ export default {
     message: {
         msg1: '请先选中查看的一行',
         msg2: '当前页为第一页',
-        msg3: '当前页为最后一页'
+        msg3: '当前页为最后一页',
+        msg4: '至少选中一项',
+        msg5: '删除成功',
+        msg6: '删除不成功',
+        saveSuccess: '保存成功',
+        saveError: '保存不成功'
     },
     btn: {
         mainMenu: '主菜单',

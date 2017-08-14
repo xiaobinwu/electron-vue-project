@@ -220,9 +220,8 @@
                 <el-button type="primary" @click="submitUpload">{{$t('upload')}}</el-button>
             </div>
         </el-dialog>
-
-        <record-operating title="新增临期品纪录" :visible.sync="addVisible"></record-operating>
-
+        <record-operating title="新增临期品纪录" :visible.sync="addVisible" @success="getPreExpiredList"></record-operating>
+        <record-operating title="编辑临期品纪录" :visible.sync="editVisible" :form-data="multipleSelection" @success="getPreExpiredList"></record-operating>
     </section>
 </template>
 
@@ -314,6 +313,7 @@ export default {
             totalCount: 0,
             totalPage: 0,
             addVisible: false,
+            editVisible: false,
             formData: {
                 producedDate: '',
                 overdueDate: '',
@@ -478,17 +478,56 @@ export default {
             this.dialogImportVisible = this.dialogImportVisible ? false : true
         },
         add () {
-            alert(111)
             this.addVisible = true
         },
-        addRecord () {
-
-        },
         deleteData () {
-            alert('删除')
+            if (this.multipleSelection.length === 0) {
+                Message({
+                    message: this.$t('message.msg4'),
+                    type: 'error',
+                    duration: 1000
+                })
+                return
+            }
+            const data = JSON.parse(JSON.stringify(this.multipleSelection))
+            const ids = data.map((item) => {
+                return item.id
+            })
+            commonAjax({
+                method: 'post',
+                url: ajaxUrl.deletePreExpired,
+                data: {
+                    ids: ids
+                },
+                responseType: 'json'
+            })
+            .then((res) => {
+                if (res.status === 0) {
+                    Message({
+                        message: this.$t('message.msg5'),
+                        type: 'success',
+                        duration: 1000
+                    })
+                    this.getPreExpiredList()
+                } else {
+                    Message({
+                        message: this.$t('message.msg6'),
+                        type: 'error',
+                        duration: 1000
+                    })
+                }
+            })
         },
         edit () {
-            alert('编辑')
+            if (this.multipleSelection.length === 0) {
+                Message({
+                    message: this.$t('message.msg4'),
+                    type: 'error',
+                    duration: 1000
+                })
+                return
+            }
+            this.editVisible = true
         },
         dataExport () {
             exportTableToExcel(this.$refs.multipleTable.$el, this.$t('form.title') + getNowFormatDate(false))
