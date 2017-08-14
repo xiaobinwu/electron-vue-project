@@ -33,7 +33,9 @@ export default {
     },
     list: {
         'temporaryList': 'List of temporary items',
-        'specialList': 'Special application list'
+        'specialList': 'Special application list',
+        'addTemporary': 'Add a temporary record',
+        'editTemporary': 'Edit the temporary record'
     },
     table: {
         noData: 'No data',

@@ -33,7 +33,9 @@ export default {
     },
     list: {
         'temporaryList': '临期品记录列表',
-        'specialList': '特价单申请列表'
+        'specialList': '特价单申请列表',
+        'addTemporary': '新增临期品纪录',
+        'editTemporary': '编辑临期品纪录'
     },
     table: {
         noData: '暂无数据',

@@ -220,8 +220,8 @@
                 <el-button type="primary" @click="submitUpload">{{$t('upload')}}</el-button>
             </div>
         </el-dialog>
-        <record-operating title="新增临期品纪录" :visible.sync="addVisible" @success="getPreExpiredList"></record-operating>
-        <record-operating title="编辑临期品纪录" :visible.sync="editVisible" :form-data="multipleSelection" @success="getPreExpiredList"></record-operating>
+        <record-operating :title="$t('list.addTemporary')" :visible.sync="addVisible" @success="getPreExpiredList"></record-operating>
+        <record-operating :title="$t('list.editTemporary')" :visible.sync="editVisible" :form-data="multipleSelection" @success="getPreExpiredList"></record-operating>
     </section>
 </template>
 
