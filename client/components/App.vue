@@ -18,6 +18,9 @@
             <i class="iconfont icon-zhongyingwenqiehuan-xianshizhongyingwen language"></i>
             {{$t('switchText')}}
         </span>
+        <span class="main-header-info refresh-window" @click="checkUpadte">
+            检查更新
+        </span>
         <div class="operate-area pull-right">
             <template v-if="username">
                 <a href="javascript:void(0);" class="logout" @click="logout">{{$t('signOut')}}></a>
@@ -73,6 +76,10 @@ export default {
         },
         closeWindow () {
             ipcRenderer.send('close-main-window')
+        },
+        checkUpadte () {
+            alert(1)
+            ipcRenderer.send('check-for-update')
         },
         logout () {
             const _self = this

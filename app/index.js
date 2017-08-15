@@ -185,7 +185,7 @@ function createFeedbackWindow () {
 const autoUpdater = electron.autoUpdater
 function startupEventHandle () {
     if (require('electron-squirrel-startup')) { return }
-    // 添加快捷方式
+    // 安装和更新时添加快捷方式，删除和卸载时删除快捷方式
     var handleStartupEvent = function () {
         if (process.platform !== 'win32') {
             return false
@@ -232,7 +232,7 @@ function startupEventHandle () {
 function updateHandle () {
     ipcMain.on('check-for-update', function (event, arg) {
         let appName = '门店系统'
-        let appIcon = __dirname + 'hots.ico'
+        let appIcon = __dirname + '/hots.ico'
         let message = {
             error: '检查更新出错',
             checking: '正在检查更新……',
@@ -243,7 +243,8 @@ function updateHandle () {
         const os = require('os')
         const { dialog } = require('electron')
         // 放最新版本文件的文件夹的服务器地址
-        autoUpdater.setFeedURL('放最新版本文件的文件夹的服务器地址')
+        // 阿里oss
+        autoUpdater.setFeedURL('http://electron20170815.oss-cn-beijing.aliyuncs.com/electron/')
         autoUpdater.on('error', function (error) {
             return dialog.showMessageBox(mainWindow, {
                 type: 'info',
