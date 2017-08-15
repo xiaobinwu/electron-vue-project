@@ -2,10 +2,9 @@ var grunt = require('grunt')
 
 // 配置
 grunt.config.init({
-    pkg: grunt.file.readJSON('gruntPackage.json'),
+    pkg: grunt.file.readJSON('package.json'),
     'create-windows-installer': {
         x64: {
-            version: '1.0.0',
             authors: 'xiaobinwu <xiaobin_wu@yahoo.com>',
             projectUrl: '',
             appDirectory: './package/TEST-win32-x64', // 要打包的输入目录

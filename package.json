@@ -8,9 +8,9 @@
     "dev": "node build/server.js",
     "app": "cross-env NODE_ENV=development electron app/",
     "lint": "xo **/client/**/*.{vue,js} **/app/**/*.js !node_modules/**",
-    "package:mac": "rimraf package && electron-packager . TEST --platform=darwin --arch=x64 --overwrite --icon=hosts.icns --out=./package --electron-version=1.6.11 --ignore=\"(build|client$|static|theme|.gitignore|LICENSE|README.md|.editorconfig|.eslintrc|node_modules|gruntPackage.json|Gruntfile.js|yarn.lock)\"",
-    "package:win": "rimraf package && electron-packager . TEST --platform=win32 --arch=x64 --overwrite --icon=hosts.ico --out=./package --electron-version=1.6.11 --ignore=\"(build|client$|static|theme|.gitignore|LICENSE|README.md|.editorconfig|.eslintrc|node_modules|gruntPackage.json|Gruntfile.js|yarn.lock)\"",
-    "package:linux": "electron-packager . TEST --platform=linux --arch=x64 --overwrite --out=/package --electron-version=1.6.11 --asar --ignore=\"(build|client|static|theme|.gitignore|LICENSE|README.md|.editorconfig|.eslintrc|node_modules|gruntPackage.json|Gruntfile.js|yarn.lock)\"",
+    "package:mac": "rimraf package && electron-packager . TEST --platform=darwin --arch=x64 --overwrite --icon=hosts.icns --out=./package --electron-version=1.6.11 --ignore=\"(build|client$|static|theme|.gitignore|LICENSE|README.md|.editorconfig|.eslintrc|node_modules|gruntPackage.json|Gruntfile.js|yarn.lock|socket)\"",
+    "package:win": "rimraf package && electron-packager . TEST --platform=win32 --arch=x64 --overwrite --icon=hosts.ico --out=./package --electron-version=1.6.11 --ignore=\"(build|client$|static|theme|.gitignore|LICENSE|README.md|.editorconfig|.eslintrc|node_modules|gruntPackage.json|Gruntfile.js|yarn.lock|socket)\"",
+    "package:linux": "electron-packager . TEST --platform=linux --arch=x64 --overwrite --out=/package --electron-version=1.6.11 --asar --ignore=\"(build|client|static|theme|.gitignore|LICENSE|README.md|.editorconfig|.eslintrc|node_modules|gruntPackage.json|Gruntfile.js|yarn.lock|socket)\"",
     "package": "npm run packageDarwin && npm run packageWin && npm run packageLinux",
     "setup": "rimraf package_dir && grunt",
     "socket": "node socket/server.js"
