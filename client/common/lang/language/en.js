@@ -25,6 +25,7 @@ export default {
     operating: 'Operating',
     enterGroup: 'Please Enter {0}',
     selectGroup: 'Please Select {0}',
+    checkUpdate: 'Check Update',
     entrance: {
         temporaryGoods: 'Temporary Goods',
         storeDelivery: 'Store Delivery',

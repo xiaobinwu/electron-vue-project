@@ -25,6 +25,7 @@ export default {
     operating: '操作',
     enterGroup: '请输入{0}',
     selectGroup: '请选择{0}',
+    checkUpdate: '检查更新',
     entrance: {
         temporaryGoods: '临期商品',
         storeDelivery: '门店叫货',

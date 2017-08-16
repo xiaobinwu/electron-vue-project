@@ -19,7 +19,8 @@
             {{$t('switchText')}}
         </span>
         <span class="main-header-info refresh-window" @click="checkUpadte">
-            检查更新
+            <i class="iconfont icon-jianchagengxin language"></i>
+            {{$t('checkUpdate')}}({{version}})
         </span>
         <div class="operate-area pull-right">
             <template v-if="username">
@@ -44,7 +45,8 @@ export default {
     data () {
         return {
             mainWindow: null,
-            nowTime: ''
+            nowTime: '',
+            version: VERSION
         }
     },
     created () {
@@ -78,7 +80,6 @@ export default {
             ipcRenderer.send('close-main-window')
         },
         checkUpadte () {
-            alert(1)
             ipcRenderer.send('check-for-update')
         },
         logout () {

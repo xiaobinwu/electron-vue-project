@@ -4,12 +4,14 @@ process.env.NODE_ENV = 'development'
 const webpack = require('webpack')
 const base = require('./webpack.base')
 const _ = require('./utils')
+const pkg = require('../package')
 const FriendlyErrors = require('friendly-errors-webpack-plugin')
 
 base.devtool = 'eval-source-map'
 base.plugins.push(
   new webpack.DefinePlugin({
-    'process.env.NODE_ENV': JSON.stringify('development')
+    'process.env.NODE_ENV': JSON.stringify('development'),
+    VERSION: JSON.stringify(pkg.version)
   }),
   new webpack.HotModuleReplacementPlugin(),
   new webpack.NoEmitOnErrorsPlugin(),
