@@ -41,12 +41,13 @@ import { MessageBox, Message } from 'element-ui'
 import { getNowFormatDate } from 'common/js/time'
 import { removeStore, getStore, setStore } from 'common/js/storage'
 import { loggedIn } from 'common/js/auth'
+const pkg = require('../../package')
 export default {
     data () {
         return {
             mainWindow: null,
             nowTime: '',
-            version: VERSION
+            version: pkg.version
         }
     },
     created () {

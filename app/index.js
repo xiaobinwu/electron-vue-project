@@ -26,8 +26,6 @@ if (isDev) {
     config = {}
 }
 
-console.log(path.join(__dirname, '/hots.png'))
-
 function createWindow () {
     // 创建主体窗口
     mainWindow = new BrowserWindow({
@@ -231,6 +229,9 @@ function startupEventHandle () {
 }
 function updateHandle () {
     ipcMain.on('check-for-update', function (event, arg) {
+        if (process.platform !== 'win32') {
+            return false
+        }
         let appName = '门店系统'
         let appIcon = __dirname + '/hots.ico'
         let message = {
