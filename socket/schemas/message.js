@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const MessageSchema = new mongoose.Schema({
     username: String,
     store: String,
+    storeid: String,
     src: String,
     msg: {
         type: String,
@@ -13,6 +14,7 @@ const MessageSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
+    roomid: String,
     time: {
         type: Date,
         default: Date.now()

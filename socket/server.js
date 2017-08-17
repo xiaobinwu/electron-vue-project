@@ -1,14 +1,37 @@
 const express = require('express')
 const app = express()
+const bodyParser = require('body-parser')
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
 const port = process.env.PORT || 3000
 
+// 设置跨域问题
+app.all('*', function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*')
+    res.header('Access-Control-Allow-Headers', 'content-type')
+    res.header('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS')
+    res.header('X-Powered-By', ' 3.2.1')
+    res.header('Content-Type', 'application/json;charset=utf-8')
+    next()
+})
+
+// post请求体解析
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
+
 // 引入mongoose
 let mongoose = require('mongoose')
 // 用于异步回调
-mongoose.Promise = global.Promise
-mongoose.connect('mongodb://localhost:27017/advisory', { useMongoClient: true })
+mongoose.Promise = require('bluebird')
+global.db = mongoose.connect('mongodb://localhost:27017/advisory', { useMongoClient: true })
+global.db.on('error', console.error.bind(console, '连接错误:'))
+global.db.once('open', function () {
+    console.log('Mongodb running')
+})
+
+// 定义全局users变量
+global.users = {}
+
 const Message = require('./models/message')
 
 server.listen(port, function () {
@@ -32,9 +55,10 @@ io.on('connection', function (socket) {
             src: obj.src,
             msg: obj.msg,
             img: obj.img,
+            roomid: obj.roomid,
             time: obj.time
         }
-        io.emit('message', mess)
+        io.to(mess.roomid).emit('message', mess)
         console.log(obj.username + '说：' + mess.msg)
         if (obj.img === '') {
             var message = new Message(mess)
@@ -47,4 +71,19 @@ io.on('connection', function (socket) {
             })
         }
     })
+    // 进入聊天室
+    socket.on('enter', function (obj) {
+        socket.name = obj.name
+        socket.room = obj.roomid
+        if (!(obj.roomid in global.users)) {
+            global.users[obj.roomid] = {}
+        }
+        global.users[obj.roomid][obj.name] = obj
+        socket.join(obj.roomid)
+        io.to(obj.roomid).emit('enter', global.users[obj.roomid])
+        console.log(obj.name + '加入了' + obj.roomid)
+    })
 })
+
+// 接口
+require('./route')(app)
