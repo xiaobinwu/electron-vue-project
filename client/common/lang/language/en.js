@@ -30,7 +30,7 @@ export default {
         temporaryGoods: 'Temporary Goods',
         storeDelivery: 'Store Delivery',
         checkInspection: 'Check Inspection',
-        suggestions: 'Suggestions'
+        advisory: 'Online consultation'
     },
     list: {
         'temporaryList': 'List of temporary items',

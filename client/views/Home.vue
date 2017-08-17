@@ -31,9 +31,9 @@
                     </router-link>
                 </div>
                 <div class="content-item">
-                    <router-link to="/pre_expired">
+                    <router-link to="/advisory">
                         <img src="../common/img/menu4.png">
-                        <p>{{$t('entrance.suggestions')}}</p>
+                        <p>{{$t('entrance.advisory')}}</p>
                     </router-link>
                 </div>
             </div>

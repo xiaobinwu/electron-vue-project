@@ -30,7 +30,7 @@ export default {
         temporaryGoods: '临期商品',
         storeDelivery: '门店叫货',
         checkInspection: '卫检关单查询',
-        suggestions: '意见建议'
+        advisory: '在线咨询'
     },
     list: {
         'temporaryList': '临期品记录列表',

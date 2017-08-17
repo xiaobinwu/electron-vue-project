@@ -68,9 +68,10 @@ export default {
             })
             .then((res) => {
                 if (res.status === 0) {
-                    setStore('userInfo', { username: this.ruleForm.username })
+                    setStore('userInfo', { username: this.ruleForm.username, store: res.data.store })
                     this.$store.commit('UPDATEUSERINFO', {
-                        username: this.ruleForm.username
+                        username: this.ruleForm.username,
+                        store: res.data.store // 店铺名称
                     })
                     this.$router.replace({ path: this.$route.query.redirect })
                 } else {

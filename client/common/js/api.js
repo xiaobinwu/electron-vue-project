@@ -29,4 +29,7 @@ export const commonAjax = (options) => {
     })
 }
 
+// socket.io url地址（发布时需要替换成正式url地址）
+export const socketUrl = 'http://localhost:3000'
+
 export default ajaxUrl

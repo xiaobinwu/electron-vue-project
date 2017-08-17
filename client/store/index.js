@@ -6,7 +6,8 @@ Vue.use(Vuex)
 
 const state = {
     userInfo: {
-        username: null
+        username: null,
+        store: null
     },
     language: getStore('language') || 'zh'
 }
