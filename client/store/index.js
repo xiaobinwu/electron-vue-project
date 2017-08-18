@@ -41,6 +41,10 @@ const mutations = {
     SETUSERS (state, payload) {
         state.roomdetail.users = payload
     },
+    // 添加当前聊天信息到store
+    ADDROOMDETAILINFOS (state, payload) {
+        state.roomdetail.infos.push(payload)
+    },
     // 将所在房间中当前聊天信息置空
     SETROOMDETAILINFOS (state) {
         state.roomdetail.infos = []
@@ -72,7 +76,11 @@ const getters = {
     // 获取store里面的房间id，默认为room1
     getuserroom: state => state.userInfo.room,
     // 获取历史信息
-    getmesshistoryinfos: state => state.messhistory.infos
+    getmesshistoryinfos: state => state.messhistory.infos,
+    // 获取当前聊天信息
+    getinfos: state => state.roomdetail.infos,
+    // 获取当前在线用户
+    getusers: state => state.roomdetail.users
 }
 
 const store = new Vuex.Store({

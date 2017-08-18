@@ -1,12 +1,31 @@
 <template>
     <section class="wrapper">
+        <div class="title">
+            <i class="el-icon-arrow-left" @click="logoutChat"></i>
+            <div>聊天（{{Object.keys(currentUsers).length}}）</div>
+            <i class="el-icon-setting"></i>
+        </div>
+        <div class="all-chat">
+            <div class="all-chat-title">在线人员</div>
+            <div v-for="obj in currentUsers" class="online">
+                <div><img :src="obj.src" alt=""></div>
+                <div class="all-chat-name" :title="obj.name +'（' + obj.store + '）'">{{obj.name}}（{{obj.store}}）</div>
+            </div>
+        </div>
         <div class="chat-container">
             <div v-for="obj in messHistoryInfos">
-                    <other-msg v-if="obj.username!=username" :name="obj.username" :head="obj.src" :msg="obj.msg"
-                              :img="obj.img" :mytime="obj.time"></other-msg>
-                    <my-msg v-if="obj.username==username" :name="obj.username" :head="obj.src" :msg="obj.msg"
-                           :img="obj.img" :mytime="obj.time"></my-msg>
+                <other-msg v-if="obj.username!=username" :name="obj.username" :head="obj.src" :msg="obj.msg" :store="obj.store"
+                          :img="obj.img" :mytime="obj.time"></other-msg>
+                <my-msg v-if="obj.username==username" :name="obj.username" :head="obj.src" :msg="obj.msg" :store="obj.store"
+                       :img="obj.img" :mytime="obj.time"></my-msg>
             </div>
+            <div v-for="obj in messCurrentInfos">
+                <other-msg v-if="obj.username!=username" :name="obj.username" :head="obj.src" :msg="obj.msg" :store="obj.store"
+                          :img="obj.img" :mytime="obj.time"></other-msg>
+                <my-msg v-if="obj.username==username" :name="obj.username" :head="obj.src" :msg="obj.msg" :store="obj.store"
+                       :img="obj.img" :mytime="obj.time"></my-msg>
+            </div>
+            <div id="chat-bottom"></div>
         </div>
         <div class="advisory-bottom">
             <el-row :gutter="20">
@@ -56,12 +75,17 @@ export default {
         const obj = {
             name: storage.username,
             src: storage.src,
+            store: storage.store,
             roomid: 'room1'
         }
         this.$store.commit('SETUSERROOM', obj.roomid)
         this.socket.emit('enter', obj)
         this.socket.on('enter', (obj) => {
             this.$store.commit('SETUSERS', obj)
+        })
+        this.socket.on('out', (obj) => {
+            this.$store.commit('SETUSERS', obj)
+            this.$router.push({ path: '/' })
         })
         const data = {
             roomid: obj.roomid
@@ -72,9 +96,14 @@ export default {
         this.$store.commit('SETROOMDETAILINFOS')
     },
     mounted () {
-        // 监听发送过去的信息，发起commit更新历史信息
+        this.$chatBottom = document.getElementById('chat-bottom')
+        // 监听发送过去的信息，发起commit更新信息
         this.socket.on('message', (data) => {
             console.log(data)
+            this.$store.commit('ADDROOMDETAILINFOS', data)
+            this.$nextTick(() => {
+                this.$chatBottom.scrollIntoView()
+            })
         })
     },
     methods: {
@@ -103,6 +132,16 @@ export default {
                 })
             }
         },
+        logoutChat () {
+            const storage = JSON.parse(getStore('userInfo'))
+            const obj = {
+                name: storage.username,
+                src: storage.src,
+                store: storage.store,
+                roomid: this.currentUserRoom
+            }
+            this.socket.emit('out', obj)
+        },
         imgupload () {
 
         },
@@ -116,27 +155,89 @@ export default {
         },
         messHistoryInfos () {
             return this.$store.getters.getmesshistoryinfos
+        },
+        messCurrentInfos () {
+            return this.$store.getters.getinfos
+        },
+        currentUsers () {
+            console.log(this.$store.getters.getusers)
+            return this.$store.getters.getusers
         }
     },
     components: {
-        otherMsg: MyMsg,
-        myMsg: OtherMsg
+        otherMsg: OtherMsg,
+        myMsg: MyMsg
     }
 }
 </script>
 <style lang="scss" scoped>
 @import "../common/css/_variables.scss";
+@import "../common/css/_mixins.scss";
+@import "../common/css/_placeholders.scss";
+$gray-light: #eeeff3;
 .wrapper{
-    height: calc(100vh - 100px);
+    height: calc(100vh - 135px);
+    margin-top: 35px;
     overflow-y: auto;
+    .all-chat{
+        .all-chat-title{
+            height: 30px;
+            line-height: 30px;
+            background-color: rgba(238,238,238,.2);
+            padding-left: 10px;
+        }
+        .online{
+            width: 60px;
+            text-align: center;
+            display: inline-block;
+            margin: 10px;
+            img{
+                width: 40px;
+                height: 40px;
+                border-radius: 100%;
+            }
+            .all-chat-name{
+                width: 100%;
+                @extend  %ellipsis;
+            }
+        }
+    }
+    .chat-container{
+        padding: 10px 0;
+    }
+    .title {
+        position: fixed;
+        top: 30px;
+        left: 0;
+        right: 0;
+        height: 35px;
+        background-color: $pink;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        & > * {
+            display: block;
+        }
+        i{
+            cursor: pointer;
+            &.el-icon-arrow-left{
+                margin-left: 10px;
+            }
+            &.el-icon-setting{
+                margin-right: 10px;
+            }
+        }
+    }
     .advisory-bottom{
+        box-sizing: border-box;
         position: fixed;
         bottom: 0;
         left: 0;
         right: 0;
         height: 80px;
         padding: 10px;
-        background: #eeeff3;
+        background: $gray-light;
         .send-btn{
             width: 100%;
         }

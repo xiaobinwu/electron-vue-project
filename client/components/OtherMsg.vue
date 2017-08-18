@@ -2,7 +2,7 @@
     <div class="clear">
         <div class="item">
             <div class="name">
-                <span v-if="mytime">{{getdate}}</span> &nbsp;&nbsp;{{name}}
+                <span v-if="mytime">{{getdate}}</span> &nbsp;&nbsp;{{name}}（{{store}}）
             </div>
             <img :src="head" alt="" class="head">
             <div v-if="img">
@@ -18,7 +18,7 @@
 <script>
     import { dateFormat } from 'common/js/time'
     export default{
-        props: ['name', 'img', 'msg', 'head', 'mytime'],
+        props: ['name', 'img', 'msg', 'head', 'mytime', 'store'],
         computed: {
             getdate () {
                 return dateFormat(new Date(this.mytime), 'yyyy-MM-dd HH:mm:ss')
@@ -29,7 +29,9 @@
 </script>
 
 <style lang="scss" scoped>
+    @import "../common/css/_mixins.scss";
     .clear{
+        @include clearfix();
         margin-top: 10px;
         .item{
             position: relative;
@@ -39,9 +41,7 @@
             margin: 10px 10px 20px 10px;
             border-radius: 10px;
             background-color: rgba(25, 147, 147, 0.2);
-            animation: show-chat-even 0.25s 1 ease-in;
-            -moz-animation: show-chat-even 0.25s 1 ease-in;
-            -webkit-animation: show-chat-even 0.25s 1 ease-in;
+            animation: show-chat-even .8s ease-in;
             float: left;
             margin-left: 80px;
             color: #0EC879;
@@ -93,38 +93,11 @@
     }
     @keyframes show-chat-odd {
         0% {
-            margin-right: -480px;
+            opacity: 0
         }
 
         100% {
-            margin-right: 0;
-        }
-    }
-    @keyframes show-chat-even {
-        0% {
-          margin-left: -480px;
-        }
-
-        100% {
-          margin-left: 0;
-        }
-    }
-    @-moz-keyframes show-chat-even {
-        0% {
-            margin-left: -480px;
-        }
-
-        100% {
-            margin-left: 0;
-        }
-    }
-    @-webkit-keyframes show-chat-even {
-        0% {
-            margin-left: -480px;
-        }
-
-        100% {
-            margin-left: 0;
+            opacity: 1
         }
     }
 </style>

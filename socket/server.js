@@ -83,6 +83,13 @@ io.on('connection', function (socket) {
         io.to(obj.roomid).emit('enter', global.users[obj.roomid])
         console.log(obj.name + '加入了' + obj.roomid)
     })
+    // 退出聊天室
+    socket.on('out', function (obj) {
+        delete  global.users[obj.roomid][obj.name]
+        console.log(obj.name + '退出了' + obj.roomid)
+        io.to(obj.roomid).emit('out', global.users[obj.roomid])
+    })
+
 })
 
 // 接口
