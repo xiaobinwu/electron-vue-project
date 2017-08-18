@@ -36,6 +36,8 @@
   </div>
 </template>
 <script>
+import io from 'socket.io-client'
+import { socketUrl } from 'common/js/api'
 import { ipcRenderer, remote } from 'electron'
 import { MessageBox, Message } from 'element-ui'
 import { getNowFormatDate } from 'common/js/time'
@@ -51,6 +53,7 @@ export default {
         }
     },
     created () {
+        this.socket = io.connect(socketUrl)
         this.getLoginState()
         this.nowTimeCount()
         this.mainWindow = remote.getCurrentWindow()
@@ -98,6 +101,15 @@ export default {
                 cancelButtonText: this.$t('cancel'),
                 type: 'warning'
             }).then(() => {
+                // 退出聊天室
+                const storage = JSON.parse(getStore('userInfo'))
+                const obj = {
+                    name: storage.username,
+                    src: storage.src,
+                    store: storage.store,
+                    roomid: this.currentUserRoom
+                }
+                this.socket.emit('out', obj)
                 removeStore('userInfo')
                 Message({
                     type: 'success',
@@ -142,6 +154,9 @@ export default {
     computed: {
         username () {
             return this.$store.state.userInfo.username
+        },
+        currentUserRoom () {
+            return this.$store.getters.getuserroom
         }
     }
 }

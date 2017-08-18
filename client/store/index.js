@@ -56,17 +56,18 @@ const mutations = {
 }
 
 const actions = {
-    getmesshistory ({ commit }, data) {
+    getmesshistory ({ commit }, payload) {
         commonAjax({
             method: 'post',
             url: ajaxUrl.message,
-            data: data,
+            data: payload.data,
             responseType: 'json'
         })
         .then((res) => {
             console.log(res)
             if (res.status === 0) {
                 commit('SETMESSHISTORYINFOS', res.data)
+                payload.obj.loading = false
             }
         })
     }

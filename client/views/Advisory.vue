@@ -1,5 +1,5 @@
 <template>
-    <section class="wrapper">
+    <section class="wrapper" v-loading="loading">
         <div class="title">
             <i class="el-icon-arrow-left" @click="logoutChat"></i>
             <div>聊天（{{Object.keys(currentUsers).length}}）</div>
@@ -40,7 +40,6 @@
             <el-row>
                 <el-col :span="24">
                     <i class="el-icon-picture" @click="imgupload"></i>
-                    <el-button type="text"><router-link :to="{ path: '/' }">Home</router-link></el-button>
                     <input id="inputFile" name='inputFile' type='file' multiple='mutiple' accept="image/*;capture=camera" style="display: none" @change="fileup">
                 </el-col>
             </el-row>
@@ -65,6 +64,7 @@ export default {
         return {
             socket: '',
             message: '',
+            loading: false,
             username: JSON.parse(getStore('userInfo')).username
         }
     },
@@ -91,7 +91,8 @@ export default {
             roomid: obj.roomid
         }
         // 获取历史聊天信息
-        this.$store.dispatch('getmesshistory', data)
+        this.loading = true
+        this.$store.dispatch('getmesshistory', { data: data, obj: this })
         // 将当前store里面的聊天信息置空
         this.$store.commit('SETROOMDETAILINFOS')
     },
@@ -160,7 +161,6 @@ export default {
             return this.$store.getters.getinfos
         },
         currentUsers () {
-            console.log(this.$store.getters.getusers)
             return this.$store.getters.getusers
         }
     },
