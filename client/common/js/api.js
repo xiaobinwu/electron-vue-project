@@ -23,7 +23,9 @@ const ajaxUrl = {
     preExpiredImportUrl: 'https://jsonplaceholder.typicode.com/posts/', // 门店临期品记录导入
     // socket.io地址
     // 获取历史信息
-    message: socketUrl + '/message'
+    message: socketUrl + '/message',
+    // 上传图片
+    uploadImg: socketUrl + '/file/uploadimg'
 
 }
 

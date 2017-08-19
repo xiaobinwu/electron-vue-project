@@ -70,6 +70,22 @@ const actions = {
                 payload.obj.loading = false
             }
         })
+    },
+    uploadimg ({ commit }, payload) {
+        commonAjax({
+            method: 'post',
+            url: ajaxUrl.uploadImg,
+            data: payload,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        })
+        .then((res) => {
+            if (res.status === 0) {
+                console.log('上传成功')
+            }
+        })
+        .catch((err) => {
+            console.log(err)
+        })
     }
 }
 

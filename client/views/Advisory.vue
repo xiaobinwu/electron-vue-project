@@ -110,6 +110,7 @@ export default {
         this.$store.commit('SETROOMDETAILINFOS')
     },
     mounted () {
+        this.$file = document.getElementById('inputFile')
         this.$chatBottom = document.getElementById('chat-bottom')
         // 监听发送过去的信息，发起commit更新信息
         this.socket.on('message', (data) => {
@@ -140,7 +141,7 @@ export default {
                 this.message = ''
             } else {
                 Message({
-                    message: '发送内容不为空',
+                    message: this.$t('sendTip'),
                     type: 'warning',
                     duration: 1000
                 })
@@ -157,10 +158,19 @@ export default {
             this.socket.emit('out', obj)
         },
         imgupload () {
-
+            this.$file.click()
         },
         fileup () {
-
+            const file = this.$file.files[0]
+            if (file) {
+                const storage = JSON.parse(getStore('userInfo'))
+                let formData = new FormData()
+                formData.append('file', file)
+                formData.append('username', storage.username)
+                formData.append('src', storage.src)
+                formData.append('roomid', this.currentUserRoom)
+                this.$store.dispatch('uploadimg', formData)
+            }
         }
     },
     computed: {

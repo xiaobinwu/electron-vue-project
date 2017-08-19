@@ -31,6 +31,7 @@ export default {
     outChatRoom: '退出聊天室',
     onlineStaff: '在线人员',
     content: '内容',
+    sendTip: '发送内容不为空',
     entrance: {
         temporaryGoods: '临期商品',
         storeDelivery: '门店叫货',

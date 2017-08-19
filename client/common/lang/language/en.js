@@ -31,6 +31,7 @@ export default {
     outChatRoom: 'exit the chat room',
     onlineStaff: 'Online staff',
     content: 'content',
+    sendTip: 'Send content is not empty',
     entrance: {
         temporaryGoods: 'Temporary Goods',
         storeDelivery: 'Store Delivery',
