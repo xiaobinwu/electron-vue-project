@@ -26,6 +26,11 @@ export default {
     enterGroup: 'Please Enter {0}',
     selectGroup: 'Please Select {0}',
     checkUpdate: 'Check Update',
+    chat: 'Chating',
+    enterChatRoom: 'join the chat room',
+    outChatRoom: 'exit the chat room',
+    onlineStaff: 'Online staff',
+    content: 'content',
     entrance: {
         temporaryGoods: 'Temporary Goods',
         storeDelivery: 'Store Delivery',
@@ -95,7 +100,8 @@ export default {
         import: 'Import',
         add: 'Add',
         edit: 'Edit',
-        delete: 'Delete'
+        delete: 'Delete',
+        send: 'Send'
     },
     form: {
         title: 'Temporary treatment',

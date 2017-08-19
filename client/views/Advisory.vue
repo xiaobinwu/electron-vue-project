@@ -2,11 +2,15 @@
     <section class="wrapper" v-loading="loading">
         <div class="title">
             <i class="el-icon-arrow-left" @click="logoutChat"></i>
-            <div>聊天（{{Object.keys(currentUsers).length}}）</div>
+            <div>{{$t('chat')}}（{{Object.keys(currentUsers).length}}）</div>
+            <div class="tip">
+                <i class="iconfont icon-xiaoquxinwen"></i>
+                <span class="tip-msg" v-if="userJoinTip">{{userJoinTip}} <span v-text="chatRoomStatus ? $t('enterChatRoom') : $t('outChatRoom')"></span></span>
+            </div>
             <i class="el-icon-setting"></i>
         </div>
         <div class="all-chat">
-            <div class="all-chat-title">在线人员</div>
+            <div class="all-chat-title">{{$t('onlineStaff')}}</div>
             <div v-for="obj in currentUsers" class="online">
                 <div><img :src="obj.src" alt=""></div>
                 <div class="all-chat-name" :title="obj.name +'（' + obj.store + '）'">{{obj.name}}（{{obj.store}}）</div>
@@ -31,11 +35,11 @@
             <el-row :gutter="20">
                 <el-col :span="20">
                     <el-input
-                        placeholder="请输入内容"
+                        :placeholder="$t('enterGroup', [$t('content')])"
                         v-model="message">
                     </el-input>
                 </el-col>
-                <el-col :span="4"><el-button type="primary" size="small" @click="sendMessage" class="send-btn">发送</el-button></el-col>
+                <el-col :span="4"><el-button type="primary" size="small" @click="sendMessage" class="send-btn">{{$t('btn.send')}}</el-button></el-col>
             </el-row>
             <el-row>
                 <el-col :span="24">
@@ -65,6 +69,8 @@ export default {
             socket: '',
             message: '',
             loading: false,
+            userJoinTip: '',
+            chatRoomStatus: false,
             username: JSON.parse(getStore('userInfo')).username
         }
     },
@@ -81,11 +87,18 @@ export default {
         this.$store.commit('SETUSERROOM', obj.roomid)
         this.socket.emit('enter', obj)
         this.socket.on('enter', (obj) => {
-            this.$store.commit('SETUSERS', obj)
+            this.$store.commit('SETUSERS', obj.users)
+            this.chatRoomStatus = true
+            this.userJoinTip = `${obj.name}（${obj.store}）`
         })
         this.socket.on('out', (obj) => {
-            this.$store.commit('SETUSERS', obj)
-            this.$router.push({ path: '/' })
+            this.$store.commit('SETUSERS', obj.users)
+            this.chatRoomStatus = false
+            this.userJoinTip = `${obj.name}（${obj.store}）`
+            // 如果用户为本人时，就退出
+            if (storage.username === obj.name) {
+                this.$router.push({ path: '/' })
+            }
         })
         const data = {
             roomid: obj.roomid
@@ -216,6 +229,24 @@ $gray-light: #eeeff3;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        .tip{
+            position: absolute;
+            right: 130px;
+            top: 0.5px;
+            height: 35px;
+            overflow-y: hidden;
+            max-width: 300px;
+            @extend %ellipsis;
+            i {
+                font-size: 28px;
+                position: relative;
+                vertical-align: middle;
+            }
+            .tip-msg {
+                font-size: 12px;
+                min-width: 155px;
+            }
+        }
         & > * {
             display: block;
         }

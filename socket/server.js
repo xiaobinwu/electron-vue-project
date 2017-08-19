@@ -80,16 +80,23 @@ io.on('connection', function (socket) {
         }
         global.users[obj.roomid][obj.name] = obj
         socket.join(obj.roomid)
-        io.to(obj.roomid).emit('enter', global.users[obj.roomid])
+        io.to(obj.roomid).emit('enter', {
+            users: global.users[obj.roomid],
+            name: obj.name,
+            store: obj.store
+        })
         console.log(obj.name + '加入了' + obj.roomid)
     })
     // 退出聊天室
     socket.on('out', function (obj) {
         delete  global.users[obj.roomid][obj.name]
         console.log(obj.name + '退出了' + obj.roomid)
-        io.to(obj.roomid).emit('out', global.users[obj.roomid])
+        io.to(obj.roomid).emit('out', {
+            users: global.users[obj.roomid],
+            name: obj.name,
+            store: obj.store
+        })
     })
-
 })
 
 // 接口

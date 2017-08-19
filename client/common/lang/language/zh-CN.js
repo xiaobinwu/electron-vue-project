@@ -26,6 +26,11 @@ export default {
     enterGroup: '请输入{0}',
     selectGroup: '请选择{0}',
     checkUpdate: '检查更新',
+    chat: '聊天',
+    enterChatRoom: '加入聊天室',
+    outChatRoom: '退出聊天室',
+    onlineStaff: '在线人员',
+    content: '内容',
     entrance: {
         temporaryGoods: '临期商品',
         storeDelivery: '门店叫货',
@@ -95,7 +100,8 @@ export default {
         import: '导入',
         add: '新增',
         edit: '编辑',
-        delete: '删除'
+        delete: '删除',
+        send: '发送'
     },
     form: {
         title: '临期品处理',
