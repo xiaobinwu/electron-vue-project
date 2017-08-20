@@ -78,8 +78,9 @@ const actions = {
             data: payload,
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         })
-        .then((res) => {
+        .then((res) => { 
             if (res.status === 0) {
+                console.log(res.data)
                 console.log('上传成功')
             }
         })
@@ -91,7 +92,7 @@ const actions = {
 
 const getters = {
     // 获取store里面的房间id，默认为room1
-    getuserroom: state => state.userInfo.room,
+    getuserroom: state => state.userInfo.room,  
     // 获取历史信息
     getmesshistoryinfos: state => state.messhistory.infos,
     // 获取当前聊天信息
