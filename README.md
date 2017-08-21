@@ -56,7 +56,7 @@ $ npm run socket
 ```
 
 
-本地调试时，只需运行`npm run dev` **=>** `npm run app`，需要开启即时通讯的功能的需要`npm run sock`，这里需要注意即时通讯模块目前没有迁移至服务器，要在本地运行，需要使用express起一个服务（`./socket/`），这里的数据库集成使用的是mongoDB，所以必须要安装[mongoDB](https://www.mongodb.com/)，然后配置环境变量（比如说我安装的目录是`d:`，我的环境变量这样配置，`D:\Program Files\MongoDB\Server\3.4\bin`），这样之后，便可以使用`mongod`、`mongo`命令了，执行`mongod`命令，一般会报错，默认存储文档的目录没有，那可以这样，新建一个文件夹，用来存储mongo产生的文档对象，执行`mongod --dbpath D:\mongodb\db`
+本地调试时，只需运行`npm run dev` **=>** `npm run app`，需要开启即时通讯的功能的需要`npm run sock`，这里需要注意即时通讯模块目前没有迁移至服务器，要在本地运行，需要使用express起一个服务（`./socket/`），这里的数据库集成使用的是mongoDB，所以必须要安装[mongoDB](https://www.mongodb.com/)，然后配置环境变量（比如说我安装的目录是`d:`，我的环境变量这样配置，`D:\Program Files\MongoDB\Server\3.4\bin`），这样之后，便可以使用`mongod`、`mongo`命令了，执行`mongod`命令，一般会报错，默认存储文档的目录没有，那可以这样，新建一个文件夹，用来存储mongo产生的文档对象，执行`mongod --dbpath D:\mongodb\db`，至于mongo(models/sechemas)、socket.io、express如何搭配去实现即时通讯的的功能，具体可以看代码如何实现，对于这些新的东西，也只是了解个大概，后面准备花些时间去深入学习。
 
 
 production:
@@ -160,7 +160,66 @@ grunt.registerTask('default', ['create-windows-installer'])
 ```
 于是就会生成如上图所示的`my-electronSetup.exe`，点击运行，进入一个安装的过程，会有安装的小动画，如下图：  
 ![gif](./git_img/setup.gif)
+而我们需要的是安装完后自动生成快捷方式，这里使用的`electron-squirrel-startup`npm包，然后在主线程文件中app/index.js中写入`startupEventHandle`方法，安装时触发squirrel.window的一些命令，将其放在创建主体窗口的回调函数中，代码如下：
 
+```
+app.on('ready', function(){
+    ......
+    startupEventHandle()
+    ......
+})
+......
+
+function startupEventHandle () {
+    if (require('electron-squirrel-startup')) { return }
+    // 安装和更新时添加快捷方式，删除和卸载时删除快捷方式
+    var handleStartupEvent = function () {
+        if (process.platform !== 'win32') {
+            return false
+        }
+        var squirrelCommand = process.argv[1]
+        switch (squirrelCommand) {
+            case '--squirrel-install':
+            case '--squirrel-updated':
+                install()
+                return true
+            case '--squirrel-uninstall':
+                uninstall()
+                app.quit()
+                return true
+            case '--squirrel-obsolete':
+                app.quit()
+                return true
+        }
+        // 安装
+        function install () {
+            var cp = require('child_process')
+            var updateDotExe = path.resolve(path.dirname(process.execPath), '..', 'update.exe')
+            var target = path.basename(process.execPath)
+            var child = cp.spawn(updateDotExe, ['--createShortcut', target], { detached: true })
+            child.on('close', function (code) {
+                app.quit()
+            })
+        }
+        // 卸载
+        function uninstall () {
+            var cp = require('child_process')
+            var updateDotExe = path.resolve(path.dirname(process.execPath), '..', 'update.exe')
+            var target = path.basename(process.execPath)
+            var child = cp.spawn(updateDotExe, ['--removeShortcut', target], { detached: true })
+            child.on('close', function (code) {
+                app.quit()
+            })
+        }
+    }
+    if (handleStartupEvent()) {
+        return
+    }
+}
+
+这样便可以在安装时生成快捷方式，卸载时删除快捷方式了，在这个过程中，有可能回报`electron-squirrel-startup module not found`类似的错误，那是`electron-packager`打包时，过滤掉了`node_moudles`目录，所以需要手动添加到生成的package里面。至于网上的一些教程说，是需要安装vs2015环境，并且将msbuild程序声明成环境变量，但是我觉得应该是缺少npm包的原因，大家也可以试试，我本地是本来就安装过vs2015的。
+
+```
 lint:
 
 ```bash
@@ -178,7 +237,84 @@ $ npm run lint
 ![gif](./git_img/5.gif)
 
 
-
+#### electron自动更新
+前面我们也有提到过自动更新，这里使用的官方提供的`electron.autoUpdater`模块去更新，坑爹的是官方对这一功能的描述真是少之又少，autoUpdater的一些方法和事件[这里](https://www.w3cschool.cn/electronmanual/electronmanual-auto-updater.html)可以去了解清楚，`autoUpdater.setFeedURL(url)`这一方法是重中之重，`url`放着高版本的文件(.exe,.nupkg,RELEASES)，这里我是存储在阿里oss,然后`autoUpdater.checkForUpdates()`会去检查是否需要更新，它会触发`error、checking-for-update、update-available、update-downloaded`中的一些事件，而我们需要利用主进程跟渲染进程之间的通讯（ipc/remote/webContent），来触发更新，具体代码如下：
+```
+function updateHandle () {
+    ipcMain.on('check-for-update', function (event, arg) {
+        if (process.platform !== 'win32') {
+            return false
+        }
+        let appName = '门店系统'
+        let appIcon = __dirname + '/hots.ico'
+        let message = {
+            error: '检查更新出错',
+            checking: '正在检查更新……',
+            updateAva: '下载更新成功',
+            updateNotAva: '现在使用的就是最新版本，不用更新',
+            downloaded: '最新版本已下载，将在重启程序后更新'
+        }
+        const os = require('os')
+        const { dialog } = require('electron')
+        // 放最新版本文件的文件夹的服务器地址
+        // 阿里oss
+        autoUpdater.setFeedURL('http://electron20170815.oss-cn-beijing.aliyuncs.com/electron/')
+        autoUpdater.on('error', function (error) {
+            return dialog.showMessageBox(mainWindow, {
+                type: 'info',
+                icon: appIcon,
+                buttons: ['OK'],
+                title: appName,
+                message: message.error,
+                detail: '\r' + error
+            })
+        })
+        .on('checking-for-update', function (e) {
+            return dialog.showMessageBox(mainWindow, {
+                type: 'info',
+                icon: appIcon,
+                buttons: ['OK'],
+                title: appName,
+                message: message.checking
+            })
+        })
+        .on('update-available', function (e) {
+            var downloadConfirmation = dialog.showMessageBox(mainWindow, {
+                type: 'info',
+                icon: appIcon,
+                buttons: ['OK'],
+                title: appName,
+                message: message.updateAva
+            })
+            if (downloadConfirmation === 0) {
+                return
+            }
+        })
+        .on('update-not-available', function (e) {
+            return dialog.showMessageBox(mainWindow, {
+                type: 'info',
+                icon: appIcon,
+                buttons: ['OK'],
+                title: appName,
+                message: message.updateNotAva
+            })
+        })
+        .on('update-downloaded',  function (event, releaseNotes, releaseName, releaseDate, updateUrl, quitAndUpdate) {
+            var index = dialog.showMessageBox(mainWindow, {
+                type: 'info',
+                icon: appIcon,
+                buttons: ['现在重启', '稍后重启'],
+                title: appName,
+                message: message.downloaded,
+                detail: releaseName + '\n\n' + releaseNotes
+            })
+            if (index === 1) { return }
+            autoUpdater.quitAndInstall()
+        })
+        autoUpdater.checkForUpdates()
+    })
+}
+```
 ---
 
 Generated by [VuePack](https://github.com/egoist/vuepack).
