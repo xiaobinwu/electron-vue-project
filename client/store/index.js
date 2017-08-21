@@ -78,9 +78,8 @@ const actions = {
             data: payload,
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         })
-        .then((res) => { 
+        .then((res) => {
             if (res.status === 0) {
-                console.log(res.data)
                 console.log('上传成功')
             }
         })

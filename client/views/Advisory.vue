@@ -164,12 +164,36 @@ export default {
             const file = this.$file.files[0]
             if (file) {
                 const storage = JSON.parse(getStore('userInfo'))
-                let formData = new FormData()
-                formData.append('file', file)
-                formData.append('username', storage.username)
-                formData.append('src', storage.src)
-                formData.append('roomid', this.currentUserRoom)
-                this.$store.dispatch('uploadimg', formData)
+                if (file.size > 10240) {
+                    // 方式一（FormData合成表单对象，mutilparty处理上传 => 有问题）
+                    let formData = new window.FormData()
+                    formData.append('file', file)
+                    formData.append('username', storage.username)
+                    formData.append('storeid', storage.storeid)
+                    formData.append('store', storage.store)
+                    formData.append('src', storage.src)
+                    formData.append('roomid', this.currentUserRoom)
+                    this.$store.dispatch('uploadimg', formData)
+                } else {
+                    // 方式二 （读取FileReader[一般用于图片本地预览]原始数据缓冲区的数据，转化成dataURL）
+                    let fr = new window.FileReader()
+                    fr.onload = (oFREvent) => {
+                        var obj = {
+                            username: storage.username,
+                            src: storage.src,
+                            img: oFREvent.target.result,
+                            msg: '',
+                            roomid: this.currentUserRoom,
+                            storeid: storage.storeid,
+                            store: storage.store,
+                            time: new Date()
+                        }
+                        this.socket.emit('message', obj)
+                    }
+                    fr.readAsDataURL(file)
+                }
+            } else {
+                console.log('必须有文件')
             }
         }
     },

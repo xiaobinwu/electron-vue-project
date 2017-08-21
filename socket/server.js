@@ -19,6 +19,10 @@ app.all('*', function (req, res, next) {
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
+// 静态资源
+app.use(express.static('node_modules'))
+app.use('/static', express.static(__dirname + '/static'))
+
 // 引入mongoose
 let mongoose = require('mongoose')
 // 用于异步回调
@@ -38,20 +42,21 @@ server.listen(port, function () {
     console.log('Server listening at port %d', port)
 })
 
-// 后期删除，静态资源
-app.use(express.static('./node_modules'))
-
 app.get('/', function (req, res) {
+    res.set('Content-Type', 'text/html')
     res.sendfile(__dirname + '/index.html')
 })
 
 io.on('connection', function (socket) {
+    // 测试
+    socket.emit('aaa', '测试')
     // 监听用户发布聊天内容
     socket.on('message', function (obj) {
         // 向所有客户端广播发布的消息
         const mess = {
             username: obj.username,
             store: obj.store,
+            storeid: obj.storeid,
             src: obj.src,
             msg: obj.msg,
             img: obj.img,
@@ -60,16 +65,14 @@ io.on('connection', function (socket) {
         }
         io.to(mess.roomid).emit('message', mess)
         console.log(obj.username + '说：' + mess.msg)
-        if (obj.img === '') {
-            var message = new Message(mess)
-            message.save(function (err, mess) {
-                if (err) {
-                    console.log(err)
-                    return
-                }
-                console.log(mess)
-            })
-        }
+        var message = new Message(mess)
+        message.save(function (err, mess) {
+            if (err) {
+                console.log(err)
+                return
+            }
+            console.log(mess)
+        })
     })
     // 进入聊天室
     socket.on('enter', function (obj) {
@@ -100,4 +103,5 @@ io.on('connection', function (socket) {
 })
 
 // 接口
-require('./route')(app)
+require('./route')(app, io)
+

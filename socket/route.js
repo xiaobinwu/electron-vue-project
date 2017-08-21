@@ -1,7 +1,9 @@
 const Message = require('./models/message')
 const multiparty = require('multiparty')
 const fs = require('fs')
-module.exports = function (app) {
+// 需要更改成实际线上服务器
+const socketUrl = 'http://localhost:3000'
+module.exports = function (app, io) {
     // 信息
     app.post('/message', function (req, res) {
         var id = req.body.roomid
@@ -20,10 +22,11 @@ module.exports = function (app) {
 
     // 上传图片
     app.post('/file/uploadimg', function (req, res, next) {
-        console.log(req)
         const form = new multiparty.Form()
+
+        form.encoding = 'utf-8'
         // 设置文件存储路径
-        form.uploadDir = '/static/files/'
+        form.uploadDir = __dirname + '/static/files/'
         // 设置单文件大小限制
         form.maxFilesSize = 2 * 1024 * 1024
 
@@ -43,7 +46,8 @@ module.exports = function (app) {
                 const uploadedPath = inputFile.path
                 const array = inputFile.originalFilename.split('.')
                 const imgtype = array[array.length - 1]
-                const dstPath = '/static/files/' + new Date().getTime() + '.' + imgtype
+                const relativePath = '/static/files/' + new Date().getTime() + '.' + imgtype
+                const dstPath = __dirname + relativePath
                 // 重命名为真实文件名
                 fs.rename(uploadedPath, dstPath, function (err) {
                     if (err) {
@@ -53,19 +57,26 @@ module.exports = function (app) {
                         })
                     } else {
                         const mess = {
-                            username: fields.username,
-                            src: fields.src,
-                            img: dstPath,
-                            roomid: fields.roomid
+                            username: fields.username[0],
+                            src: fields.src[0],
+                            img: socketUrl + relativePath,
+                            msg: '',
+                            roomid: fields.roomid[0],
+                            storeid: fields.storeid[0],
+                            store: fields.store[0],
+                            time: new Date()
                         }
                         const message = new Message(mess)
                         message.save(function (err, mess) {
-                           if (err) {
-                             console.log(err)
-                           }
-                           console.log(mess)
+                            if (err) {
+                                console.log(err)
+                            } else {
+                                console.log(mess)
+                            }
                         })
                         console.log('rename ok')
+                        // 向房间发送信息
+                        io.to(mess.roomid).emit('message', mess)
                         res.json({
                             status: 0
                         })
