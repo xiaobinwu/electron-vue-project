@@ -45,6 +45,20 @@ $ npm run app
 
 ```
 
+socket.io:
+
+```bash
+
+$ npm run socket
+
+使用express + mongoDB + socket.io引入基于node的即时通讯模块
+
+```
+
+
+本地调试时，只需运行`npm run dev` **=>** `npm run app`，需要开启即时通讯的功能的需要`npm run sock`，这里需要注意即时通讯模块目前没有迁移至服务器，要在本地运行，需要使用express起一个服务（`./socket/`），这里的数据库集成使用的是mongoDB，所以必须要安装[mongoDB](https://www.mongodb.com/)，然后配置环境变量（比如说我安装的目录是`d:`，我的环境变量这样配置，`D:\Program Files\MongoDB\Server\3.4\bin`），这样之后，便可以使用`mongod`、`mongo`命令了，执行`mongod`命令，一般会报错，默认存储文档的目录没有，那可以这样，新建一个文件夹，用来存储mongo产生的文档对象，执行`mongod --dbpath D:\mongodb\db`
+
+
 production:
 
 ```bash
@@ -81,15 +95,29 @@ $ npm run setup
 
 ![img](./git_img/2.png)
 
-socket.io:
+生成安装包的过程：  
+> * npm run build
+> * npm run package:win（目前只支持window）
+> * npm run setup
 
-```bash
-
-$ npm run socket
-
-使用express + mongoDB + socket.io引入基于node的即时通讯模块
+对于打包工具，这里使用的是`electron-packager`，安装命令：  
 
 ```
+rimraf package && electron-packager . TEST --platform=win32 --arch=x64 --overwrite --icon=hosts.ico --out=./package --electron-version=1.6.11 --version-string.CompanyName=TEST --version-string.ProductName=TEST --ignore=\"(build|client$|static|theme|.gitignore|LICENSE|README.md|.editorconfig|.eslintrc|node_modules|gruntPackage.json|Gruntfile.js|yarn.lock|socket|package_dir|git_img)\"
+
+```
+参数：  
+> * `.` => 应用目录
+> * `TEST` => 应用名称
+> * `--platform=win32` => 要打包的平台
+> * `--overwrite` => 覆盖模式安装
+> * `--icon=hosts.ico` => 应用图标（window时可以是`.ico`、`.png`，mac时可以为`.icns`）
+> * `--out=./package` => 输出目录
+> * `--electron-version` => electron版本
+> * `--version-string.CompanyName=TEST --version-string.ProductName=TEST` => 为了生成安装包的时候，应用名字为`TEST`，而不是默认的`electron`
+> * `--ignore=XXX` => 忽略打包的目录
+
+详细可看[这里](https://github.com/electron-userland/electron-packager/blob/master/docs/api.md)
 
 lint:
 
@@ -106,6 +134,8 @@ $ npm run lint
 ![gif](./git_img/3.gif)
 ![gif](./git_img/4.gif)
 ![gif](./git_img/5.gif)
+
+
 
 ---
 
