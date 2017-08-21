@@ -1,6 +1,6 @@
-# electron项目
+# electron + vue 实践项目
 
-#### 本地环境准备
+#### 本地安装环境准备
 
 * 安装node： * https://nodejs.org/en/download/
 * 配置webpack： npm install -g webpack(sudo权限)
@@ -11,19 +11,26 @@
     因为npm的默认仓库在国外，下载很慢，国内淘宝搞了个CNPM，每10分钟同步一次，完全够用了
 ```
 
+* 当然也可以使用yarn下载
+```bash
+    npm install -g yarn
+    yarn install
+```
+
+
 #### 依赖包安装
 * 进入项目目录
 * 执行cnpm install
 
 #### 安装问题
-> * cnpm install之后，可能会由于网络不好而导致一些包安装不完整，提示ansi-html、ansi-regex、strip-ansi、setimmediate、html-entities（具体是啥，也不清楚）需要安装，于是cnpm install '安装包'
+> * cnpm install之后，可能会由于网络不好而导致一些包安装不完整，这里推荐使用yarn进行安装
 > * 需要额外安装vue-style-loader、vue-template-compiler，不然vue-loader会报错
-> * electron配置项（config.js）为true时，运行npm run dev，浏览器访问会报错，`Uncaught ReferenceError: require is not defined
+> * electron配置项（config.js）为true时，运行npm run dev，浏览器访问会报错， `Uncaught ReferenceError: require is not defined
 `，原因可以去[这里](https://github.com/egoist/vuepack/issues/83)看，由于配置config.electron是开启状态，于是require被browserified化了，不是原先node原生require函数，所以在browser会出现此问题
 > * 应用打包的时候，需要注意package.json的main配置项main，必须指向electron的主线程文件，此处为app/index.js
 
 #### 字体引入问题
-对于webpack对于引入字体文件一直都会有问题，有时候你使用了file-laoder，url-loader，但是在使用还是会存在一些问题，比如渲染进程入口文件components/App.vue希望引入`common.scss`，`common.scss`会去`@import iconfont.css`(字体样式)，这时候`iconfont.css`的字体路径就会出现问题，webpack一直提示找不到依赖路径
+对于webpack对于引入字体文件一直都会有问题，有时候你使用了file-laoder，url-loader，但是在使用还是会存在一些问题，比如渲染进程入口文件components/App.vue希望引入`common.scss`，`common.scss`会去`@import iconfont.css`(字体样式)，这时候`iconfont.css`的字体路径就会出现问题，webpack一直提示找不到依赖路径。在开发环境下，我是将iconfont.cn获取的字体文件远程地址写进build/index.html，这样解决了问题。正式环境下，可以将字体文件代码引入到App.vue文件中去
 
 development:
 
@@ -31,6 +38,7 @@ development:
 
 $ npm run dev
 # express开启服务，可以通过`http://localhost:port`访问（热重载）
+# 原理：通过electron创建主体窗口，`mainWindow.loadURL(http://localhost:port)`，加载应用的 index.html
 
 $ npm run app
 # 运行`electron ./`,生成桌面应用
@@ -42,7 +50,44 @@ production:
 ```bash
 
 $ npm run build
-＃生成正式文件到app目录（eletron应用目录）
+＃生成正式文件到app/dist目录（eletron应用目录）
+
+```
+
+package:
+
+```bash
+
+$ npm run package:mac
+$ npm run package:win
+$ npm run package:linux
+$ npm run package
+
+将上一步`npm run build`后生成的正式文件，进行打包，生成程序，打包至`./package`目录中
+
+```
+
+![img](./git_img/1.png)
+
+setup:
+
+```bash
+
+$ npm run setup
+
+这里生成安装包（仅适合于window），将上一步生成的package，通过grunt和grunt-electron-installer完成打包，打包至`./package_dir`
+
+```
+
+![img](./git_img/2.png)
+
+socket.io:
+
+```bash
+
+$ npm run socket
+
+使用express + mongoDB + socket.io引入基于node的即时通讯模块
 
 ```
 
@@ -54,7 +99,13 @@ $ npm run lint
 # lint项目（配置规则：.eslintrc）
 
 ```
+> 上面的npm run script命令可能有些多，涉及的内容也比较多，文章后面会一一讲解！下面上一波效果图：
 
+![gif](./git_img/1.gif)
+![gif](./git_img/2.gif)
+![gif](./git_img/3.gif)
+![gif](./git_img/4.gif)
+![gif](./git_img/5.gif)
 
 ---
 

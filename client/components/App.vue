@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <header class="nav-bar">
-        <span class="main-header-info">{{$t('applicationName')}}</span>
+<!--         <span class="main-header-info">{{$t('applicationName')}}</span> -->
         <span class="main-header-info user" v-if="username">
             <i class="iconfont icon-user"></i>
             {{username}}
