@@ -159,7 +159,7 @@ grunt.registerTask('default', ['create-windows-installer'])
 
 ```
 于是就会生成如上图所示的`my-electronSetup.exe`，点击运行，进入一个安装的过程，会有安装的小动画，如下图：  
-![gif](./git_img/setup.gif)
+![gif](./git_img/setup.gif)  
 而我们需要的是安装完后自动生成快捷方式，这里使用的`electron-squirrel-startup`npm包，然后在主线程文件中app/index.js中写入`startupEventHandle`方法，安装时触发squirrel.window的一些命令，将其放在创建主体窗口的回调函数中，代码如下：
 
 ```
@@ -217,9 +217,9 @@ function startupEventHandle () {
     }
 }
 
+```
 这样便可以在安装时生成快捷方式，卸载时删除快捷方式了，在这个过程中，有可能回报`electron-squirrel-startup module not found`类似的错误，那是`electron-packager`打包时，过滤掉了`node_moudles`目录，所以需要手动添加到生成的package里面。至于网上的一些教程说，是需要安装vs2015环境，并且将msbuild程序声明成环境变量，但是我觉得应该是缺少npm包的原因，大家也可以试试，我本地是本来就安装过vs2015的。
 
-```
 lint:
 
 ```bash
