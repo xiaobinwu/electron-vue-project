@@ -119,6 +119,48 @@ rimraf package && electron-packager . TEST --platform=win32 --arch=x64 --overwri
 
 详细可看[这里](https://github.com/electron-userland/electron-packager/blob/master/docs/api.md)
 
+
+打包成安装程序，需要使用到`grunt`、`grunt-electron-installer`,请保证事先安装好  
+在`package.json`设置：  
+```
+{
+    "version": "1.0.0", // 这个是必须的，为了后面使用electron updater实现自动更新
+    "productName": "my-electron",
+    "description": "My Superb Vue Project For Electron",
+    ......
+}
+```
+Gruntfile.js文件如下[详细](https://www.npmjs.com/package/grunt-electron-installer)：  
+```
+var grunt = require('grunt')
+
+// 配置
+grunt.config.init({
+    pkg: grunt.file.readJSON('package.json'), // 这里会去获取版本号
+    'create-windows-installer': {
+        x64: {
+            authors: 'xiaobinwu <xiaobin_wu@yahoo.com>', // 作者
+            projectUrl: '',
+            appDirectory: './package/TEST-win32-x64', // 要打包的输入目录
+            outputDirectory: './package_dir', // grunt打包后的输出目录
+            exe: 'TEST.exe', // 生成的exe文件
+            description: 'My Superb Vue Project For Electron',
+            setupIcon: './app/hots.ico', // 图标
+            noMsi: true // 是否生成.msi
+        }
+    }
+})
+
+// 加载任务
+grunt.loadNpmTasks('grunt-electron-installer')
+
+// 设置为默认
+grunt.registerTask('default', ['create-windows-installer'])
+
+```
+于是就会生成如上图所示的`my-electronSetup.exe`，点击运行，进入一个安装的过程，会有安装的小动画，如下图：  
+![gif](./git_img/setup.gif)
+
 lint:
 
 ```bash
