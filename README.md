@@ -32,6 +32,18 @@
 #### 字体引入问题
 对于webpack对于引入字体文件一直都会有问题，有时候你使用了file-laoder，url-loader，但是在使用还是会存在一些问题，比如渲染进程入口文件components/App.vue希望引入`common.scss`，`common.scss`会去`@import iconfont.css`(字体样式)，这时候`iconfont.css`的字体路径就会出现问题，webpack一直提示找不到依赖路径。在开发环境下，我是将iconfont.cn获取的字体文件远程地址写进build/index.html，这样解决了问题。正式环境下，可以将字体文件代码引入到App.vue文件中去
 
+### 功能列表
+- []  mac安装包生成
+- []  新增各个模块功能
+- [x] windows安装包生成 -- 完成
+- [x] 应用自动更新 -- 完成
+- [x] 中英文切换 -- 完成
+- [x] 全局快捷键绑定 -- 完成
+- [x] 即时通讯功能 -- 完成
+- [x] excel表格导入导出 -- 完成
+- [x] 登录功能 -- 完成
+- [x] mock.easy提供数据 -- 完成
+
 development:
 
 ```bash
