@@ -1,4 +1,4 @@
-# electron + vue 实践项目
+# electron + vue 实践项目[github](https://github.com/xiaobinwu/electron-vue-project)
 
 #### 本地安装环境准备
 
