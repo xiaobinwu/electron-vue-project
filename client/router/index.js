@@ -1,14 +1,16 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from 'views/Home'
-import PreExpired from 'views/PreExpired'
-import PreExpiredList from 'views/PreExpiredList'
-import DiscountBills from 'views/DiscountBills'
-import BillDetails from 'views/BillDetails'
-import Advisory from 'views/Advisory'
-import Login from 'views/Login'
 import { loggedIn } from 'common/js/auth'
 Vue.use(Router)
+
+const Home = resolve => require(['views/Home.vue'], resolve)
+const PreExpired = resolve => require(['views/PreExpired.vue'], resolve)
+const PreExpiredList = resolve => require(['views/PreExpiredList.vue'], resolve)
+const DiscountBills = resolve => require(['views/DiscountBills.vue'], resolve)
+const BillDetails = resolve => require(['views/BillDetails.vue'], resolve)
+const Advisory = resolve => require(['views/Advisory.vue'], resolve)
+const Login = resolve => require(['views/Login.vue'], resolve)
+
 let router = new Router({
     mode: 'hash',
     routes: [

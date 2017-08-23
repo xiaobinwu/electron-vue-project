@@ -226,24 +226,40 @@ export default {
     }
 }
 //解决引入字体文件路径问题
-//放弃这种做法，以cdn引入
-// @font-face {font-family: "iconfont";
-//   src: url(../common/font/iconfont.eot); /* IE9*/
-//   src: url(../common/font/iconfont.eot#iefix) format('embedded-opentype'), /* IE6-IE8 */
-//   url(../common/font/iconfont.woff) format('woff'), /* chrome, firefox */
-//   url(../common/font/iconfont.ttf) format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-//   url(../common/font/iconfont.svg#iconfont) format('svg'); /* iOS 4.1- */
-// }
 
-// .iconfont {
-//   font-family:"iconfont" !important;
-//   font-size:16px;
-//   font-style:normal;
-//   -webkit-font-smoothing: antialiased;
-//   -moz-osx-font-smoothing: grayscale;
-// }
+@font-face {font-family: "iconfont";
+  src: url(../common/font/iconfont.eot); /* IE9*/
+  src: url(../common/font/iconfont.eot#iefix) format('embedded-opentype'), /* IE6-IE8 */
+  url(../common/font/iconfont.woff) format('woff'), /* chrome, firefox */
+  url(../common/font/iconfont.ttf) format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url(../common/font/iconfont.svg#iconfont) format('svg'); /* iOS 4.1- */
+}
 
-// .icon-close:before { content: "\e614"; }
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-// .icon-jian:before { content: "\e608"; }
+.icon-time1:before { content: "\e60b"; }
+
+.icon-user:before { content: "\e64a"; }
+
+.icon-refresh:before { content: "\e623"; }
+
+.icon-jianchagengxin:before { content: "\e618"; }
+
+.icon-guanbi1:before { content: "\e723"; }
+
+.icon-jianhao:before { content: "\e729"; }
+
+.icon-xiaoquxinwen:before { content: "\e600"; }
+
+.icon-icon_shu:before { content: "\e63a"; }
+
+.icon-window:before { content: "\e60e"; }
+
+.icon-zhongyingwenqiehuan-xianshizhongyingwen:before { content: "\e669"; }
 </style>

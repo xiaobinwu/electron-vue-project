@@ -230,7 +230,7 @@ function startupEventHandle () {
 }
 
 ```
-这样便可以在安装时生成快捷方式，卸载时删除快捷方式了，在这个过程中，有可能回报`electron-squirrel-startup module not found`类似的错误，那是`electron-packager`打包时，过滤掉了`node_moudles`目录，所以需要手动添加到生成的package里面。至于网上的一些教程说，是需要安装vs2015环境，并且将msbuild程序声明成环境变量，但是我觉得应该是缺少npm包的原因，大家也可以试试，我本地是本来就安装过vs2015的。
+这样便可以在安装时生成快捷方式，卸载时删除快捷方式了，在这个过程中，有可能回报`electron-squirrel-startup module not found`类似的错误，那是`electron-packager`打包时，过滤掉了`node_moudles`目录，所以需要手动添加到生成的package里面。至于网上的一些教程说，是需要安装vs2015环境，并且将msbuild程序声明成环境变量，但是我觉得应该是缺少npm包的原因，大家也可以试试，我本地是本来就安装过vs2015的，而且安装包没办法自定义安装目录，默认都是安装在`C:\Users\Wushaobin\AppData\Local\XXX`下面的。
 
 lint:
 
@@ -250,7 +250,7 @@ $ npm run lint
 
 
 #### electron自动更新
-前面我们也有提到过自动更新，这里使用的官方提供的`electron.autoUpdater`模块去更新，坑爹的是官方对这一功能的描述真是少之又少，autoUpdater的一些方法和事件[这里](https://www.w3cschool.cn/electronmanual/electronmanual-auto-updater.html)可以去了解清楚，`autoUpdater.setFeedURL(url)`这一方法是重中之重，`url`放着高版本的文件(.exe,.nupkg,RELEASES)，这里我是存储在阿里oss,然后`autoUpdater.checkForUpdates()`会去检查是否需要更新，它会触发`error、checking-for-update、update-available、update-downloaded`中的一些事件，而我们需要利用主进程跟渲染进程之间的通讯（ipc/remote/webContent），来触发更新，具体代码如下：
+前面我们也有提到过自动更新，这里使用的官方提供的`electron.autoUpdater`模块去更新，坑爹的是官方对这一功能的描述真是少之又少，autoUpdater的一些方法和事件[这里](https://www.w3cschool.cn/electronmanual/electronmanual-auto-updater.html)可以去了解清楚，`autoUpdater.setFeedURL(url)`这一方法是重中之重，`url`放着高版本的文件(.exe,.nupkg,RELEASES)，这里我是存储在阿里oss,然后`autoUpdater.checkForUpdates()`会去检查是否需要更新，它会触发`error、checking-for-update、update-available、update-downloaded`中的一些事件，下载的新安装包会放到对应的安装目录，而我们需要利用主进程跟渲染进程之间的通讯（ipc/remote/webContent），来触发更新，具体代码如下：
 ```
 function updateHandle () {
     ipcMain.on('check-for-update', function (event, arg) {

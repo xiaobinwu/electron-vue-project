@@ -58,11 +58,12 @@ import { getStore } from 'common/js/storage'
 import Vue from 'vue'
 import MyMsg from 'components/MyMsg'
 import OtherMsg from 'components/OtherMsg'
-import { Button, Row, Col, Input, Message } from 'element-ui'
+import { Button, Row, Col, Input, Message, Loading } from 'element-ui'
 Vue.use(Button)
 Vue.use(Row)
 Vue.use(Col)
 Vue.use(Input)
+Vue.use(Loading)
 export default {
     data () {
         return {
